@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Bin Key Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            min-height: 200px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            overflow: auto;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        .info {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            padding: 10px;
+            margin: 15px 0;
+        }
+
+        .key-option {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .key-option.selected {
+            border-color: #4CAF50;
+            background-color: #f1f8e9;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>JSON Bin Key Test</h1>
+
+    <div class="info">
+        <p><strong>Purpose:</strong> This test will try both your X-Master-Key and X-Access-Key to determine which one
+            works correctly with JSONBin.</p>
+    </div>
+
+    <div class="form-group">
+        <label>Select which key to use:</label>
+        <div class="key-option selected" id="masterKeyOption">
+            <input type="radio" name="keyType" id="useMasterKey" value="master" checked>
+            <label for="useMasterKey"><strong>X-Master-Key</strong> (for full access to your bins)</label>
+            <div>
+                <input type="text" id="masterKey" value="$2a$10$Fc5T8KVSWawgZnQ6dclo7O8RXtsBEt.k2v57q0eNdYeqIskqdFDt2"
+                    placeholder="Your X-Master-Key">
+            </div>
+        </div>
+        <div class="key-option" id="accessKeyOption">
+            <input type="radio" name="keyType" id="useAccessKey" value="access">
+            <label for="useAccessKey"><strong>X-Access-Key</strong> (for limited access to your bins)</label>
+            <div>
+                <input type="text" id="accessKey" value="$2a$10$nX1Het5hM.pkIx8SiLvAc.f/KDMN.zNleV7cCnC7yUZjRxyqc2Ryq"
+                    placeholder="Your X-Access-Key">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="binId">Current Bin ID:</label>
+        <input type="text" id="binId" placeholder="Will be set after creating a bin">
+    </div>
+
+    <div>
+        <button id="createBtn">Step 1: Create New Bin</button>
+        <button id="writeBtn" disabled>Step 2: Write Test Data</button>
+        <button id="readBtn" disabled>Step 3: Read Data</button>
+    </div>
+
+    <div id="output">Select a key type and follow the steps in order: Create → Write → Read</div>
+
+    <script>
+        // JSON Bin configuration
+        const JSON_BIN_URL = 'https://api.jsonbin.io/v3/b';
+
+        // Simple test data
+        const testData = {
+            message: "Hello from JSON Bin test",
+            timestamp: new Date().toISOString(),
+            testNumber: Math.floor(Math.random() * 1000)
+        };
+
+        // Elements
+        const output = document.getElementById('output');
+        const masterKeyInput = document.getElementById('masterKey');
+        const accessKeyInput = document.getElementById('accessKey');
+        const binIdInput = document.getElementById('binId');
+        const writeBtn = document.getElementById('writeBtn');
+        const readBtn = document.getElementById('readBtn');
+        const masterKeyOption = document.getElementById('masterKeyOption');
+        const accessKeyOption = document.getElementById('accessKeyOption');
+
+        // Handle radio button changes to highlight selected option
+        document.getElementById('useMasterKey').addEventListener('change', function () {
+            if (this.checked) {
+                masterKeyOption.classList.add('selected');
+                accessKeyOption.classList.remove('selected');
+            }
+        });
+
+        document.getElementById('useAccessKey').addEventListener('change', function () {
+            if (this.checked) {
+                accessKeyOption.classList.add('selected');
+                masterKeyOption.classList.remove('selected');
+            }
+        });
+
+        // Get headers based on selected key type
+        function getHeaders() {
+            const useMasterKey = document.getElementById('useMasterKey').checked;
+            let key, headerName;
+
+            if (useMasterKey) {
+                key = masterKeyInput.value.trim();
+                headerName = 'X-Master-Key';
+            } else {
+                key = accessKeyInput.value.trim();
+                headerName = 'X-Access-Key';
+            }
+
+            if (!key) {
+                throw new Error(`Please enter your ${headerName}`);
+            }
+
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+
+            headers[headerName] = key;
+            return headers;
+        }
+
+        // Create new bin button
+        document.getElementById('createBtn').addEventListener('click', async () => {
+            output.innerHTML = "Creating new JSON Bin...";
+
+            try {
+                const headers = getHeaders();
+
+                const response = await fetch(`${JSON_BIN_URL}`, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(testData)
+                });
+
+                const responseText = await response.text();
+                let data;
+
+                try {
+                    data = JSON.parse(responseText);
+                } catch (e) {
+                    data = { text: responseText };
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}, Details: ${JSON.stringify(data)}`);
+                }
+
+                // Update the bin ID input with the new bin ID
+                if (data && data.metadata && data.metadata.id) {
+                    binIdInput.value = data.metadata.id;
+                    writeBtn.disabled = false;
+                    readBtn.disabled = false;
+                }
+
+                output.innerHTML = `<span class="success">✓ New bin created successfully!</span>\n\nResponse:\n${JSON.stringify(data, null, 2)}\n\nBin ID: ${data.metadata?.id || 'Unknown'}\n\nNow you can proceed to Step 2.`;
+            } catch (error) {
+                output.innerHTML = `<span class="error">✗ Error creating new bin: ${error.message}</span>`;
+                console.error('Create error:', error);
+            }
+        });
+
+        // Write button
+        document.getElementById('writeBtn').addEventListener('click', async () => {
+            output.innerHTML = "Writing data to JSON Bin...";
+
+            try {
+                const headers = getHeaders();
+                const binId = binIdInput.value.trim();
+
+                if (!binId) {
+                    throw new Error('Please create a bin first (Step 1)');
+                }
+
+                // Update test data with new timestamp and random number
+                testData.timestamp = new Date().toISOString();
+                testData.testNumber = Math.floor(Math.random() * 1000);
+
+                const response = await fetch(`${JSON_BIN_URL}/${binId}`, {
+                    method: 'PUT',
+                    headers: headers,
+                    body: JSON.stringify(testData)
+                });
+
+                const responseText = await response.text();
+                let data;
+
+                try {
+                    data = JSON.parse(responseText);
+                } catch (e) {
+                    data = { text: responseText };
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}, Details: ${JSON.stringify(data)}`);
+                }
+
+                output.innerHTML = `<span class="success">✓ Data written successfully!</span>\n\nResponse:\n${JSON.stringify(data, null, 2)}\n\nData sent:\n${JSON.stringify(testData, null, 2)}\n\nNow you can proceed to Step 3.`;
+            } catch (error) {
+                output.innerHTML = `<span class="error">✗ Error writing data: ${error.message}</span>`;
+                console.error('Write error:', error);
+            }
+        });
+
+        // Read button
+        document.getElementById('readBtn').addEventListener('click', async () => {
+            output.innerHTML = "Reading data from JSON Bin...";
+
+            try {
+                const headers = getHeaders();
+                const binId = binIdInput.value.trim();
+
+                if (!binId) {
+                    throw new Error('Please create a bin first (Step 1)');
+                }
+
+                const response = await fetch(`${JSON_BIN_URL}/${binId}/latest`, {
+                    method: 'GET',
+                    headers: headers
+                });
+
+                const responseText = await response.text();
+                let data;
+
+                try {
+                    data = JSON.parse(responseText);
+                } catch (e) {
+                    data = { text: responseText };
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}, Details: ${JSON.stringify(data)}`);
+                }
+
+                output.innerHTML = `<span class="success">✓ Data read successfully!</span>\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                output.innerHTML = `<span class="error">✗ Error reading data: ${error.message}</span>`;
+                console.error('Read error:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

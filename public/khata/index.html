@@ -4,25 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker - BK, Rachit, Vikas</title>
+    <title>Expense Tracker - BK, Rachit, Vikas, Surya, Salil</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
+            line-height: 1.6;
         }
 
-        h1 {
-            text-align: center;
-            color: #333;
+        h1,
+        h2,
+        h3 {
+            color: #2c3e50;
         }
 
-        .form-container {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .form-section,
+        .summary-section {
+            flex: 1;
+            min-width: 300px;
         }
 
         .form-group {
@@ -35,12 +42,14 @@
             font-weight: bold;
         }
 
-        select,
-        input {
+        input[type="text"],
+        input[type="number"],
+        select {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            box-sizing: border-box;
         }
 
         button {
@@ -50,109 +59,253 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            margin-right: 5px;
+            margin-bottom: 5px;
         }
 
         button:hover {
             background-color: #45a049;
         }
 
-        .transactions {
-            margin-top: 30px;
+        button.secondary {
+            background-color: #3498db;
+        }
+
+        button.secondary:hover {
+            background-color: #2980b9;
+        }
+
+        button.danger {
+            background-color: #e74c3c;
+        }
+
+        button.danger:hover {
+            background-color: #c0392b;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
 
         th,
         td {
-            padding: 12px;
+            border: 1px solid #ddd;
+            padding: 8px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
         }
 
         th {
             background-color: #f2f2f2;
         }
 
-        .summary {
-            margin-top: 30px;
-            padding: 15px;
+        tr:nth-child(even) {
             background-color: #f9f9f9;
-            border-radius: 8px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .checkbox-item input {
+            margin-right: 5px;
         }
 
         .positive {
             color: green;
-            font-weight: bold;
         }
 
         .negative {
             color: red;
-            font-weight: bold;
         }
 
-        .delete-btn {
-            background-color: #f44336;
-            color: white;
-            padding: 5px 10px;
-            border: none;
+        .status-message {
+            padding: 10px;
+            margin: 10px 0;
             border-radius: 4px;
-            cursor: pointer;
+            display: none;
         }
 
-        .delete-btn:hover {
-            background-color: #d32f2f;
+        .status-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .people-manager {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        .people-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .person-tag {
+            background-color: #e1f5fe;
+            border: 1px solid #81d4fa;
+            border-radius: 20px;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .person-tag button {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 0 5px;
+            margin: 0 0 0 5px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            margin-right: 5px;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .tab.active {
+            background-color: #f9f9f9;
+            border-color: #ddd;
+            border-bottom: 1px solid #f9f9f9;
+            margin-bottom: -1px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .settlement-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .settlement-amount {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 5px;
         }
     </style>
 </head>
 
 <body>
-    <h1>Expense Tracker</h1>
+    <h1>Tandoorbaaz personal Expense Tracker</h1>
+    <div id="statusMessage" class="status-message"></div>
 
-    <div class="form-container">
-        <h2>Add New Expense</h2>
-        <div class="form-group">
-            <label for="payer">Who Paid:</label>
-            <select id="payer">
-                <option value="BK">BK</option>
-                <option value="Rachit">Rachit</option>
-                <option value="Vikas">Vikas</option>
-            </select>
-        </div>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
 
-        <div class="form-group">
-            <label for="amount">Amount (₹):</label>
-            <input type="number" id="amount" min="1" step="1" placeholder="Enter amount">
-        </div>
+    <div class="tabs">
+        <div class="tab active" data-tab="expenses">Expenses</div>
+        <div class="tab" data-tab="people">Manage People</div>
+        <!-- <div class="tab" data-tab="settings">Settings</div> -->
+    </div>
 
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <input type="text" id="description" placeholder="What was this expense for?">
-        </div>
+    <div id="expensesTab" class="tab-content active">
+        <div class="container">
+            <div class="form-section">
+                <h2>Add New Expense</h2>
+                <div class="form-group">
+                    <label for="payer">Paid by:</label>
+                    <select id="payer"></select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount (₹):</label>
+                    <input type="number" id="amount" min="0" step="0.01" placeholder="Enter amount">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <input type="text" id="description" placeholder="What was this expense for?">
+                </div>
+                <div class="form-group">
+                    <label>Split Between:</label>
+                    <div id="splitBetweenCheckboxes" class="checkbox-group"></div>
+                </div>
+                <button onclick="addExpense()">Add Expense</button>
+                <button class="secondary" onclick="refreshTransactions()">Refresh Data</button>
+            </div>
 
-        <div class="form-group">
-            <label>Split Between:</label>
-            <div>
-                <input type="checkbox" id="splitBK" checked>
-                <label for="splitBK">BK</label>
-
-                <input type="checkbox" id="splitRachit" checked>
-                <label for="splitRachit">Rachit</label>
-
-                <input type="checkbox" id="splitVikas" checked>
-                <label for="splitVikas">Vikas</label>
+            <div class="summary-section">
+                <h2>Summary</h2>
+                <div id="balances"></div>
             </div>
         </div>
 
-        <button onclick="addExpense()">Add Expense</button>
-    </div>
-
-    <div class="transactions">
-        <h2>Recent Transactions</h2>
-        <table id="transactionsTable">
+        <h2>Transactions</h2>
+        <table>
             <thead>
                 <tr>
                     <th>Date</th>
@@ -160,197 +313,760 @@
                     <th>Amount</th>
                     <th>Description</th>
                     <th>Split Between</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="transactionsList">
-                <!-- Transactions will be added here -->
-            </tbody>
+            <tbody id="transactionsList"></tbody>
         </table>
+
+        <button class="danger" onclick="clearAllTransactions()">Clear All Transactions</button>
     </div>
 
-    <div class="summary" id="summary">
-        <h2>Summary</h2>
-        <div id="balances">
-            <!-- Balances will be shown here -->
+    <div id="peopleTab" class="tab-content">
+        <h2>Manage People</h2>
+        <p>Add or remove people from the expense tracker. <strong>Note:</strong> Removing a person will not remove their
+            transactions.</p>
+
+        <div class="form-group">
+            <label for="newPersonName">Add New Person:</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="newPersonName" placeholder="Enter name">
+                <button onclick="addPerson()">Add Person</button>
+            </div>
         </div>
+
+        <h3>Current People</h3>
+        <div class="people-list" id="peopleList"></div>
+    </div>
+
+    <div id="settingsTab" class="tab-content">
+        <h2>Settings</h2>
+
+        <div class="form-group">
+            <label for="jsonBinKey">JSON Bin Master Key:</label>
+            <input type="text" id="jsonBinKey" value="$2a$10$Fc5T8KVSWawgZnQ6dclo7O8RXtsBEt.k2v57q0eNdYeqIskqdFDt2"
+                placeholder="Enter your JSON Bin Master Key">
+        </div>
+
+        <div class="form-group">
+            <label for="jsonBinId">JSON Bin ID:</label>
+            <input type="text" id="jsonBinId" value="681e6acb8a456b79669a999c" placeholder="Enter your JSON Bin ID">
+        </div>
+
+        <button onclick="saveSettings()">Save Settings</button>
+        <button class="secondary" onclick="testConnection()">Test Connection</button>
     </div>
 
     <script>
-        // Initialize data
-        let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+        // Global variables
+        let people = ['BK', 'Rachit', 'Vikas', 'Surya', 'Salil'];
+        let transactions = [];
+        let usingLocalStorage = false;
 
-        // Display transactions and update summary on page load
+        // JSONBin.io configuration
+        const JSON_BIN_URL = 'https://api.jsonbin.io/v3/b';
+        let binId = '681e6acb8a456b79669a999c';
+        let masterKey = '$2a$10$Fc5T8KVSWawgZnQ6dclo7O8RXtsBEt.k2v57q0eNdYeqIskqdFDt2';
+
+        // Initialize app on page load
         window.onload = function () {
-            displayTransactions();
-            updateSummary();
+            // Load settings from localStorage if available
+            loadSettings();
+
+            // Initialize tabs
+            initTabs();
+
+            // Initialize the app
+            initializeApp();
         };
 
-        // Add a new expense
-        function addExpense() {
-            const payer = document.getElementById('payer').value;
-            const amount = parseFloat(document.getElementById('amount').value);
-            const description = document.getElementById('description').value;
+        // Initialize tabs
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
 
-            const splitBK = document.getElementById('splitBK').checked;
-            const splitRachit = document.getElementById('splitRachit').checked;
-            const splitVikas = document.getElementById('splitVikas').checked;
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
 
-            // Validation
-            if (!payer || isNaN(amount) || amount <= 0 || !description) {
-                alert('Please fill in all fields with valid values');
-                return;
-            }
-
-            // Check if at least one person is selected for splitting
-            if (!splitBK && !splitRachit && !splitVikas) {
-                alert('Please select at least one person to split the expense with');
-                return;
-            }
-
-            // Create split array
-            const splitBetween = [];
-            if (splitBK) splitBetween.push('BK');
-            if (splitRachit) splitBetween.push('Rachit');
-            if (splitVikas) splitBetween.push('Vikas');
-
-            // Create new transaction
-            const transaction = {
-                id: Date.now(),
-                date: new Date().toLocaleDateString(),
-                payer: payer,
-                amount: amount,
-                description: description,
-                splitBetween: splitBetween
-            };
-
-            // Add to transactions array
-            transactions.push(transaction);
-
-            // Save to localStorage
-            localStorage.setItem('transactions', JSON.stringify(transactions));
-
-            // Update UI
-            displayTransactions();
-            updateSummary();
-
-            // Reset form
-            document.getElementById('amount').value = '';
-            document.getElementById('description').value = '';
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    const tabName = tab.getAttribute('data-tab');
+                    document.getElementById(`${tabName}Tab`).classList.add('active');
+                });
+            });
         }
 
-        // Display all transactions
-        function displayTransactions() {
-            const transactionsList = document.getElementById('transactionsList');
-            transactionsList.innerHTML = '';
+        // Load settings from localStorage
+        function loadSettings() {
+            const savedMasterKey = localStorage.getItem('jsonBinMasterKey');
+            const savedBinId = localStorage.getItem('jsonBinId');
+            const savedPeople = localStorage.getItem('khataTrackerPeople');
 
-            transactions.forEach(transaction => {
-                const row = document.createElement('tr');
+            if (savedMasterKey) {
+                masterKey = savedMasterKey;
+                document.getElementById('jsonBinKey').value = masterKey;
+            }
 
-                row.innerHTML = `
+            if (savedBinId) {
+                binId = savedBinId;
+                document.getElementById('jsonBinId').value = binId;
+            }
+
+            if (savedPeople) {
+                people = JSON.parse(savedPeople);
+            }
+        }
+
+        // Save settings
+        function saveSettings() {
+            const newMasterKey = document.getElementById('jsonBinKey').value.trim();
+            const newBinId = document.getElementById('jsonBinId').value.trim();
+
+            if (newMasterKey && newBinId) {
+                masterKey = newMasterKey;
+                binId = newBinId;
+
+                localStorage.setItem('jsonBinMasterKey', masterKey);
+                localStorage.setItem('jsonBinId', binId);
+
+                showStatusMessage('Settings saved successfully', 'success');
+
+                // Reinitialize the app with new settings
+                initializeApp();
+            } else {
+                showStatusMessage('Please fill in all fields', 'error');
+            }
+        }
+
+        // Test connection to JSONBin
+        async function testConnection() {
+            showLoading(true);
+
+            try {
+                const headers = getHeaders();
+
+                const response = await fetch(`${JSON_BIN_URL}/${binId}/latest`, {
+                    method: 'GET',
+                    headers: headers
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                await response.json();
+                showStatusMessage('Connection successful! Your settings are working correctly.', 'success');
+            } catch (error) {
+                console.error('Connection test error:', error);
+                showStatusMessage('Connection failed: ' + error.message, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Show/hide loading overlay
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+        }
+
+        // Initialize the application
+        async function initializeApp() {
+            showLoading(true);
+
+            try {
+                // Update UI with current people
+                updatePeopleUI();
+
+                // Try to fetch existing data
+                const response = await fetch(`${JSON_BIN_URL}/${binId}/latest`, {
+                    method: 'GET',
+                    headers: getHeaders()
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch data: ${response.status}`);
+                }
+
+                                const data = await response.json();
+
+                                            // Check if data has the expected structure
+                                            if (data && data.record) {
+                                                // Extract transactions and people from the response
+                                                if (Array.isArray(data.record.transactions)) {
+                                                    transactions = data.record.transactions;
+                                                } else {
+                                                    transactions = [];
+                                                }
+
+                                                if (Array.isArray(data.record.people)) {
+                                                    people = data.record.people;
+                                                    // Save people to localStorage as backup
+                                                    localStorage.setItem('khataTrackerPeople', JSON.stringify(people));
+                                                    // Update UI with current people
+                                                    updatePeopleUI();
+                                                }
+
+                                                // Update UI
+                                                updateExpenseUI();
+                                                showStatusMessage('Data loaded successfully', 'success');
+                                            } else {
+                                                // Initialize with empty data
+                                                await initializeData();
+                                            }
+                                        } catch (error) {
+                                            console.error('Error initializing app:', error);
+                                            showStatusMessage('Error loading data. Using local storage.', 'error');
+
+                                            // Try to load from localStorage as fallback
+                                            loadFromLocalStorage();
+
+                                            // Mark that we're using localStorage
+                                            usingLocalStorage = true;
+                                        } finally {
+                                            showLoading(false);
+                                        }
+                                    }
+
+                                    // Initialize data structure in JSONBin
+                                    async function initializeData() {
+                                        const initialData = {
+                                            people: people,
+                                            transactions: []
+                                        };
+
+                                        try {
+                                            const response = await fetch(`${JSON_BIN_URL}/${binId}`, {
+                                                method: 'PUT',
+                                                headers: getHeaders(),
+                                                body: JSON.stringify(initialData)
+                                            });
+
+                                            if (!response.ok) {
+                                                throw new Error(`Failed to initialize data: ${response.status}`);
+                                            }
+
+                                            transactions = [];
+                                            updateExpenseUI();
+                                            showStatusMessage('Data initialized successfully', 'success');
+                                        } catch (error) {
+                                            console.error('Error initializing data:', error);
+                                            showStatusMessage('Error initializing data. Using local storage.', 'error');
+
+                                            // Mark that we're using localStorage
+                                            usingLocalStorage = true;
+                                        }
+                                    }
+
+                                    // Load data from localStorage
+                                    function loadFromLocalStorage() {
+                                        const savedTransactions = localStorage.getItem('khataTrackerTransactions');
+                                        const savedPeople = localStorage.getItem('khataTrackerPeople');
+
+                                        if (savedTransactions) {
+                                            transactions = JSON.parse(savedTransactions);
+                                        } else {
+                                            transactions = [];
+                                        }
+
+                                        if (savedPeople) {
+                                            people = JSON.parse(savedPeople);
+                                        }
+
+                                        updateExpenseUI();
+                                        updatePeopleUI();
+                                    }
+
+                                    // Save data to JSONBin
+                                    async function saveData() {
+                                        // First save to localStorage as backup
+                                        saveToLocalStorage();
+
+                                        // If we're in localStorage mode, don't try to save to JSONBin
+                                        if (usingLocalStorage) {
+                                            return;
+                                        }
+
+                                        showLoading(true);
+
+                                        try {
+                                            const dataToSave = {
+                                                people: people,
+                                                transactions: transactions
+                                            };
+
+                                            const response = await fetch(`${JSON_BIN_URL}/${binId}`, {
+                                                method: 'PUT',
+                                                headers: getHeaders(),
+                                                body: JSON.stringify(dataToSave)
+                                            });
+
+                                            if (!response.ok) {
+                                                throw new Error(`Failed to save data: ${response.status}`);
+                                            }
+
+                                            showStatusMessage('Data saved successfully', 'success');
+                                        } catch (error) {
+                                            console.error('Error saving data:', error);
+                                            showStatusMessage('Error saving data. Using local storage.', 'error');
+
+                                            // Mark that we're using localStorage
+                                            usingLocalStorage = true;
+                                        } finally {
+                                            showLoading(false);
+                                        }
+                                    }
+
+                                    // Save to localStorage as backup
+                                    function saveToLocalStorage() {
+                                        localStorage.setItem('khataTrackerTransactions', JSON.stringify(transactions));
+                                        localStorage.setItem('khataTrackerPeople', JSON.stringify(people));
+                                    }
+
+                                    // Get headers for JSONBin requests
+                                    function getHeaders() {
+                                        return {
+                                            'Content-Type': 'application/json',
+                                            'X-Master-Key': masterKey
+                                        };
+                                    }
+
+                                    // Show status message
+                                    function showStatusMessage(message, type) {
+                                        const statusMessage = document.getElementById('statusMessage');
+                                        statusMessage.textContent = message;
+                                        statusMessage.className = `status-message ${type}`;
+                                        statusMessage.style.display = 'block';
+
+                                        // Hide message after 3 seconds
+                                        setTimeout(() => {
+                                            statusMessage.style.display = 'none';
+                                        }, 3000);
+                                    }
+
+                                    // Update expense UI (payer dropdown, split checkboxes, transactions table, balances)
+                                    function updateExpenseUI() {
+                                        // Update payer dropdown
+                                        const payerSelect = document.getElementById('payer');
+                                        payerSelect.innerHTML = '';
+
+                                        people.forEach(person => {
+                                            const option = document.createElement('option');
+                                            option.value = person;
+                                            option.textContent = person;
+                                            payerSelect.appendChild(option);
+                                        });
+
+                                        // Update split between checkboxes
+                                        updateSplitBetweenCheckboxes();
+
+                                        // Update transactions table
+                                        displayTransactions();
+
+                                        // Update balances
+                                        updateBalances();
+                                    }
+
+                                    // Update split between checkboxes
+                                    function updateSplitBetweenCheckboxes() {
+                                        const splitBetweenDiv = document.getElementById('splitBetweenCheckboxes');
+                                        splitBetweenDiv.innerHTML = '';
+
+                                        people.forEach(person => {
+                                            const checkboxItem = document.createElement('div');
+                                            checkboxItem.className = 'checkbox-item';
+
+                                            const checkbox = document.createElement('input');
+                                            checkbox.type = 'checkbox';
+                                            checkbox.id = `split${person}`;
+                                            checkbox.value = person;
+                                            checkbox.checked = true;
+
+                                            const label = document.createElement('label');
+                                            label.htmlFor = `split${person}`;
+                                            label.textContent = person;
+
+                                            checkboxItem.appendChild(checkbox);
+                                            checkboxItem.appendChild(label);
+                                            splitBetweenDiv.appendChild(checkboxItem);
+                                        });
+                                    }
+
+                                    // Update people UI
+                                    function updatePeopleUI() {
+                                        const peopleList = document.getElementById('peopleList');
+                                        peopleList.innerHTML = '';
+
+                                        people.forEach(person => {
+                                            const personTag = document.createElement('div');
+                                            personTag.className = 'person-tag';
+
+                                            personTag.innerHTML = `
+                    ${person}
+                    <button onclick="removePerson('${person}')">&times;</button>
+                `;
+
+                                            peopleList.appendChild(personTag);
+                                        });
+                                    }
+
+                                    // Add a new person
+                                    function addPerson() {
+                                        const newPersonInput = document.getElementById('newPersonName');
+                                        const newPersonName = newPersonInput.value.trim();
+
+                                        if (!newPersonName) {
+                                            showStatusMessage('Please enter a name', 'error');
+                                            return;
+                                        }
+
+                                        if (people.includes(newPersonName)) {
+                                            showStatusMessage('This person already exists', 'error');
+                                            return;
+                                        }
+
+                                        people.push(newPersonName);
+
+                                        // Update UI
+                                        updatePeopleUI();
+                                        updateExpenseUI();
+
+                                        // Save data
+                                        saveData();
+
+                                        // Clear input
+                                        newPersonInput.value = '';
+
+                                        showStatusMessage(`${newPersonName} added successfully`, 'success');
+                                    }
+
+                                    // Remove a person
+                                    function removePerson(personName) {
+                                        // Check if person has transactions
+                                        const hasTransactions = transactions.some(t =>
+                                            t.payer === personName || t.splitBetween.includes(personName)
+                                        );
+
+                                        let confirmMessage = `Are you sure you want to remove ${personName}?`;
+
+                                        if (hasTransactions) {
+                                            confirmMessage += ` This person has transactions. Removing them will affect balance calculations.`;
+                                        }
+
+                                        if (confirm(confirmMessage)) {
+                                            people = people.filter(p => p !== personName);
+
+                                            // Update UI
+                                            updatePeopleUI();
+                                            updateExpenseUI();
+
+                                            // Save data
+                                            saveData();
+
+                                            showStatusMessage(`${personName} removed successfully`, 'success');
+                                        }
+                                    }
+
+                                    // Add a new expense
+                                    function addExpense() {
+                                        const payer = document.getElementById('payer').value;
+                                        const amount = parseFloat(document.getElementById('amount').value);
+                                        const description = document.getElementById('description').value;
+
+                                        // Get selected people for splitting
+                                        const splitBetween = [];
+                                        people.forEach(person => {
+                                            const checkbox = document.getElementById(`split${person}`);
+                                            if (checkbox && checkbox.checked) {
+                                                splitBetween.push(person);
+                                            }
+                                        });
+
+                                        // Validation
+                                        if (!payer) {
+                                            showStatusMessage('Please select who paid', 'error');
+                                            return;
+                                        }
+
+                                        if (isNaN(amount) || amount <= 0) {
+                                            showStatusMessage('Please enter a valid amount', 'error');
+                                            return;
+                                        }
+
+                                        if (!description) {
+                                            showStatusMessage('Please enter a description', 'error');
+                                            return;
+                                        }
+
+                                        if (splitBetween.length === 0) {
+                                            showStatusMessage('Please select at least one person to split with', 'error');
+                                            return;
+                                        }
+
+                                        // Create new transaction
+                                        const newTransaction = {
+                                            id: Date.now(),
+                                            date: new Date().toLocaleDateString(),
+                                            payer: payer,
+                                            amount: amount,
+                                            description: description,
+                                            splitBetween: splitBetween
+                                        };
+
+                                        // Add to transactions array
+                                        transactions.push(newTransaction);
+
+                                        // Save data
+                                        saveData();
+
+                                        // Update UI
+                                        displayTransactions();
+                                        updateBalances();
+
+                                        // Reset form
+                                        document.getElementById('amount').value = '';
+                                        document.getElementById('description').value = '';
+
+                                        showStatusMessage('Expense added successfully', 'success');
+                                    }
+
+                                    // Display transactions in the table
+                                    function displayTransactions() {
+                                        const transactionsList = document.getElementById('transactionsList');
+                                        transactionsList.innerHTML = '';
+
+                                        // Sort transactions by date (newest first)
+                                        const sortedTransactions = [...transactions].sort((a, b) => {
+                                            return new Date(b.date) - new Date(a.date);
+                                        });
+
+                                        sortedTransactions.forEach(transaction => {
+                                            const row = document.createElement('tr');
+
+                                            row.innerHTML = `
                     <td>${transaction.date}</td>
                     <td>${transaction.payer}</td>
                     <td>₹${transaction.amount.toFixed(2)}</td>
                     <td>${transaction.description}</td>
                     <td>${transaction.splitBetween.join(', ')}</td>
-                    <td><button class="delete-btn" onclick="deleteTransaction(${transaction.id})">Delete</button></td>
+                    <td>
+                        <button class="danger" onclick="deleteTransaction(${transaction.id})">Delete</button>
+                    </td>
                 `;
 
-                transactionsList.appendChild(row);
-            });
-        }
+                                            transactionsList.appendChild(row);
+                                        });
+                                    }
 
-        // Delete a transaction
-        function deleteTransaction(id) {
-            if (confirm('Are you sure you want to delete this transaction?')) {
-                transactions = transactions.filter(transaction => transaction.id !== id);
-                localStorage.setItem('transactions', JSON.stringify(transactions));
-                displayTransactions();
-                updateSummary();
-            }
-        }
+                                    // Delete a transaction
+                                    function deleteTransaction(id) {
+                                        if (confirm('Are you sure you want to delete this transaction?')) {
+                                            transactions = transactions.filter(t => t.id !== id);
 
-        // Calculate and update summary
-        function updateSummary() {
-            const balances = {
-                BK: 0,
-                Rachit: 0,
-                Vikas: 0
-            };
+                                            // Save data
+                                            saveData();
 
-            // Calculate each person's contribution and share
-            transactions.forEach(transaction => {
-                const payer = transaction.payer;
-                const amount = transaction.amount;
-                const splitCount = transaction.splitBetween.length;
-                const sharePerPerson = amount / splitCount;
+                                            // Update UI
+                                            displayTransactions();
+                                            updateBalances();
 
-                // Add the full amount to the payer
-                balances[payer] += amount;
+                                            showStatusMessage('Transaction deleted successfully', 'success');
+                                        }
+                                    }
 
-                // Subtract each person's share
-                transaction.splitBetween.forEach(person => {
-                    balances[person] -= sharePerPerson;
-                });
-            });
+                                    // Clear all transactions
+                                    function clearAllTransactions() {
+                                        if (confirm('Are you sure you want to clear ALL transactions? This cannot be undone!')) {
+                                            transactions = [];
 
-            // Display the balances
-            const balancesDiv = document.getElementById('balances');
-            balancesDiv.innerHTML = '';
+                                            // Save data
+                                            saveData();
 
-            for (const person in balances) {
-                const balance = balances[person];
-                const balanceClass = balance >= 0 ? 'positive' : 'negative';
+                                            // Update UI
+                                            displayTransactions();
+                                            updateBalances();
 
-                const balanceElement = document.createElement('p');
-                balanceElement.innerHTML = `${person}: <span class="${balanceClass}">₹${balance.toFixed(2)}</span>`;
-                balancesDiv.appendChild(balanceElement);
-            }
+                                            showStatusMessage('All transactions cleared successfully', 'success');
+                                        }
+                                    }
 
-            // Calculate who owes whom
-            const owes = [];
+                                    // Refresh transactions from server
+                                    async function refreshTransactions() {
+                                        showLoading(true);
 
-            if (balances.BK < 0) {
-                if (balances.Rachit > 0) {
-                    owes.push(`BK owes Rachit: <span class="negative">₹${Math.min(-balances.BK, balances.Rachit).toFixed(2)}</span>`);
-                }
-                if (balances.Vikas > 0) {
-                    owes.push(`BK owes Vikas: <span class="negative">₹${Math.min(-balances.BK, balances.Vikas).toFixed(2)}</span>`);
-                }
-            }
+                                        try {
+                                            const response = await fetch(`${JSON_BIN_URL}/${binId}/latest`, {
+                                                method: 'GET',
+                                                headers: getHeaders()
+                                            });
 
-            if (balances.Rachit < 0) {
-                if (balances.BK > 0) {
-                    owes.push(`Rachit owes BK: <span class="negative">₹${Math.min(-balances.Rachit, balances.BK).toFixed(2)}</span>`);
-                }
-                if (balances.Vikas > 0) {
-                    owes.push(`Rachit owes Vikas: <span class="negative">₹${Math.min(-balances.Rachit, balances.Vikas).toFixed(2)}</span>`);
-                }
-            }
+                                            if (!response.ok) {
+                                                throw new Error(`Failed to fetch data: ${response.status}`);
+                                            }
 
-            if (balances.Vikas < 0) {
-                if (balances.BK > 0) {
-                    owes.push(`Vikas owes BK: <span class="negative">₹${Math.min(-balances.Vikas, balances.BK).toFixed(2)}</span>`);
-                }
-                if (balances.Rachit > 0) {
-                    owes.push(`Vikas owes Rachit: <span class="negative">₹${Math.min(-balances.Vikas, balances.Rachit).toFixed(2)}</span>`);
-                }
-            }
+                                            const data = await response.json();
 
-            // Display who owes whom
-            if (owes.length > 0) {
-                const owesHeader = document.createElement('h3');
-                owesHeader.textContent = 'Who Owes What:';
-                balancesDiv.appendChild(owesHeader);
+                                            // Check if data has the expected structure
+                                            if (data && data.record) {
+                                                // Extract transactions and people from the response
+                                                if (Array.isArray(data.record.transactions)) {
+                                                    transactions = data.record.transactions;
+                                                }
 
-                owes.forEach(owe => {
-                    const oweElement = document.createElement('p');
-                    oweElement.innerHTML = owe;
-                    balancesDiv.appendChild(oweElement);
-                });
-            }
-        }
-    </script>
-</body>
+                                                if (Array.isArray(data.record.people)) {
+                                                    people = data.record.people;
+                                                    // Save people to localStorage as backup
+                                                    localStorage.setItem('khataTrackerPeople', JSON.stringify(people));
+                                                    // Update UI with current people
+                                                    updatePeopleUI();
+                                                }
 
-</html>
+                                                // Update UI
+                                                updateExpenseUI();
+                                                showStatusMessage('Data refreshed successfully', 'success');
+
+                                                // Reset localStorage flag
+                                                usingLocalStorage = false;
+                                            } else {
+                                                throw new Error('Invalid data structure');
+                                            }
+                                        } catch (error) {
+                                            console.error('Error refreshing data:', error);
+                                            showStatusMessage('Error refreshing data: ' + error.message, 'error');
+                                        } finally {
+                                            showLoading(false);
+                                        }
+                                    }
+
+                                    // Calculate and update balances
+                                    function updateBalances() {
+                                        // Initialize balances for all people
+                                        const balances = {};
+                                        people.forEach(person => {
+                                            balances[person] = 0;
+                                        });
+
+                                        // Calculate each person's contribution and share
+                                        transactions.forEach(transaction => {
+                                            const payer = transaction.payer;
+                                            const amount = transaction.amount;
+                                            const splitCount = transaction.splitBetween.length;
+                                            const sharePerPerson = amount / splitCount;
+
+                                            // Add the full amount to the payer
+                                            if (balances[payer] !== undefined) {
+                                                balances[payer] += amount;
+                                            }
+
+                                            // Subtract each person's share
+                                            transaction.splitBetween.forEach(person => {
+                                                if (balances[person] !== undefined) {
+                                                    balances[person] -= sharePerPerson;
+                                                }
+                                            });
+                                        });
+
+                                        // Display the balances
+                                        const balancesDiv = document.getElementById('balances');
+                                        balancesDiv.innerHTML = '<h3>Individual Balances</h3>';
+
+                                        // Sort people by balance (highest to lowest)
+                                        const sortedPeople = [...people].sort((a, b) => {
+                                            return (balances[b] || 0) - (balances[a] || 0);
+                                        });
+
+                                        sortedPeople.forEach(person => {
+                                            if (balances[person] !== undefined) {
+                                                const balance = balances[person];
+                                                const balanceClass = balance >= 0 ? 'positive' : 'negative';
+
+                                                const balanceElement = document.createElement('p');
+                                                balanceElement.innerHTML = `${person}: <span class="${balanceClass}">₹${balance.toFixed(2)}</span>`;
+                                                balancesDiv.appendChild(balanceElement);
+                                            }
+                                        });
+
+                                        // Calculate settlements (who owes whom)
+                                        calculateSettlements(balances);
+                                    }
+
+                                            // Calculate settlements (who owes whom)
+                                                function calculateSettlements(balances) {
+                                                    // Create a copy of balances to work with
+                                                    const workingBalances = { ...balances };
+
+                                                    // Separate creditors (positive balance) and debtors (negative balance)
+                                                    const creditors = [];
+                                                    const debtors = [];
+
+                                                    for (const person in workingBalances) {
+                                                        if (workingBalances[person] > 0.01) {  // Using 0.01 to handle floating point errors
+                                                            creditors.push({ name: person, amount: workingBalances[person] });
+                                                        } else if (workingBalances[person] < -0.01) {  // Using -0.01 to handle floating point errors
+                                                            debtors.push({ name: person, amount: workingBalances[person] });
+                                                        }
+                                                    }
+
+                                                    // Sort creditors (highest first) and debtors (lowest first)
+                                                    creditors.sort((a, b) => b.amount - a.amount);
+                                                    debtors.sort((a, b) => a.amount - b.amount);
+
+                                                    // Calculate settlements
+                                                    const settlements = [];
+
+                                                    while (debtors.length > 0 && creditors.length > 0) {
+                                                        const debtor = debtors[0];
+                                                        const creditor = creditors[0];
+
+                                                        // Calculate the amount to settle (minimum of debt and credit)
+                                                        const settleAmount = Math.min(Math.abs(debtor.amount), creditor.amount);
+
+                                                        if (settleAmount > 0.01) {  // Only add settlements for non-trivial amounts
+                                                            settlements.push({
+                                                                from: debtor.name,
+                                                                to: creditor.name,
+                                                                amount: settleAmount
+                                                            });
+                                                        }
+
+                                                        // Update balances
+                                                        debtor.amount += settleAmount;
+                                                        creditor.amount -= settleAmount;
+
+                                                        // Remove people with zero balance
+                                                        if (Math.abs(debtor.amount) < 0.01) {
+                                                            debtors.shift();
+                                                        }
+
+                                                        if (Math.abs(creditor.amount) < 0.01) {
+                                                            creditors.shift();
+                                                        }
+                                                    }
+
+                                                    // Display settlements
+                                                    if (settlements.length > 0) {
+                                                        const balancesDiv = document.getElementById('balances');
+
+                                                        const settlementsHeader = document.createElement('h3');
+                                                        settlementsHeader.textContent = 'Suggested Settlements';
+                                                        balancesDiv.appendChild(settlementsHeader);
+
+                                                        settlements.forEach(settlement => {
+                                                            const settlementCard = document.createElement('div');
+                                                            settlementCard.className = 'settlement-card';
+
+                                                            settlementCard.innerHTML = `
+                        <div>${settlement.from} should pay ${settlement.to}</div>
+                        <div class="settlement-amount negative">₹${settlement.amount.toFixed(2)}</div>
+                    `;
+
+                                                            balancesDiv.appendChild(settlementCard);
+                                                        });
+                                                    }
+                                                }
+                                            </script>
+    </body>
+    
+    </html>
