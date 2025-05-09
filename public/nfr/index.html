@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise NFR Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-section {
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .nav-tabs .nav-link.active {
+            font-weight: bold;
+            background-color: #e9ecef;
+        }
+
+        h1 {
+            color: #0d6efd;
+            margin-bottom: 30px;
+        }
+
+        .info-icon {
+            cursor: pointer;
+            color: #0d6efd;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center">Enterprise NFR Calculator</h1>
+        <p class="lead text-center mb-4">Calculate infrastructure requirements for highly scalable enterprise
+            applications</p>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" id="nfr-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="users-tab" data-bs-toggle="tab"
+                                    data-bs-target="#users" type="button" role="tab" aria-controls="users"
+                                    aria-selected="true">User Load</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="compute-tab" data-bs-toggle="tab" data-bs-target="#compute"
+                                    type="button" role="tab" aria-controls="compute"
+                                    aria-selected="false">Compute</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="database-tab" data-bs-toggle="tab"
+                                    data-bs-target="#database" type="button" role="tab" aria-controls="database"
+                                    aria-selected="false">Database</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="kafka-tab" data-bs-toggle="tab" data-bs-target="#kafka"
+                                    type="button" role="tab" aria-controls="kafka" aria-selected="false">Kafka</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="network-tab" data-bs-toggle="tab" data-bs-target="#network"
+                                    type="button" role="tab" aria-controls="network"
+                                    aria-selected="false">Network</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="storage-tab" data-bs-toggle="tab" data-bs-target="#storage"
+                                    type="button" role="tab" aria-controls="storage"
+                                    aria-selected="false">Storage</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="nfr-tab-content">
+                            <!-- User Load Tab -->
+                            <div class="tab-pane fade show active" id="users" role="tabpanel"
+                                aria-labelledby="users-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="totalUsers" class="form-label">Total Registered Users</label>
+                                            <input type="number" class="form-control" id="totalUsers"
+                                                placeholder="e.g. 1000000">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="dau" class="form-label">Daily Active Users (DAU)</label>
+                                            <input type="number" class="form-control" id="dau"
+                                                placeholder="e.g. 100000">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="peakConcurrentUsers" class="form-label">Peak Concurrent
+                                                Users</label>
+                                            <input type="number" class="form-control" id="peakConcurrentUsers"
+                                                placeholder="e.g. 10000">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="avgSessionDuration" class="form-label">Average Session Duration
+                                                (minutes)</label>
+                                            <input type="number" class="form-control" id="avgSessionDuration"
+                                                placeholder="e.g. 15">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="requestsPerSession" class="form-label">Average Requests Per
+                                                Session</label>
+                                            <input type="number" class="form-control" id="requestsPerSession"
+                                                placeholder="e.g. 20">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="growthRate" class="form-label">Expected Annual Growth Rate
+                                                (%)</label>
+                                            <input type="number" class="form-control" id="growthRate"
+                                                placeholder="e.g. 25">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Compute Tab -->
+                            <div class="tab-pane fade" id="compute" role="tabpanel" aria-labelledby="compute-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="appTier" class="form-label">Application Tier</label>
+                                            <select class="form-select" id="appTier">
+                                                <option value="web">Web/Frontend</option>
+                                                <option value="api">API/Backend</option>
+                                                <option value="microservices">Microservices</option>
+                                                <option value="monolith">Monolithic</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="cpuPerRequest" class="form-label">Average CPU Usage Per Request
+                                                (millicores)</label>
+                                            <input type="number" class="form-control" id="cpuPerRequest"
+                                                placeholder="e.g. 10">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="memoryPerRequest" class="form-label">Average Memory Per Request
+                                                (MB)</label>
+                                            <input type="number" class="form-control" id="memoryPerRequest"
+                                                placeholder="e.g. 50">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="availabilityRequirement" class="form-label">Availability
+                                                Requirement (%)</label>
+                                            <input type="number" class="form-control" id="availabilityRequirement"
+                                                placeholder="e.g. 99.9" step="0.01" min="90" max="100">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="responseTimeTarget" class="form-label">Response Time Target
+                                                (ms)</label>
+                                            <input type="number" class="form-control" id="responseTimeTarget"
+                                                placeholder="e.g. 200">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="containerization" class="form-label">Containerization</label>
+                                            <select class="form-select" id="containerization">
+                                                <option value="kubernetes">Kubernetes</option>
+                                                <option value="docker">Docker Swarm</option>
+                                                <option value="ecs">AWS ECS</option>
+                                                <option value="none">No Containerization</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Database Tab -->
+                            <div class="tab-pane fade" id="database" role="tabpanel" aria-labelledby="database-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="dbType" class="form-label">Primary Database Type</label>
+                                            <select class="form-select" id="dbType">
+                                                <option value="relational">Relational (SQL)</option>
+                                                <option value="nosql-document">NoSQL - Document</option>
+                                                <option value="nosql-key-value">NoSQL - Key-Value</option>
+                                                <option value="nosql-column">NoSQL - Column</option>
+                                                <option value="nosql-graph">NoSQL - Graph</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="readWriteRatio" class="form-label">Read/Write Ratio</label>
+                                            <select class="form-select" id="readWriteRatio">
+                                                <option value="90-10">90% Read / 10% Write</option>
+                                                <option value="80-20">80% Read / 20% Write</option>
+                                                <option value="70-30">70% Read / 30% Write</option>
+                                                <option value="60-40">60% Read / 40% Write</option>
+                                                <option value="50-50">50% Read / 50% Write</option>
+                                                <option value="40-60">40% Read / 60% Write</option>
+                                                <option value="30-70">30% Read / 70% Write</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="avgDataSizePerUser" class="form-label">Average Data Size Per
+                                                User (KB)</label>
+                                            <input type="number" class="form-control" id="avgDataSizePerUser"
+                                                placeholder="e.g. 500">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="dbTransactionsPerSec" class="form-label">Peak DB Transactions
+                                                Per Second</label>
+                                            <input type="number" class="form-control" id="dbTransactionsPerSec"
+                                                placeholder="e.g. 1000">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="dataRetentionPeriod" class="form-label">Data Retention Period
+                                                (months)</label>
+                                            <input type="number" class="form-control" id="dataRetentionPeriod"
+                                                placeholder="e.g. 36">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="dbReplication" class="form-label">Database Replication
+                                                Strategy</label>
+                                            <select class="form-select" id="dbReplication">
+                                                <option value="sync">Synchronous Replication</option>
+                                                <option value="async">Asynchronous Replication</option>
+                                                <option value="semi-sync">Semi-Synchronous Replication</option>
+                                                <option value="none">No Replication</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kafka Tab -->
+                            <div class="tab-pane fade" id="kafka" role="tabpanel" aria-labelledby="kafka-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="messageSize" class="form-label">Average Message Size
+                                                (KB)</label>
+                                            <input type="number" class="form-control" id="messageSize"
+                                                placeholder="e.g. 5">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="messagesPerSecond" class="form-label">Peak Messages Per
+                                                Second</label>
+                                            <input type="number" class="form-control" id="messagesPerSecond"
+                                                placeholder="e.g. 10000">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="topicCount" class="form-label">Number of Topics</label>
+                                            <input type="number" class="form-control" id="topicCount"
+                                                placeholder="e.g. 20">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="retentionPeriod" class="form-label">Message Retention Period
+                                                (hours)</label>
+                                            <input type="number" class="form-control" id="retentionPeriod"
+                                                placeholder="e.g. 72">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="replicationFactor" class="form-label">Replication Factor</label>
+                                            <select class="form-select" id="replicationFactor">
+                                                <option value="1">1 (No replication)</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3 (Recommended)</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="consumerGroups" class="form-label">Number of Consumer
+                                                Groups</label>
+                                            <input type="number" class="form-control" id="consumerGroups"
+                                                placeholder="e.g. 5">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Network Tab -->
+                            <div class="tab-pane fade" id="network" role="tabpanel" aria-labelledby="network-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                                                                    <label for="avgBandwidthPerUser" class="form-label">Average Bandwidth Per User (Kbps)</label>
+                                                                                    <input type="number" class="form-control" id="avgBandwidthPerUser" placeholder="e.g. 50">
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label for="cdnUsage" class="form-label">CDN Usage</label>
+                                                                                        <select class="form-select" id="cdnUsage">
+                                                                                            <option value="heavy">Heavy (Static assets, media)</option>
+                                                                                            <option value="medium">Medium (Static assets only)</option>
+                                                                                            <option value="light">Light (Critical assets only)</option>
+                                                                                            <option value="none">None</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label for="networkLatencyTarget" class="form-label">Network Latency Target (ms)</label>
+                                                                                        <input type="number" class="form-control" id="networkLatencyTarget" placeholder="e.g. 100">
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="mb-3">
+                                                                                            <label for="loadBalancerType" class="form-label">Load Balancer Type</label>
+                                                                                            <select class="form-select" id="loadBalancerType">
+                                                                                                <option value="application">Application Load Balancer</option>
+                                                                                                <option value="network">Network Load Balancer</option>
+                                                                                                <option value="classic">Classic Load Balancer</option>
+                                                                                                <option value="gateway">API Gateway</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                            <label for="firewallRules" class="form-label">Estimated Firewall Rules</label>
+                                                                                            <input type="number" class="form-control" id="firewallRules" placeholder="e.g. 50">
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                            <label for="multiRegion" class="form-label">Multi-Region Deployment</label>
+                                                                                            <select class="form-select" id="multiRegion">
+                                                                                                <option value="single">Single Region</option>
+                                                                                                <option value="dual">Dual Region (Active-Active)</option>
+                                                                                                <option value="multi">Multi-Region (3+)</option>
+                                                                                                <option value="global">Global Distribution</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    
+                                                                                    <!-- Storage Tab -->
+                                                                                    <div class="tab-pane fade" id="storage" role="tabpanel" aria-labelledby="storage-tab">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="mb-3">
+                                                                                                    <label for="objectStorageNeeds" class="form-label">Object Storage Needs (GB/month)</label>
+                                                                                                    <input type="number" class="form-control" id="objectStorageNeeds" placeholder="e.g. 500">
+                                                                                                </div>
+                                                                                                <div class="mb-3">
+                                                                                                    <label for="blockStorageNeeds" class="form-label">Block Storage Needs (GB)</label>
+                                                                                                    <input type="number" class="form-control" id="blockStorageNeeds" placeholder="e.g. 1000">
+                                                                                                </div>
+                                                                                                <div class="mb-3">
+                                                                                                    <label for="fileStorageNeeds" class="form-label">File Storage Needs (GB)</label>
+                                                                                                    <input type="number" class="form-control" id="fileStorageNeeds" placeholder="e.g. 200">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <div class="mb-3">
+                                                                                                    <label for="backupStrategy" class="form-label">Backup Strategy</label>
+                                                                                                    <select class="form-select" id="backupStrategy">
+                                                                                                        <option value="daily-full">Daily Full Backup</option>
+                                                                                                        <option value="incremental">Incremental Backup</option>
+                                                                                                        <option value="differential">Differential Backup</option>
+                                                                                                        <option value="continuous">Continuous Backup</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <div class="mb-3">
+                                                                                                    <label for="backupRetention" class="form-label">Backup Retention Period (days)</label>
+                                                                                                    <input type="number" class="form-control" id="backupRetention" placeholder="e.g. 30">
+                                                                                                </div>
+                                                                                                <div class="mb-3">
+                                                                                                    <label for="storageIOPS" class="form-label">Required Storage IOPS</label>
+                                                                                                    <input type="number" class="form-control" id="storageIOPS" placeholder="e.g. 5000">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    
+                                                                                    <div class="row mt-4">
+                                                                                        <div class="col-md-12 text-center">
+                                                                                            <button type="button" class="btn btn-primary btn-lg" id="calculateBtn">Calculate Infrastructure
+                                                                                                Requirements</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    
+                                                                                    <!-- Results Section -->
+                                                                                    <div class="row mt-4">
+                                                                                        <div class="col-md-12">
+                                                                                            <div class="card">
+                                                                                                <div class="card-header">
+                                                                                                    <h4>Infrastructure Requirements</h4>
+                                                                                                </div>
+                                                                                                <div class="card-body">
+                                                                                                    <div id="resultsContainer" style="display: none;">
+                                                                                                        <div class="row">
+                                                                                                            <div class="col-md-6">
+                                                                                                                <div class="result-section">
+                                                                                                                    <h5>Compute Resources</h5>
+                                                                                                                    <div id="computeResults">
+                                                                                                                        <p>Loading results...</p>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div class="result-section mt-3">
+                                                                                                                    <h5>Database Resources</h5>
+                                                                                                                    <div id="databaseResults">
+                                                                                                                        <p>Loading results...</p>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div class="result-section mt-3">
+                                                                                                                    <h5>Storage Resources</h5>
+                                                                                                                    <div id="storageResults">
+                                                                                                                        <p>Loading results...</p>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="col-md-6">
+                                                                                                                <div class="result-section">
+                                                                                                                    <h5>Kafka Resources</h5>
+                                                                                                                    <div id="kafkaResults">
+                                                                                                                        <p>Loading results...</p>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div class="result-section mt-3">
+                                                                                                                    <h5>Network Resources</h5>
+                                                                                                                    <div id="networkResults">
+                                                                                                                        <p>Loading results...</p>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div class="result-section mt-3">
+                                                                                                                    <h5>Cost Estimation (Monthly)</h5>
+                                                                                                                    <div id="costResults">
+                                                                                                                        <p>Loading results...</p>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="row mt-3">
+                                                                                                            <div class="col-md-12">
+                                                                                                                <div class="result-section">
+                                                                                                                    <h5>Architecture Recommendations</h5>
+                                                                                                                    <div id="recommendationResults">
+                                                                                                                        <p>Loading recommendations...</p>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    
+                                                                                    <!-- JavaScript Libraries -->
+                                                                                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                                                                                    <script>
+                                                                                        document.addEventListener('DOMContentLoaded', function () {
+                                                                                            const calculateBtn = document.getElementById('calculateBtn');
+                                                                                            calculateBtn.addEventListener('click', calculateRequirements);
+
+                                                                                            function calculateRequirements() {
+                                                                                                // Show results container
+                                                                                                document.getElementById('resultsContainer').style.display = 'block';
+
+                                                                                                // Get user inputs
+                                                                                                const inputs = {
+                                                                                                    // User Load
+                                                                                                    totalUsers: getInputValue('totalUsers'),
+                                                                                                    dau: getInputValue('dau'),
+                                                                                                    peakConcurrentUsers: getInputValue('peakConcurrentUsers'),
+                                                                                                    avgSessionDuration: getInputValue('avgSessionDuration'),
+                                                                                                    requestsPerSession: getInputValue('requestsPerSession'),
+                                                                                                    growthRate: getInputValue('growthRate'),
+
+                                                                                                    // Compute
+                                                                                                    appTier: getSelectValue('appTier'),
+                                                                                                    cpuPerRequest: getInputValue('cpuPerRequest'),
+                                                                                                    memoryPerRequest: getInputValue('memoryPerRequest'),
+                                                                                                    availabilityRequirement: getInputValue('availabilityRequirement'),
+                                                                                                    responseTimeTarget: getInputValue('responseTimeTarget'),
+                                                                                                    containerization: getSelectValue('containerization'),
+
+                                                                                                    // Database
+                                                                                                    dbType: getSelectValue('dbType'),
+                                                                                                    readWriteRatio: getSelectValue('readWriteRatio'),
+                                                                                                    avgDataSizePerUser: getInputValue('avgDataSizePerUser'),
+                                                                                                    dbTransactionsPerSec: getInputValue('dbTransactionsPerSec'),
+                                                                                                    dataRetentionPeriod: getInputValue('dataRetentionPeriod'),
+                                                                                                    dbReplication: getSelectValue('dbReplication'),
+
+                                                                                                    // Kafka
+                                                                                                    messageSize: getInputValue('messageSize'),
+                                                                                                    messagesPerSecond: getInputValue('messagesPerSecond'),
+                                                                                                    topicCount: getInputValue('topicCount'),
+                                                                                                    retentionPeriod: getInputValue('retentionPeriod'),
+                                                                                                    replicationFactor: getSelectValue('replicationFactor'),
+                                                                                                    consumerGroups: getInputValue('consumerGroups'),
+
+                                                                                                    // Network
+                                                                                                    avgBandwidthPerUser: getInputValue('avgBandwidthPerUser'),
+                                                                                                    cdnUsage: getSelectValue('cdnUsage'),
+                                                                                                    networkLatencyTarget: getInputValue('networkLatencyTarget'),
+                                                                                                    loadBalancerType: getSelectValue('loadBalancerType'),
+                                                                                                    firewallRules: getInputValue('firewallRules'),
+                                                                                                    multiRegion: getSelectValue('multiRegion'),
+
+                                                                                                    // Storage
+                                                                                                    objectStorageNeeds: getInputValue('objectStorageNeeds'),
+                                                                                                    blockStorageNeeds: getInputValue('blockStorageNeeds'),
+                                                                                                    fileStorageNeeds: getInputValue('fileStorageNeeds'),
+                                                                                                    backupStrategy: getSelectValue('backupStrategy'),
+                                                                                                    backupRetention: getInputValue('backupRetention'),
+                                                                                                    storageIOPS: getInputValue('storageIOPS')
+                                                                                                };
+
+                                                                                                // Calculate results
+                                                                                                const results = calculateInfrastructureRequirements(inputs);
+
+                                                                                                // Display results
+                                                                                                displayResults(results);
+                                                                                            }
+
+                                                                                            function getInputValue(id) {
+                                                                                                const value = document.getElementById(id).value;
+                                                                                                return value ? parseFloat(value) : 0;
+                                                                                            }
+
+                                                                                            function getSelectValue(id) {
+                                                                                                return document.getElementById(id).value;
+                                                                                            }
+
+                                                                                            function calculateInfrastructureRequirements(inputs) {
+                                                                                                // Initialize results object
+                                                                                                const results = {
+                                                                                                    compute: {},
+                                                                                                    database: {},
+                                                                                                    kafka: {},
+                                                                                                    network: {},
+                                                                                                    storage: {},
+                                                                                                    cost: {},
+                                                                                                    recommendations: []
+                                                                                                };
+
+                                                                                                // Calculate Compute Resources
+                                                                                                calculateComputeResources(inputs, results);
+
+                                                                                                // Calculate Database Resources
+                                                                                                calculateDatabaseResources(inputs, results);
+
+                                                                                                // Calculate Kafka Resources
+                                                                                                calculateKafkaResources(inputs, results);
+
+                                                                                                // Calculate Network Resources
+                                                                                                calculateNetworkResources(inputs, results);
+
+                                                                                                // Calculate Storage Resources
+                                                                                                calculateStorageResources(inputs, results);
+
+                                                                                                // Calculate Cost Estimation
+                                                                                                calculateCostEstimation(inputs, results);
+
+                                                                                                // Generate Architecture Recommendations
+                                                                                                generateRecommendations(inputs, results);
+
+                                                                                                return results;
+                                                                                            }
+
+                                                                                            function calculateComputeResources(inputs, results) {
+                                                                                                // Default values if inputs are missing
+                                                                                                const dau = inputs.dau || 100000;
+                                                                                                const peakConcurrentUsers = inputs.peakConcurrentUsers || 10000;
+                                                                                                const requestsPerSession = inputs.requestsPerSession || 20;
+                                                                                                const avgSessionDuration = inputs.avgSessionDuration || 15;
+                                                                                                const cpuPerRequest = inputs.cpuPerRequest || 10; // millicores
+                                                                                                const memoryPerRequest = inputs.memoryPerRequest || 50; // MB
+                                                                                                const availabilityRequirement = inputs.availabilityRequirement || 99.9;
+
+                                                                                                // Calculate requests per second
+                                                                                                const requestsPerSecond = (peakConcurrentUsers * requestsPerSession) / (avgSessionDuration * 60);
+
+                                                                                                // Calculate CPU and memory requirements
+                                                                                                const totalCPUMillicores = requestsPerSecond * cpuPerRequest;
+                                                                                                const totalMemoryMB = requestsPerSecond * memoryPerRequest;
+
+                                                                                                // Calculate number of instances needed
+                                                                                                // Assuming each instance has 2 vCPUs (2000 millicores) and 4GB RAM
+                                                                                                const instanceCPUMillicores = 2000;
+                                                                                                const instanceMemoryMB = 4096;
+
+                                                                                                let instancesNeededByCPU = Math.ceil(totalCPUMillicores / instanceCPUMillicores);
+                                                                                                let instancesNeededByMemory = Math.ceil(totalMemoryMB / instanceMemoryMB);
+
+                                                                                                // Take the maximum of the two
+                                                                                                let instancesNeeded = Math.max(instancesNeededByCPU, instancesNeededByMemory);
+
+                                                                                                // Add redundancy based on availability requirements
+                                                                                                if (availabilityRequirement >= 99.99) {
+                                                                                                    instancesNeeded = Math.ceil(instancesNeeded * 1.5); // 50% extra for high availability
+                                                                                                } else if (availabilityRequirement >= 99.9) {
+                                                                                                    instancesNeeded = Math.ceil(instancesNeeded * 1.3); // 30% extra for good availability
+                                                                                                } else {
+                                                                                                    instancesNeeded = Math.ceil(instancesNeeded * 1.1); // 10% extra for basic availability
+                                                                                                }
+
+                                                                                                // Minimum of 2 instances for any production system
+                                                                                                instancesNeeded = Math.max(instancesNeeded, 2);
+
+                                                                                                // Calculate autoscaling group size
+                                                                                                const minInstances = Math.max(1, Math.floor(instancesNeeded * 0.5));
+                                                                                                const maxInstances = Math.ceil(instancesNeeded * 2); // Allow for 2x growth
+
+                                                                                                // Store results
+                                                                                                results.compute = {
+                                                                                                                       requestsPerSecond: Math.round(requestsPerSecond),
+                                                                                                    totalCPUCores: (totalCPUMillicores / 1000).toFixed(2),
+                                                                                                    totalMemoryGB: (totalMemoryMB / 1024).toFixed(2),
+                                                                                                    instancesNeeded: instancesNeeded,
+                                                                                                    autoscalingConfig: {
+                                                                                                        min: minInstances,
+                                                                                                        desired: instancesNeeded,
+                                                                                                        max: maxInstances
+                                                                                                    },
+                                                                                                    instanceType: recommendInstanceType(totalCPUMillicores, totalMemoryMB, inputs.appTier)
+                                                                                                };
+                                                                                            }
+
+                                                                                            function calculateDatabaseResources(inputs, results) {
+                                                                                                // Default values if inputs are missing
+                                                                                                const totalUsers = inputs.totalUsers || 1000000;
+                                                                                                const dau = inputs.dau || 100000;
+                                                                                                const avgDataSizePerUser = inputs.avgDataSizePerUser || 500; // KB
+                                                                                                const dbTransactionsPerSec = inputs.dbTransactionsPerSec || 1000;
+                                                                                                const readWriteRatio = inputs.readWriteRatio || "80-20";
+                                                                                                const dataRetentionPeriod = inputs.dataRetentionPeriod || 36; // months
+
+                                                                                                // Calculate storage requirements
+                                                                                                const totalStorageGB = (totalUsers * avgDataSizePerUser) / (1024 * 1024); // Convert KB to GB
+                                                                                                const storageWithGrowthGB = totalStorageGB * 1.5; // Add 50% for growth
+
+                                                                                                // Parse read/write ratio
+                                                                                                const readPercentage = parseInt(readWriteRatio.split('-')[0]);
+                                                                                                const writePercentage = parseInt(readWriteRatio.split('-')[1]);
+
+                                                                                                // Calculate read and write operations
+                                                                                                const readOpsPerSec = (dbTransactionsPerSec * readPercentage) / 100;
+                                                                                                const writeOpsPerSec = (dbTransactionsPerSec * writePercentage) / 100;
+
+                                                                                                // Determine number of database instances needed
+                                                                                                // Assuming each instance can handle 500 transactions per second
+                                                                                                const transactionsPerInstance = 500;
+                                                                                                let dbInstancesNeeded = Math.ceil(dbTransactionsPerSec / transactionsPerInstance);
+
+                                                                                                // Minimum of 2 instances for any production database
+                                                                                                dbInstancesNeeded = Math.max(dbInstancesNeeded, 2);
+
+                                                                                                // Determine if read replicas are needed
+                                                                                                const readReplicasNeeded = (readPercentage >= 70) ? Math.ceil(dbInstancesNeeded * 0.5) : 0;
+
+                                                                                                // Determine database class based on load
+                                                                                                let dbClass = "db.m5.large"; // Default
+                                                                                                if (dbTransactionsPerSec > 5000) {
+                                                                                                    dbClass = "db.m5.4xlarge";
+                                                                                                } else if (dbTransactionsPerSec > 2000) {
+                                                                                                    dbClass = "db.m5.2xlarge";
+                                                                                                } else if (dbTransactionsPerSec > 1000) {
+                                                                                                    dbClass = "db.m5.xlarge";
+                                                                                                }
+
+                                                                                                // Store results
+                                                                                                results.database = {
+                                                                                                    storageRequiredGB: Math.ceil(storageWithGrowthGB),
+                                                                                                    transactionsPerSecond: dbTransactionsPerSec,
+                                                                                                    readOperationsPerSecond: Math.round(readOpsPerSec),
+                                                                                                    writeOperationsPerSecond: Math.round(writeOpsPerSec),
+                                                                                                    primaryInstances: dbInstancesNeeded,
+                                                                                                    readReplicas: readReplicasNeeded,
+                                                                                                    recommendedClass: dbClass,
+                                                                                                    backupSizeGB: Math.ceil(storageWithGrowthGB * 0.7) // Assuming compression
+                                                                                                };
+                                                                                            }
+
+                                                                                            function calculateKafkaResources(inputs, results) {
+                                                                                                // Default values if inputs are missing
+                                                                                                const messageSize = inputs.messageSize || 5; // KB
+                                                                                                const messagesPerSecond = inputs.messagesPerSecond || 10000;
+                                                                                                const topicCount = inputs.topicCount || 20;
+                                                                                                const retentionPeriod = inputs.retentionPeriod || 72; // hours
+                                                                                                const replicationFactor = parseInt(inputs.replicationFactor) || 3;
+                                                                                                const consumerGroups = inputs.consumerGroups || 5;
+
+                                                                                                // Calculate throughput
+                                                                                                const throughputMBps = (messageSize * messagesPerSecond) / 1024; // Convert to MB/s
+
+                                                                                                // Calculate storage requirements
+                                                                                                const hourlyDataGB = (throughputMBps * 3600) / 1024; // Convert MB/s to GB/hour
+                                                                                                const totalStorageGB = hourlyDataGB * retentionPeriod * replicationFactor;
+
+                                                                                                // Calculate number of partitions needed
+                                                                                                // Rule of thumb: 1 partition per 10 MB/s throughput
+                                                                                                const partitionsPerTopic = Math.ceil(throughputMBps / 10);
+                                                                                                const totalPartitions = partitionsPerTopic * topicCount;
+
+                                                                                                // Calculate broker requirements
+                                                                                                // Rule of thumb: 1 broker per 50 MB/s throughput
+                                                                                                let brokersNeeded = Math.ceil(throughputMBps / 50);
+
+                                                                                                // Minimum of 3 brokers for any production Kafka cluster
+                                                                                                brokersNeeded = Math.max(brokersNeeded, 3);
+
+                                                                                                // Calculate ZooKeeper nodes needed
+                                                                                                const zookeeperNodes = (brokersNeeded <= 5) ? 3 : 5;
+
+                                                                                                // Store results
+                                                                                                results.kafka = {
+                                                                                                    throughputMBps: throughputMBps.toFixed(2),
+                                                                                                    messagesPerSecond: messagesPerSecond,
+                                                                                                    partitionsPerTopic: partitionsPerTopic,
+                                                                                                    totalPartitions: totalPartitions,
+                                                                                                    brokersNeeded: brokersNeeded,
+                                                                                                    zookeeperNodes: zookeeperNodes,
+                                                                                                    storageRequiredGB: Math.ceil(totalStorageGB),
+                                                                                                    recommendedInstanceType: recommendKafkaInstanceType(throughputMBps)
+                                                                                                };
+                                                                                            }
+
+                                                                                            function calculateNetworkResources(inputs, results) {
+                                                                                                // Default values if inputs are missing
+                                                                                                const peakConcurrentUsers = inputs.peakConcurrentUsers || 10000;
+                                                                                                const avgBandwidthPerUser = inputs.avgBandwidthPerUser || 50; // Kbps
+                                                                                                const loadBalancerType = inputs.loadBalancerType || "application";
+                                                                                                const multiRegion = inputs.multiRegion || "single";
+
+                                                                                                // Calculate bandwidth requirements
+                                                                                                const totalBandwidthMbps = (peakConcurrentUsers * avgBandwidthPerUser) / 1000; // Convert to Mbps
+
+                                                                                                // Calculate load balancer requirements
+                                                                                                // Assuming each load balancer can handle 10 Gbps (10,000 Mbps)
+                                                                                                const loadBalancerCapacityMbps = 10000;
+                                                                                                const loadBalancersNeeded = Math.ceil(totalBandwidthMbps / loadBalancerCapacityMbps);
+
+                                                                                                // Calculate number of regions and load balancers per region
+                                                                                                let regionsCount = 1;
+                                                                                                if (multiRegion === "dual") {
+                                                                                                    regionsCount = 2;
+                                                                                                } else if (multiRegion === "multi") {
+                                                                                                    regionsCount = 3;
+                                                                                                } else if (multiRegion === "global") {
+                                                                                                    regionsCount = 5;
+                                                                                                }
+
+                                                                                                const loadBalancersPerRegion = Math.ceil(loadBalancersNeeded / regionsCount);
+
+                                                                                                // Calculate CDN requirements if used
+                                                                                                let cdnBandwidthMbps = 0;
+                                                                                                if (inputs.cdnUsage === "heavy") {
+                                                                                                    cdnBandwidthMbps = totalBandwidthMbps * 0.8; // 80% of traffic through CDN
+                                                                                                } else if (inputs.cdnUsage === "medium") {
+                                                                                                    cdnBandwidthMbps = totalBandwidthMbps * 0.5; // 50% of traffic through CDN
+                                                                                                } else if (inputs.cdnUsage === "light") {
+                                                                                                    cdnBandwidthMbps = totalBandwidthMbps * 0.3; // 30% of traffic through CDN
+                                                                                                }
+
+                                                                                                // Store results
+                                                                                                results.network = {
+                                                                                                    totalBandwidthMbps: Math.ceil(totalBandwidthMbps),
+                                                                                                    loadBalancersNeeded: loadBalancersNeeded,
+                                                                                                    regionsCount: regionsCount,
+                                                                                                    loadBalancersPerRegion: loadBalancersPerRegion,
+                                                                                                    cdnBandwidthMbps: Math.ceil(cdnBandwidthMbps),
+                                                                                                    recommendedLoadBalancer: recommendLoadBalancer(loadBalancerType, totalBandwidthMbps),
+                                                                                                    estimatedDataTransferTB: Math.ceil((totalBandwidthMbps * 3600 * 24 * 30) / (8 * 1024 * 1024)) // Monthly data transfer in TB
+                                                                                                };
+                                                                                            }
+
+                                                                                            function calculateStorageResources(inputs, results) {
+                                                                                                // Default values if inputs are missing
+                                                                                                const objectStorageNeeds = inputs.objectStorageNeeds || 500; // GB/month
+                                                                                                const blockStorageNeeds = inputs.blockStorageNeeds || 1000; // GB
+                                                                                                const fileStorageNeeds = inputs.fileStorageNeeds || 200; // GB
+                                                                                                const backupRetention = inputs.backupRetention || 30; // days
+                                                                                                const storageIOPS = inputs.storageIOPS || 5000;
+
+                                                                                                // Calculate total storage needs
+                                                                                                const totalStorageGB = objectStorageNeeds + blockStorageNeeds + fileStorageNeeds;
+
+                                                                                                // Calculate backup storage needs
+                                                                                                const backupStorageGB = (blockStorageNeeds + fileStorageNeeds) * (backupRetention / 30);
+
+                                                                                                // Determine storage performance tier
+                                                                                                let blockStorageTier = "gp2"; // General Purpose SSD
+                                                                                                if (storageIOPS > 10000) {
+                                                                                                    blockStorageTier = "io2"; // Provisioned IOPS SSD
+                                                                                                } else if (storageIOPS > 3000) {
+                                                                                                    blockStorageTier = "io1"; // Provisioned IOPS SSD
+                                                                                                }
+
+                                                                                                // Store results
+                                                                                                results.storage = {
+                                                                                                    objectStorageGB: objectStorageNeeds,
+                                                                                                    blockStorageGB: blockStorageNeeds,
+                                                                                                    fileStorageGB: fileStorageNeeds,
+                                                                                                    totalStorageGB: totalStorageGB,
+                                                                                                    backupStorageGB: Math.ceil(backupStorageGB),
+                                                                                                    recommendedBlockStorageTier: blockStorageTier,
+                                                                                                    estimatedIOPS: storageIOPS,
+                                                                                                    archiveStorageGB: Math.ceil(objectStorageNeeds * 0.3) // Assuming 30% of object storage is for archival
+                                                                                                };
+                                                                                            }
+
+                                                                                            function calculateCostEstimation(inputs, results) {
+                                                                                                // Approximate cost calculations (very simplified)
+
+                                                                                                // Compute costs - assuming AWS EC2 pricing
+                                                                                                const computeInstanceCost = getInstanceCost(results.compute.instanceType);
+                                                                                                const computeMonthlyCost = computeInstanceCost * results.compute.instancesNeeded;
+
+                                                                                                // Database costs - assuming AWS RDS pricing
+                                                                                                const dbInstanceCost = getDBInstanceCost(results.database.recommendedClass);
+                                                                                                const dbMonthlyCost = dbInstanceCost * (results.database.primaryInstances + results.database.readReplicas);
+
+                                                                                                // Kafka costs - assuming AWS MSK pricing
+                                                                                                const kafkaInstanceCost = getKafkaInstanceCost(results.kafka.recommendedInstanceType);
+                                                                                                const kafkaMonthlyCost = kafkaInstanceCost * results.kafka.brokersNeeded;
+
+                                                                                                // Storage costs - assuming AWS S3, EBS, and EFS pricing
+                                                                                                const objectStorageCost = 0.023 * results.storage.objectStorageGB; // $0.023 per GB
+                                                                                                const blockStorageCost = 0.10 * results.storage.blockStorageGB; // $0.10 per GB
+                                                                                                const fileStorageCost = 0.30 * results.storage.fileStorageGB; // $0.30 per GB
+                                                                                                const backupStorageCost = 0.05 * results.storage.backupStorageGB; // $0.05 per GB
+                                                                                                const storageMonthlyCost = objectStorageCost + blockStorageCost + fileStorageCost + backupStorageCost;
+
+                                                                                                // Network costs - assuming AWS data transfer pricing
+                                                                                                const dataTransferCost = 0.09 * results.network.estimatedDataTransferTB * 1024; // $0.09 per GB
+                                                                                                const loadBalancerCost = 25 * results.network.loadBalancersNeeded; // $25 per load balancer
+                                                                                                const cdnCost = 0.085 * (results.network.cdnBandwidthMbps * 3600 * 24 * 30) / (8 * 1024); // $0.085 per GB
+                                                                                                const networkMonthlyCost = dataTransferCost + loadBalancerCost + cdnCost;
+
+                                                                                                // Total monthly cost
+                                                                                                const totalMonthlyCost = computeMonthlyCost + dbMonthlyCost + kafkaMonthlyCost + storageMonthlyCost + networkMonthlyCost;
+
+                                                                                                // Store results
+                                                                                                results.cost = {
+                                                                                                    computeMonthlyCost: Math.round(computeMonthlyCost),
+                                                                                                    databaseMonthlyCost: Math.round(dbMonthlyCost),
+                                                                                                    kafkaMonthlyCost: Math.round(kafkaMonthlyCost),
+                                                                                                    storageMonthlyCost: Math.round(storageMonthlyCost),
+                                                                                                    networkMonthlyCost: Math.round(networkMonthlyCost),
+                                                                                                    totalMonthlyCost: Math.round(totalMonthlyCost),
+                                                                                                    yearlyEstimate: Math.round(totalMonthlyCost * 12)
+                                                                                                };
+                                                                                            }
+
+                                                                                            function generateRecommendations(inputs, results) {
+                                                                                                const recommendations = [];
+
+                                                                                                // High Availability recommendations
+                                                                                                if (inputs.availabilityRequirement >= 99.99) {
+                                                                                                    recommendations.push("Implement multi-region deployment with active-active configuration for highest availability.");
+                                                                                                    recommendations.push("Use global load balancing with health checks and failover routing.");
+                                                                                                } else if (inputs.availabilityRequirement >= 99.9) {
+                                                                                                    recommendations.push("Deploy across multiple availability zones with automated failover capabilities.");
+                                                                                                }
+
+                                                                                                // Database recommendations
+                                                                                                if (inputs.dbTransactionsPerSec > 5000) {
+                                                                                                    recommendations.push("Consider database sharding to distribute load across multiple database instances.");
+                                                                                                }
+                                                                                                if (inputs.readWriteRatio === "90-10" || inputs.readWriteRatio === "80-20") {
+                                                                                                    recommendations.push("Implement a caching layer (e.g., Redis, Memcached) to reduce database read load.");
+                                                                                                }
+
+                                                                                                // Kafka recommendations
+                                                                                                if (inputs.messagesPerSecond > 50000) {
+                                                                                                    recommendations.push("Consider partitioning Kafka topics by key to ensure even distribution of messages.");
+                                                                                                }
+
+                                                                                                // Scaling recommendations
+                                                                                                if (inputs.growthRate > 50) {
+                                                                                                    recommendations.push("Plan for rapid horizontal scaling with containerization and auto-scaling groups.");
+                                                                                                }
+
+                                                                                                               // Cost optimization recommendations
+                                                                                                if (results.cost.totalMonthlyCost > 10000) {
+                                                                                                    recommendations.push("Consider reserved instances or savings plans for compute resources to reduce costs by 30-60%.");
+                                                                                                    recommendations.push("Implement lifecycle policies for object storage to move infrequently accessed data to cheaper storage tiers.");
+                                                                                                }
+
+                                                                                                // Performance recommendations
+                                                                                                if (inputs.responseTimeTarget < 100) {
+                                                                                                    recommendations.push("Implement CDN for static content delivery to reduce latency.");
+                                                                                                    recommendations.push("Consider edge computing solutions for latency-sensitive operations.");
+                                                                                                }
+
+                                                                                                // Store recommendations
+                                                                                                results.recommendations = recommendations;
+                                                                                            }
+
+                                                                                            function recommendInstanceType(cpuMillicores, memoryMB, appTier) {
+                                                                                                // Simple instance type recommendation based on CPU and memory requirements
+                                                                                                if (cpuMillicores > 8000 || memoryMB > 32768) {
+                                                                                                    return "c5.4xlarge";
+                                                                                                } else if (cpuMillicores > 4000 || memoryMB > 16384) {
+                                                                                                    return "c5.2xlarge";
+                                                                                                } else if (cpuMillicores > 2000 || memoryMB > 8192) {
+                                                                                                    return "c5.xlarge";
+                                                                                                } else {
+                                                                                                    return "c5.large";
+                                                                                                }
+                                                                                            }
+
+                                                                                            function recommendKafkaInstanceType(throughputMBps) {
+                                                                                                // Simple Kafka instance type recommendation based on throughput
+                                                                                                if (throughputMBps > 100) {
+                                                                                                    return "kafka.m5.4xlarge";
+                                                                                                } else if (throughputMBps > 50) {
+                                                                                                    return "kafka.m5.2xlarge";
+                                                                                                } else if (throughputMBps > 25) {
+                                                                                                    return "kafka.m5.xlarge";
+                                                                                                } else {
+                                                                                                    return "kafka.m5.large";
+                                                                                                }
+                                                                                            }
+
+                                                                                            function recommendLoadBalancer(type, bandwidthMbps) {
+                                                                                                // Recommend load balancer based on type and bandwidth
+                                                                                                if (type === "application") {
+                                                                                                    return "Application Load Balancer";
+                                                                                                } else if (type === "network") {
+                                                                                                    return "Network Load Balancer";
+                                                                                                } else if (type === "gateway") {
+                                                                                                    return "API Gateway";
+                                                                                                } else {
+                                                                                                    return "Classic Load Balancer";
+                                                                                                }
+                                                                                            }
+
+                                                                                            function getInstanceCost(instanceType) {
+                                                                                                // Simplified EC2 instance pricing (monthly)
+                                                                                                const pricing = {
+                                                                                                    "c5.large": 70,
+                                                                                                    "c5.xlarge": 140,
+                                                                                                    "c5.2xlarge": 280,
+                                                                                                    "c5.4xlarge": 560
+                                                                                                };
+                                                                                                return pricing[instanceType] || 100;
+                                                                                            }
+
+                                                                                            function getDBInstanceCost(dbClass) {
+                                                                                                // Simplified RDS instance pricing (monthly)
+                                                                                                const pricing = {
+                                                                                                    "db.m5.large": 120,
+                                                                                                    "db.m5.xlarge": 240,
+                                                                                                    "db.m5.2xlarge": 480,
+                                                                                                    "db.m5.4xlarge": 960
+                                                                                                };
+                                                                                                return pricing[dbClass] || 200;
+                                                                                            }
+
+                                                                                            function getKafkaInstanceCost(instanceType) {
+                                                                                                // Simplified MSK instance pricing (monthly)
+                                                                                                const pricing = {
+                                                                                                    "kafka.m5.large": 180,
+                                                                                                    "kafka.m5.xlarge": 360,
+                                                                                                    "kafka.m5.2xlarge": 720,
+                                                                                                    "kafka.m5.4xlarge": 1440
+                                                                                                };
+                                                                                                return pricing[instanceType] || 300;
+                                                                                            }
+
+                                                                                            function displayResults(results) {
+                                                                                                // Display Compute Results
+                                                                                                let computeHtml = `
+                    <p><strong>Requests per Second:</strong> ${results.compute.requestsPerSecond}</p>
+                    <p><strong>Total CPU Cores:</strong> ${results.compute.totalCPUCores}</p>
+                    <p><strong>Total Memory (GB):</strong> ${results.compute.totalMemoryGB}</p>
+                    <p><strong>Instances Needed:</strong> ${results.compute.instancesNeeded}</p>
+                    <p><strong>Recommended Instance Type:</strong> ${results.compute.instanceType}</p>
+                    <p><strong>Autoscaling Configuration:</strong> Min: ${results.compute.autoscalingConfig.min}, 
+                       Desired: ${results.compute.autoscalingConfig.desired}, 
+                       Max: ${results.compute.autoscalingConfig.max}</p>
+                `;
+                                                                                                document.getElementById('computeResults').innerHTML = computeHtml;
+
+                                                                                                // Display Database Results
+                                                                                                let databaseHtml = `
+                    <p><strong>Storage Required (GB):</strong> ${results.database.storageRequiredGB}</p>
+                    <p><strong>Transactions per Second:</strong> ${results.database.transactionsPerSecond}</p>
+                    <p><strong>Read Operations per Second:</strong> ${results.database.readOperationsPerSecond}</p>
+                    <p><strong>Write Operations per Second:</strong> ${results.database.writeOperationsPerSecond}</p>
+                    <p><strong>Primary Instances:</strong> ${results.database.primaryInstances}</p>
+                    <p><strong>Read Replicas:</strong> ${results.database.readReplicas}</p>
+                    <p><strong>Recommended DB Class:</strong> ${results.database.recommendedClass}</p>
+                    <p><strong>Backup Size (GB):</strong> ${results.database.backupSizeGB}</p>
+                `;
+                                                                                                document.getElementById('databaseResults').innerHTML = databaseHtml;
+
+                                                                                                // Display Kafka Results
+                                                                                                let kafkaHtml = `
+                    <p><strong>Throughput (MB/s):</strong> ${results.kafka.throughputMBps}</p>
+                    <p><strong>Messages per Second:</strong> ${results.kafka.messagesPerSecond}</p>
+                    <p><strong>Partitions per Topic:</strong> ${results.kafka.partitionsPerTopic}</p>
+                    <p><strong>Total Partitions:</strong> ${results.kafka.totalPartitions}</p>
+                    <p><strong>Brokers Needed:</strong> ${results.kafka.brokersNeeded}</p>
+                    <p><strong>ZooKeeper Nodes:</strong> ${results.kafka.zookeeperNodes}</p>
+                    <p><strong>Storage Required (GB):</strong> ${results.kafka.storageRequiredGB}</p>
+                    <p><strong>Recommended Instance Type:</strong> ${results.kafka.recommendedInstanceType}</p>
+                `;
+                                                                                                document.getElementById('kafkaResults').innerHTML = kafkaHtml;
+
+                                                                                                // Display Network Results
+                                                                                                let networkHtml = `
+                    <p><strong>Total Bandwidth (Mbps):</strong> ${results.network.totalBandwidthMbps}</p>
+                    <p><strong>Load Balancers Needed:</strong> ${results.network.loadBalancersNeeded}</p>
+                    <p><strong>Regions Count:</strong> ${results.network.regionsCount}</p>
+                    <p><strong>Load Balancers per Region:</strong> ${results.network.loadBalancersPerRegion}</p>
+                    <p><strong>CDN Bandwidth (Mbps):</strong> ${results.network.cdnBandwidthMbps}</p>
+                    <p><strong>Recommended Load Balancer:</strong> ${results.network.recommendedLoadBalancer}</p>
+                    <p><strong>Estimated Monthly Data Transfer (TB):</strong> ${results.network.estimatedDataTransferTB}</p>
+                `;
+                                                                                                document.getElementById('networkResults').innerHTML = networkHtml;
+
+                                                                                                // Display Storage Results
+                                                                                                let storageHtml = `
+                    <p><strong>Object Storage (GB):</strong> ${results.storage.objectStorageGB}</p>
+                    <p><strong>Block Storage (GB):</strong> ${results.storage.blockStorageGB}</p>
+                    <p><strong>File Storage (GB):</strong> ${results.storage.fileStorageGB}</p>
+                    <p><strong>Total Storage (GB):</strong> ${results.storage.totalStorageGB}</p>
+                    <p><strong>Backup Storage (GB):</strong> ${results.storage.backupStorageGB}</p>
+                    <p><strong>Recommended Block Storage Tier:</strong> ${results.storage.recommendedBlockStorageTier}</p>
+                    <p><strong>Estimated IOPS:</strong> ${results.storage.estimatedIOPS}</p>
+                    <p><strong>Archive Storage (GB):</strong> ${results.storage.archiveStorageGB}</p>
+                `;
+                                                                                                document.getElementById('storageResults').innerHTML = storageHtml;
+
+                                                                                                // Display Cost Results
+                                                                                                let costHtml = `
+                    <p><strong>Compute Monthly Cost:</strong> $${results.cost.computeMonthlyCost}</p>
+                    <p><strong>Database Monthly Cost:</strong> $${results.cost.databaseMonthlyCost}</p>
+                    <p><strong>Kafka Monthly Cost:</strong> $${results.cost.kafkaMonthlyCost}</p>
+                    <p><strong>Storage Monthly Cost:</strong> $${results.cost.storageMonthlyCost}</p>
+                    <p><strong>Network Monthly Cost:</strong> $${results.cost.networkMonthlyCost}</p>
+                    <p><strong>Total Monthly Cost:</strong> $${results.cost.totalMonthlyCost}</p>
+                    <p><strong>Yearly Estimate:</strong> $${results.cost.yearlyEstimate}</p>
+                `;
+                                                                                                document.getElementById('costResults').innerHTML = costHtml;
+
+                                                                                                // Display Recommendations
+                                                                                                let recommendationsHtml = '<ul>';
+                                                                                                results.recommendations.forEach(recommendation => {
+                                                                                                    recommendationsHtml += `<li>${recommendation}</li>`;
+                                                                                                });
+                                                                                                recommendationsHtml += '</ul>';
+                                                                                                document.getElementById('recommendationResults').innerHTML = recommendationsHtml;
+                                                                                            }
+                                                                                        });
+                                                                                                            </script>
+    </body>
+    
+    </html>
