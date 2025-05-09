@@ -22,7 +22,7 @@ fs.readdirSync(publicDir).forEach((dir) => {
 // Catch-all route for undefined paths
 app.get("*", (req, res) => {
   // res.status(404).send("Website not found!");
-  res.redirect("/landingpage");
+  res.redirect("/lander");
 });
 
 app.listen(port, () => {
