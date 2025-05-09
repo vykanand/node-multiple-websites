@@ -805,10 +805,17 @@
                                             return;
                                         }
 
+                                        // Format date as dd/mm/yyyy
+                                        const today = new Date();
+                                        const day = String(today.getDate()).padStart(2, '0');
+                                        const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+                                        const year = today.getFullYear();
+                                        const formattedDate = `${day}/${month}/${year}`;
+
                                         // Create new transaction
                                         const newTransaction = {
                                             id: Date.now(),
-                                            date: new Date().toLocaleDateString(),
+                                            date: formattedDate,
                                             payer: payer,
                                             amount: amount,
                                             description: description,
@@ -839,7 +846,14 @@
 
                                         // Sort transactions by date (newest first)
                                         const sortedTransactions = [...transactions].sort((a, b) => {
-                                            return new Date(b.date) - new Date(a.date);
+                                            // Parse dd/mm/yyyy format to Date objects for comparison
+                                            const [aDay, aMonth, aYear] = a.date.split('/').map(Number);
+                                            const [bDay, bMonth, bYear] = b.date.split('/').map(Number);
+                                            
+                                            const dateA = new Date(aYear, aMonth - 1, aDay);
+                                            const dateB = new Date(bYear, bMonth - 1, bDay);
+                                            
+                                            return dateB - dateA;
                                         });
 
                                         sortedTransactions.forEach(transaction => {
