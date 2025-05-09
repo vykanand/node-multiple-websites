@@ -11,37 +11,68 @@
             padding: 20px;
             background-color: #f8f9fa;
         }
-
+    
         .card {
             margin-bottom: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
+    
         .result-section {
             background-color: #f0f8ff;
             border-radius: 5px;
             padding: 15px;
             margin-top: 20px;
         }
-
+    
         .form-label {
             font-weight: 600;
         }
-
+    
         .nav-tabs .nav-link.active {
             font-weight: bold;
             background-color: #e9ecef;
         }
-
+    
         h1 {
             color: #0d6efd;
             margin-bottom: 30px;
         }
-
+    
         .info-icon {
             cursor: pointer;
             color: #0d6efd;
             margin-left: 5px;
+        }
+    
+        .calculation-explanation {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 0.9em;
+        }
+    
+        .export-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+    
+        .print-only {
+            display: none;
+        }
+    
+        @media print {
+            .no-print {
+                display: none;
+            }
+    
+            .print-only {
+                display: block;
+            }
+    
+            .card {
+                box-shadow: none;
+            }
         }
     </style>
 </head>
@@ -983,78 +1014,354 @@
                                                                                             function displayResults(results) {
                                                                                                 // Display Compute Results
                                                                                                 let computeHtml = `
-                    <p><strong>Requests per Second:</strong> ${results.compute.requestsPerSecond}</p>
-                    <p><strong>Total CPU Cores:</strong> ${results.compute.totalCPUCores}</p>
-                    <p><strong>Total Memory (GB):</strong> ${results.compute.totalMemoryGB}</p>
-                    <p><strong>Instances Needed:</strong> ${results.compute.instancesNeeded}</p>
-                    <p><strong>Recommended Instance Type:</strong> ${results.compute.instanceType}</p>
-                    <p><strong>Autoscaling Configuration:</strong> Min: ${results.compute.autoscalingConfig.min}, 
-                       Desired: ${results.compute.autoscalingConfig.desired}, 
-                       Max: ${results.compute.autoscalingConfig.max}</p>
-                `;
+        <p><strong>Requests per Second:</strong> ${results.compute.requestsPerSecond}</p>
+        <div class="calculation-explanation">
+            This is how many user requests your system needs to handle every second. 
+            <br><strong>Formula:</strong> (Peak Concurrent Users × Requests Per Session) ÷ (Session Duration in minutes × 60)
+        </div>
+        
+        <p><strong>Total CPU Cores:</strong> ${results.compute.totalCPUCores}</p>
+        <div class="calculation-explanation">
+            This is the total processing power needed in CPU cores. 
+            <br><strong>Formula:</strong> (Requests per Second × CPU per Request in millicores) ÷ 1000
+        </div>
+        
+        <p><strong>Total Memory (GB):</strong> ${results.compute.totalMemoryGB}</p>
+        <div class="calculation-explanation">
+            This is how much RAM your system needs. 
+            <br><strong>Formula:</strong> (Requests per Second × Memory per Request in MB) ÷ 1024
+        </div>
+        
+        <p><strong>Instances Needed:</strong> ${results.compute.instancesNeeded}</p>
+        <div class="calculation-explanation">
+            This is how many servers you need. 
+            <br><strong>Formula:</strong> Max(CPU Instances, Memory Instances) × Availability Factor
+            <br>Where:
+            <br>- CPU Instances = Ceiling(Total CPU millicores ÷ 2000)
+            <br>- Memory Instances = Ceiling(Total Memory MB ÷ 4096)
+            <br>- Availability Factor = 1.5 for 99.99% availability, 1.3 for 99.9%, 1.1 for lower
+        </div>
+        
+        <p><strong>Recommended Instance Type:</strong> ${results.compute.instanceType}</p>
+        <div class="calculation-explanation">
+            This is the suggested server size that best matches your needs.
+            <br><strong>Selection Logic:</strong> Based on CPU and memory requirements:
+            <br>- c5.4xlarge: If CPU > 8000 millicores or Memory > 32GB
+            <br>- c5.2xlarge: If CPU > 4000 millicores or Memory > 16GB
+            <br>- c5.xlarge: If CPU > 2000 millicores or Memory > 8GB
+            <br>- c5.large: For smaller requirements
+        </div>
+        
+        <p><strong>Autoscaling Configuration:</strong> Min: ${results.compute.autoscalingConfig.min}, 
+           Desired: ${results.compute.autoscalingConfig.desired}, 
+           Max: ${results.compute.autoscalingConfig.max}</p>
+        <div class="calculation-explanation">
+            This tells your system how to automatically adjust the number of servers. 
+            <br><strong>Formula:</strong>
+            <br>- Min = Max(1, Floor(Instances Needed × 0.5))
+            <br>- Desired = Instances Needed
+            <br>- Max = Ceiling(Instances Needed × 2)
+        </div>
+    `;
                                                                                                 document.getElementById('computeResults').innerHTML = computeHtml;
 
                                                                                                 // Display Database Results
                                                                                                 let databaseHtml = `
-                    <p><strong>Storage Required (GB):</strong> ${results.database.storageRequiredGB}</p>
-                    <p><strong>Transactions per Second:</strong> ${results.database.transactionsPerSecond}</p>
-                    <p><strong>Read Operations per Second:</strong> ${results.database.readOperationsPerSecond}</p>
-                    <p><strong>Write Operations per Second:</strong> ${results.database.writeOperationsPerSecond}</p>
-                    <p><strong>Primary Instances:</strong> ${results.database.primaryInstances}</p>
-                    <p><strong>Read Replicas:</strong> ${results.database.readReplicas}</p>
-                    <p><strong>Recommended DB Class:</strong> ${results.database.recommendedClass}</p>
-                    <p><strong>Backup Size (GB):</strong> ${results.database.backupSizeGB}</p>
-                `;
+        <p><strong>Storage Required (GB):</strong> ${results.database.storageRequiredGB}</p>
+        <div class="calculation-explanation">
+            This is how much database storage space you need. 
+            <br><strong>Formula:</strong> (Total Users × Average Data Size per User in KB) ÷ (1024 × 1024) × 1.5
+            <br>The 1.5 multiplier adds 50% extra space for growth.
+        </div>
+        
+        <p><strong>Transactions per Second:</strong> ${results.database.transactionsPerSecond}</p>
+        <div class="calculation-explanation">
+            This is how many database operations your system will perform each second during peak usage.
+            <br><strong>Value:</strong> Directly from your input for peak DB transactions per second.
+        </div>
+        
+        <p><strong>Read Operations per Second:</strong> ${results.database.readOperationsPerSecond}</p>
+        <div class="calculation-explanation">
+            This is how many times per second your system will retrieve data from the database. 
+            <br><strong>Formula:</strong> Transactions per Second × (Read Percentage ÷ 100)
+            <br>Read percentage comes from your selected read/write ratio.
+        </div>
+        
+        <p><strong>Write Operations per Second:</strong> ${results.database.writeOperationsPerSecond}</p>
+        <div class="calculation-explanation">
+            This is how many times per second your system will save data to the database. 
+            <br><strong>Formula:</strong> Transactions per Second × (Write Percentage ÷ 100)
+            <br>Write percentage comes from your selected read/write ratio.
+        </div>
+        
+        <p><strong>Primary Instances:</strong> ${results.database.primaryInstances}</p>
+        <div class="calculation-explanation">
+            This is how many main database servers you need. 
+            <br><strong>Formula:</strong> Max(2, Ceiling(Transactions per Second ÷ 500))
+            <br>We assume each instance can handle 500 transactions per second, with a minimum of 2 for reliability.
+        </div>
+        
+        <p><strong>Read Replicas:</strong> ${results.database.readReplicas}</p>
+        <div class="calculation-explanation">
+            These are extra database servers that handle read operations only. 
+            <br><strong>Formula:</strong> If Read Percentage ≥ 70%, then Ceiling(Primary Instances × 0.5), else 0
+            <br>Read-heavy workloads (70%+ reads) get additional read replicas.
+        </div>
+        
+        <p><strong>Recommended DB Class:</strong> ${results.database.recommendedClass}</p>
+        <div class="calculation-explanation">
+            This is the suggested database server size. 
+            <br><strong>Selection Logic:</strong>
+            <br>- db.m5.4xlarge: If transactions > 5000 per second
+            <br>- db.m5.2xlarge: If transactions > 2000 per second
+            <br>- db.m5.xlarge: If transactions > 1000 per second
+            <br>- db.m5.large: For smaller workloads
+        </div>
+        
+        <p><strong>Backup Size (GB):</strong> ${results.database.backupSizeGB}</p>
+        <div class="calculation-explanation">
+            This is how much storage you need for database backups. 
+            <br><strong>Formula:</strong> Storage Required GB × 0.7
+            <br>The 0.7 multiplier assumes 30% compression of backup data.
+        </div>
+    `;
                                                                                                 document.getElementById('databaseResults').innerHTML = databaseHtml;
 
                                                                                                 // Display Kafka Results
                                                                                                 let kafkaHtml = `
-                    <p><strong>Throughput (MB/s):</strong> ${results.kafka.throughputMBps}</p>
-                    <p><strong>Messages per Second:</strong> ${results.kafka.messagesPerSecond}</p>
-                    <p><strong>Partitions per Topic:</strong> ${results.kafka.partitionsPerTopic}</p>
-                    <p><strong>Total Partitions:</strong> ${results.kafka.totalPartitions}</p>
-                    <p><strong>Brokers Needed:</strong> ${results.kafka.brokersNeeded}</p>
-                    <p><strong>ZooKeeper Nodes:</strong> ${results.kafka.zookeeperNodes}</p>
-                    <p><strong>Storage Required (GB):</strong> ${results.kafka.storageRequiredGB}</p>
-                    <p><strong>Recommended Instance Type:</strong> ${results.kafka.recommendedInstanceType}</p>
-                `;
+        <p><strong>Throughput (MB/s):</strong> ${results.kafka.throughputMBps}</p>
+        <div class="calculation-explanation">
+            This is how much data your message system processes per second. 
+            <br><strong>Formula:</strong> (Message Size in KB × Messages per Second) ÷ 1024
+        </div>
+        
+        <p><strong>Messages per Second:</strong> ${results.kafka.messagesPerSecond}</p>
+        <div class="calculation-explanation">
+            This is how many messages your system will process each second during peak usage.
+            <br><strong>Value:</strong> Directly from your input for peak messages per second.
+        </div>
+        
+        <p><strong>Partitions per Topic:</strong> ${results.kafka.partitionsPerTopic}</p>
+        <div class="calculation-explanation">
+            This is how many separate channels each message category needs. 
+            <br><strong>Formula:</strong> Ceiling(Throughput in MB/s ÷ 10)
+            <br>We allocate 1 partition per 10 MB/s of throughput.
+        </div>
+        
+        <p><strong>Total Partitions:</strong> ${results.kafka.totalPartitions}</p>
+        <div class="calculation-explanation">
+            This is the total number of message channels across all topics. 
+            <br><strong>Formula:</strong> Partitions per Topic × Number of Topics
+        </div>
+        
+        <p><strong>Brokers Needed:</strong> ${results.kafka.brokersNeeded}</p>
+        <div class="calculation-explanation">
+            This is how many Kafka servers you need. 
+            <br><strong>Formula:</strong> Max(3, Ceiling(Throughput in MB/s ÷ 50))
+            <br>We allocate 1 broker per 50 MB/s of throughput, with a minimum of 3 for reliability.
+        </div>
+        
+        <p><strong>ZooKeeper Nodes:</strong> ${results.kafka.zookeeperNodes}</p>
+        <div class="calculation-explanation">
+            These are special servers that coordinate your Kafka system. 
+            <br><strong>Formula:</strong> If Brokers ≤ 5, then 3, else 5
+            <br>Smaller Kafka clusters need 3 ZooKeeper nodes, larger ones need 5.
+        </div>
+        
+        <p><strong>Storage Required (GB):</strong> ${results.kafka.storageRequiredGB}</p>
+        <div class="calculation-explanation">
+            This is how much storage your message system needs. 
+            <br><strong>Formula:</strong> (Throughput in MB/s × 3600 ÷ 1024) × Retention Period in hours × Replication Factor
+            <br>This calculates how much data is generated per hour, multiplied by how long you keep it and how many copies you store.
+        </div>
+        
+        <p><strong>Recommended Instance Type:</strong> ${results.kafka.recommendedInstanceType}</p>
+        <div class="calculation-explanation">
+            This is the suggested server size for your Kafka brokers. 
+            <br><strong>Selection Logic:</strong>
+            <br>- kafka.m5.4xlarge: If throughput > 100 MB/s
+            <br>- kafka.m5.2xlarge: If throughput > 50 MB/s
+            <br>- kafka.m5.xlarge: If throughput > 25 MB/s
+            <br>- kafka.m5.large: For smaller workloads
+        </div>
+    `;
                                                                                                 document.getElementById('kafkaResults').innerHTML = kafkaHtml;
 
                                                                                                 // Display Network Results
                                                                                                 let networkHtml = `
-                    <p><strong>Total Bandwidth (Mbps):</strong> ${results.network.totalBandwidthMbps}</p>
-                    <p><strong>Load Balancers Needed:</strong> ${results.network.loadBalancersNeeded}</p>
-                    <p><strong>Regions Count:</strong> ${results.network.regionsCount}</p>
-                    <p><strong>Load Balancers per Region:</strong> ${results.network.loadBalancersPerRegion}</p>
-                    <p><strong>CDN Bandwidth (Mbps):</strong> ${results.network.cdnBandwidthMbps}</p>
-                    <p><strong>Recommended Load Balancer:</strong> ${results.network.recommendedLoadBalancer}</p>
-                    <p><strong>Estimated Monthly Data Transfer (TB):</strong> ${results.network.estimatedDataTransferTB}</p>
-                `;
+        <p><strong>Total Bandwidth (Mbps):</strong> ${results.network.totalBandwidthMbps}</p>
+        <div class="calculation-explanation">
+            This is how much network capacity you need. 
+            <br><strong>Formula:</strong> (Peak Concurrent Users × Average Bandwidth per User in Kbps) ÷ 1000
+        </div>
+        
+        <p><strong>Load Balancers Needed:</strong> ${results.network.loadBalancersNeeded}</p>
+        <div class="calculation-explanation">
+            These are devices that distribute traffic across your servers. 
+            <br><strong>Formula:</strong> Ceiling(Total Bandwidth in Mbps ÷ 10,000)
+            <br>We assume each load balancer can handle 10 Gbps (10,000 Mbps).
+        </div>
+        
+        <p><strong>Regions Count:</strong> ${results.network.regionsCount}</p>
+        <div class="calculation-explanation">
+            This is how many geographic locations your system will run in. 
+            <br><strong>Selection Logic:</strong>
+            <br>- Single Region: 1 region
+            <br>- Dual Region: 2 regions
+            <br>- Multi-Region: 3 regions
+            <br>- Global Distribution: 5 regions
+        </div>
+        
+        <p><strong>Load Balancers per Region:</strong> ${results.network.loadBalancersPerRegion}</p>
+        <div class="calculation-explanation">
+            This is how many load balancers you need in each region. 
+            <br><strong>Formula:</strong> Ceiling(Total Load Balancers ÷ Number of Regions)
+        </div>
+        
+        <p><strong>CDN Bandwidth (Mbps):</strong> ${results.network.cdnBandwidthMbps}</p>
+        <div class="calculation-explanation">
+            This is how much of your traffic will go through a Content Delivery Network. 
+            <br><strong>Formula:</strong> Total Bandwidth × CDN Usage Factor
+            <br>Where CDN Usage Factor is:
+            <br>- Heavy: 0.8 (80% of traffic)
+            <br>- Medium: 0.5 (50% of traffic)
+            <br>- Light: 0.3 (30% of traffic)
+            <br>- None: 0 (0% of traffic)
+        </div>
+        
+        <p><strong>Recommended Load Balancer:</strong> ${results.network.recommendedLoadBalancer}</p>
+        <div class="calculation-explanation">
+            This is the type of load balancer that best fits your needs.
+            <br><strong>Selection Logic:</strong> Based on your selected load balancer type.
+        </div>
+        
+        <p><strong>Estimated Monthly Data Transfer (TB):</strong> ${results.network.estimatedDataTransferTB}</p>
+        <div class="calculation-explanation">
+            This is how much data will move in and out of your system each month. 
+            <br><strong>Formula:</strong> (Total Bandwidth in Mbps × 3600 × 24 × 30) ÷ (8 × 1024 × 1024)
+            <br>This converts Mbps to TB per month (dividing by 8 converts bits to bytes).
+        </div>
+    `;
                                                                                                 document.getElementById('networkResults').innerHTML = networkHtml;
 
                                                                                                 // Display Storage Results
                                                                                                 let storageHtml = `
-                    <p><strong>Object Storage (GB):</strong> ${results.storage.objectStorageGB}</p>
-                    <p><strong>Block Storage (GB):</strong> ${results.storage.blockStorageGB}</p>
-                    <p><strong>File Storage (GB):</strong> ${results.storage.fileStorageGB}</p>
-                    <p><strong>Total Storage (GB):</strong> ${results.storage.totalStorageGB}</p>
-                    <p><strong>Backup Storage (GB):</strong> ${results.storage.backupStorageGB}</p>
-                    <p><strong>Recommended Block Storage Tier:</strong> ${results.storage.recommendedBlockStorageTier}</p>
-                    <p><strong>Estimated IOPS:</strong> ${results.storage.estimatedIOPS}</p>
-                    <p><strong>Archive Storage (GB):</strong> ${results.storage.archiveStorageGB}</p>
-                `;
+        <p><strong>Object Storage (GB):</strong> ${results.storage.objectStorageGB}</p>
+        <div class="calculation-explanation">
+            This is storage for files like images and documents. 
+            <br><strong>Value:</strong> Directly from your input for object storage needs.
+        </div>
+        
+        <p><strong>Block Storage (GB):</strong> ${results.storage.blockStorageGB}</p>
+        <div class="calculation-explanation">
+            This is storage for your servers' operating systems and applications. 
+            <br><strong>Value:</strong> Directly from your input for block storage needs.
+        </div>
+        
+        <p><strong>File Storage (GB):</strong> ${results.storage.fileStorageGB}</p>
+        <div class="calculation-explanation">
+            This is shared storage that multiple servers can access. 
+            <br><strong>Value:</strong> Directly from your input for file storage needs.
+        </div>
+        
+        <p><strong>Total Storage (GB):</strong> ${results.storage.totalStorageGB}</p>
+        <div class="calculation-explanation">
+            This is the sum of all your storage requirements. 
+            <br><strong>Formula:</strong> Object Storage + Block Storage + File Storage
+        </div>
+        
+                <p><strong>Backup Storage (GB):</strong> ${results.storage.backupStorageGB}</p>
+        <div class="calculation-explanation">
+            This is how much storage you need for backups. 
+            <br><strong>Formula:</strong> (Block Storage + File Storage) × (Backup Retention Days ÷ 30)
+            <br>This scales backup storage based on your retention period.
+        </div>
+        
+        <p><strong>Recommended Block Storage Tier:</strong> ${results.storage.recommendedBlockStorageTier}</p>
+        <div class="calculation-explanation">
+            This is the suggested storage performance level. 
+            <br><strong>Selection Logic:</strong>
+            <br>- io2: If IOPS > 10,000 (highest performance)
+            <br>- io1: If IOPS > 3,000 (high performance)
+            <br>- gp2: For standard performance needs
+        </div>
+        
+        <p><strong>Estimated IOPS:</strong> ${results.storage.estimatedIOPS}</p>
+        <div class="calculation-explanation">
+            This is how many disk operations per second your system needs. 
+            <br><strong>Value:</strong> Directly from your input for required storage IOPS.
+        </div>
+        
+        <p><strong>Archive Storage (GB):</strong> ${results.storage.archiveStorageGB}</p>
+        <div class="calculation-explanation">
+            This is long-term storage for data you access infrequently. 
+            <br><strong>Formula:</strong> Object Storage × 0.3
+            <br>We estimate 30% of your object storage will be archived for long-term retention.
+        </div>
+    `;
                                                                                                 document.getElementById('storageResults').innerHTML = storageHtml;
 
                                                                                                 // Display Cost Results
                                                                                                 let costHtml = `
-                    <p><strong>Compute Monthly Cost:</strong> $${results.cost.computeMonthlyCost}</p>
-                    <p><strong>Database Monthly Cost:</strong> $${results.cost.databaseMonthlyCost}</p>
-                    <p><strong>Kafka Monthly Cost:</strong> $${results.cost.kafkaMonthlyCost}</p>
-                    <p><strong>Storage Monthly Cost:</strong> $${results.cost.storageMonthlyCost}</p>
-                    <p><strong>Network Monthly Cost:</strong> $${results.cost.networkMonthlyCost}</p>
-                    <p><strong>Total Monthly Cost:</strong> $${results.cost.totalMonthlyCost}</p>
-                    <p><strong>Yearly Estimate:</strong> $${results.cost.yearlyEstimate}</p>
-                `;
+        <p><strong>Compute Monthly Cost:</strong> $${results.cost.computeMonthlyCost}</p>
+        <div class="calculation-explanation">
+            This is the estimated monthly cost for your servers. 
+            <br><strong>Formula:</strong> Instance Cost × Number of Instances
+            <br>Where Instance Cost varies by instance type:
+            <br>- c5.large: $70/month
+            <br>- c5.xlarge: $140/month
+            <br>- c5.2xlarge: $280/month
+            <br>- c5.4xlarge: $560/month
+        </div>
+        
+        <p><strong>Database Monthly Cost:</strong> $${results.cost.databaseMonthlyCost}</p>
+        <div class="calculation-explanation">
+            This is the estimated monthly cost for your database servers. 
+            <br><strong>Formula:</strong> DB Instance Cost × (Primary Instances + Read Replicas)
+            <br>Where DB Instance Cost varies by class:
+            <br>- db.m5.large: $120/month
+            <br>- db.m5.xlarge: $240/month
+            <br>- db.m5.2xlarge: $480/month
+            <br>- db.m5.4xlarge: $960/month
+        </div>
+        
+        <p><strong>Kafka Monthly Cost:</strong> $${results.cost.kafkaMonthlyCost}</p>
+        <div class="calculation-explanation">
+            This is the estimated monthly cost for your message system. 
+            <br><strong>Formula:</strong> Kafka Instance Cost × Number of Brokers
+            <br>Where Kafka Instance Cost varies by type:
+            <br>- kafka.m5.large: $180/month
+            <br>- kafka.m5.xlarge: $360/month
+            <br>- kafka.m5.2xlarge: $720/month
+            <br>- kafka.m5.4xlarge: $1440/month
+        </div>
+        
+        <p><strong>Storage Monthly Cost:</strong> $${results.cost.storageMonthlyCost}</p>
+        <div class="calculation-explanation">
+            This is the estimated monthly cost for all your storage needs. 
+            <br><strong>Formula:</strong> (Object Storage × $0.023) + (Block Storage × $0.10) + (File Storage × $0.30) + (Backup Storage × $0.05)
+            <br>Different storage types have different per-GB costs.
+        </div>
+        
+        <p><strong>Network Monthly Cost:</strong> $${results.cost.networkMonthlyCost}</p>
+        <div class="calculation-explanation">
+            This is the estimated monthly cost for data transfer and network services. 
+            <br><strong>Formula:</strong> (Data Transfer TB × 1024 × $0.09) + (Load Balancers × $25) + (CDN Data GB × $0.085)
+            <br>This includes costs for data transfer, load balancers, and CDN usage.
+        </div>
+        
+        <p><strong>Total Monthly Cost:</strong> $${results.cost.totalMonthlyCost}</p>
+        <div class="calculation-explanation">
+            This is the sum of all your estimated monthly costs. 
+            <br><strong>Formula:</strong> Compute Cost + Database Cost + Kafka Cost + Storage Cost + Network Cost
+        </div>
+        
+        <p><strong>Yearly Estimate:</strong> $${results.cost.yearlyEstimate}</p>
+        <div class="calculation-explanation">
+            This is your estimated cost for a full year of operation. 
+            <br><strong>Formula:</strong> Total Monthly Cost × 12
+        </div>
+    `;
                                                                                                 document.getElementById('costResults').innerHTML = costHtml;
 
                                                                                                 // Display Recommendations
@@ -1063,9 +1370,22 @@
                                                                                                     recommendationsHtml += `<li>${recommendation}</li>`;
                                                                                                 });
                                                                                                 recommendationsHtml += '</ul>';
+                                                                                                recommendationsHtml += `
+    <div class="calculation-explanation">
+        These recommendations are based on your inputs and our calculations. They suggest ways to optimize your infrastructure for performance, reliability, and cost.
+        <br><strong>Generation Logic:</strong> Recommendations are generated based on thresholds in your inputs:
+        <br>- High availability needs (≥99.99%): Multi-region recommendations
+        <br>- High transaction rates (>5000/sec): Database sharding recommendations
+        <br>- Read-heavy workloads (≥80% reads): Caching recommendations
+        <br>- High message rates (>50000/sec): Kafka partitioning recommendations
+        <br>- High growth rate (>50%): Horizontal scaling recommendations
+        <br>- High monthly cost (>$10000): Cost optimization recommendations
+        <br>- Low latency requirements (<100ms): CDN and edge computing recommendations
+    </div>`;
                                                                                                 document.getElementById('recommendationResults').innerHTML = recommendationsHtml;
                                                                                             }
                                                                                         });
+
                                                                                                             </script>
     </body>
     
