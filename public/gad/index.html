@@ -54,6 +54,19 @@
       background: radial-gradient(circle, red 10%, black 50%);
       padding: 10px;
       border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo img {
+      max-height: 50px;
+      width: auto;
+      display: none; /* Hidden by default until loaded */
+    }
+
+    .logo-text {
+      display: block; /* Shown by default */
     }
 
     .buttons {
@@ -193,6 +206,26 @@
       border-radius: 8px;
     }
 
+    .failed {
+      background-color: red;
+      color: white;
+      font-size: 36px;
+      font-weight: bold;
+      padding: 30px 0;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+
+    #pass-status:not(.pass-box):not(.failed) {
+      background-color: #1F4E79;
+      color: white;
+      font-size: 36px;
+      font-weight: bold;
+      padding: 30px 0;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+
     @media (max-width: 768px) {
       .header {
         flex-direction: column;
@@ -241,11 +274,178 @@
         width: 100%;
       }
     }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      position: relative;
+      background-color: #003366;
+      margin: 2% auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      border-radius: 10px;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-right: 40px;
+    }
+
+    .modal-title {
+      color: yellow;
+      font-size: 24px;
+      margin: 0;
+      flex: 1;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: #ff3b30;
+      border: 2px solid white;
+      padding: 0;
+      z-index: 1;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .close-modal:hover {
+      background-color: #ff1a1a;
+      transform: scale(1.1);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      background-color: #001d4a;
+      border: 1px solid #0070C0;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+
+    .parts-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .part-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #0070C0;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .part-item:hover {
+      background-color: #1F4E79;
+    }
+
+    .part-info {
+      flex-grow: 1;
+    }
+
+    .part-code {
+      font-weight: bold;
+      color: yellow;
+    }
+
+    .part-name {
+      color: white;
+      margin-left: 20px;
+    }
+
+    .part-customer {
+      color: #aaa;
+      font-size: 0.9em;
+    }
+
+    .no-results {
+      text-align: center;
+      color: yellow;
+      padding: 20px;
+    }
+
+    /* Scan Logs Styles */
+    .scan-logs {
+      margin-top: 20px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .logs-table {
+      width: 100%;
+      border-collapse: collapse;
+      color: white;
+    }
+
+    .logs-table th,
+    .logs-table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #1F4E79;
+    }
+
+    .logs-table th {
+      background-color: #1F4E79;
+      color: yellow;
+      position: sticky;
+      top: 0;
+    }
+
+    .logs-table tr.match td {
+      background-color: rgba(0, 255, 0, 0.1);
+    }
+
+    .logs-table tr.no-match td {
+      background-color: rgba(255, 0, 0, 0.1);
+    }
+
+    .logs-table tr:hover td {
+      background-color: #1F4E79;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script>
     let masterData = [];
     let lastScannedCode = '';
+    let scanLogs = [];
+    let autoSaveInterval = 5; // Default auto-save interval in minutes
+    let autoSaveTimer; // To store the interval timer
     
     // Load master data from Excel file
     async function loadMasterData() {
@@ -255,10 +455,76 @@
         const data = new Uint8Array(arrayBuffer);
         const workbook = XLSX.read(data, { type: 'array' });
         const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-        masterData = XLSX.utils.sheet_to_json(firstSheet);
+        
+        // Get the range of the sheet
+        const range = XLSX.utils.decode_range(firstSheet['!ref']);
+        const headers = [];
+        
+        // Find the column headers
+        for (let C = range.s.c; C <= range.e.c; ++C) {
+          const cell = firstSheet[XLSX.utils.encode_cell({r: 0, c: C})];
+          headers[C] = cell?.v?.toString().trim() || '';
+        }
+
+        // Find the correct column indices based on your Excel headers
+        const partCodeIndex = headers.findIndex(h => 
+          h.toLowerCase().includes('part') && h.toLowerCase().includes('no'));
+        const partNameIndex = headers.findIndex(h => 
+          h.toLowerCase().includes('part') && h.toLowerCase().includes('name'));
+        const customerIndex = headers.findIndex(h => 
+          h.toLowerCase().includes('customer'));
+
+        console.log('Column indices found:', {
+          partCodeIndex,
+          partNameIndex,
+          customerIndex
+        });
+
+        if (partCodeIndex === -1 || partNameIndex === -1) {
+          throw new Error('Required columns not found. Need "Part No" and "Part Name" columns.');
+        }
+
+        // Map the data with correct column names
+        masterData = [];
+        for (let R = range.s.r + 1; R <= range.e.r; ++R) {
+          const partCode = firstSheet[XLSX.utils.encode_cell({r: R, c: partCodeIndex})]?.v;
+          const partName = firstSheet[XLSX.utils.encode_cell({r: R, c: partNameIndex})]?.v;
+          const customer = customerIndex !== -1 ? 
+            firstSheet[XLSX.utils.encode_cell({r: R, c: customerIndex})]?.v : null;
+          
+          if (partCode) {
+            masterData.push({
+              PartCode: partCode.toString().trim(),
+              PartName: partName?.toString().trim() || '',
+              Customer: customer?.toString().trim() || ''
+            });
+          }
+        }
+
+        console.log('Headers found:', headers);
         console.log('Master data loaded:', masterData);
+        
+        // Show alert if no data was loaded
+        if (masterData.length === 0) {
+          alert('No data found in master.xlsx. Please check the file format.\n\nRequired columns:\n- Part No\n- Part Name\n- Customer (optional)');
+        }
+
+        // Update initial display
+        if (masterData.length > 0) {
+          const firstItem = masterData[0];
+          document.getElementById('part-code').value = firstItem.PartCode || '';
+          document.getElementById('part-name').value = firstItem.PartName || '';
+          document.getElementById('customer').value = firstItem.Customer || '';
+          document.getElementById('scan-data-value').textContent = firstItem.PartCode || '';
+        }
       } catch (error) {
         console.error('Error loading master data:', error);
+        alert('Error loading master.xlsx file:\n\n' + 
+              'Found columns: ' + headers.join(', ') + '\n\n' +
+              'Please ensure:\n' +
+              '1. The file exists in the same folder\n' +
+              '2. File has columns "Part No" and "Part Name"\n' +
+              '3. Data starts from the second row');
       }
     }
 
@@ -269,28 +535,139 @@
       );
     }
 
+    // Flag to prevent multiple simultaneous saves
+    let isSaving = false;
+    let currentLogDate = new Date().toISOString().split('T')[0]; // Track current log date
+    let currentLogFile = `logs_${currentLogDate}.xlsx`; // Track current log file
+
+    // Function to save logs to Excel with proper error handling
+    async function saveLogsToExcel() {
+      // Don't save if there are no logs or if already saving
+      if (scanLogs.length === 0) {
+        console.log('No logs to save');
+        return;
+      }
+
+      if (isSaving) {
+        console.log('Already saving logs, skipping this save');
+        return;
+      }
+
+      isSaving = true;
+      
+      try {
+        // Check if date has changed
+        const now = new Date();
+        const today = now.toISOString().split('T')[0];
+        
+        // If date has changed, create new file
+        if (today !== currentLogDate) {
+          currentLogDate = today;
+          currentLogFile = `logs_${today}.xlsx`;
+          console.log('Date changed, creating new log file:', currentLogFile);
+        }
+        
+        console.log(`Saving ${scanLogs.length} logs to ${currentLogFile}...`);
+        
+        // Try to read existing file for today
+        let existingData = [];
+        try {
+          const existingWorkbook = XLSX.readFile(filename);
+          const sheet = existingWorkbook.Sheets[existingWorkbook.SheetNames[0]];
+          existingData = XLSX.utils.sheet_to_json(sheet);
+          console.log(`Found ${existingData.length} existing logs for today`);
+        } catch (err) {
+          // If file doesn't exist or can't be read, continue with empty array
+          console.log('No existing file found for today, creating new file:', err.message);
+          existingData = [];
+        }
+
+        // Prepare new logs
+        const newLogs = scanLogs.map(log => ({
+          'Time': log.timestamp.toLocaleTimeString('en-GB'),
+          'Part Code': log.partCode,
+          'Part Name': log.partName,
+          'Scanned Code': log.scannedCode,
+          'Scanner': log.scannerInfo,
+          'Status': log.matchStatus
+        }));
+
+        // Combine existing and new logs (remove duplicates based on time and scanned code)
+        const combinedLogs = [...newLogs, ...existingData].filter((log, index, self) =>
+          index === self.findIndex((t) => 
+            t['Time'] === log['Time'] && t['Scanned Code'] === log['Scanned Code']
+          )
+        );
+        
+        // Create new workbook with combined data
+        const ws = XLSX.utils.json_to_sheet(combinedLogs);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Scan Logs');
+        
+        // Auto-size columns
+        const cols = Object.keys(combinedLogs[0] || {}).length;
+        ws['!cols'] = Array(cols).fill({ wch: 15 });
+        
+        // Save to the current log file
+        await new Promise((resolve, reject) => {
+          try {
+            XLSX.writeFile(wb, currentLogFile);
+            resolve();
+          } catch (err) {
+            reject(err);
+          }
+        });
+        
+        console.log(`Successfully saved ${combinedLogs.length} logs to ${currentLogFile}`);
+      } catch (error) {
+        console.error('Error saving logs:', error);
+        alert('Error saving logs. Please try again.');
+      } finally {
+        // Always reset the saving flag
+        isSaving = false;
+      }
+    }
+
     // Handle scanned input
     function handleScan(scannedCode) {
-      const partDetails = findPartDetails(scannedCode);
+      // Clean the scanned code by removing "Enter" from the end
+      const cleanedCode = scannedCode.replace(/Enter$/, '');
+      const currentPartCode = document.getElementById('part-code').value;
+      const isMatch = cleanedCode.trim().toUpperCase() === currentPartCode.trim().toUpperCase();
+      const scannerInfo = document.getElementById('scan-by').value;
+      
+      // Create scan log entry
+      const logEntry = {
+        timestamp: new Date(),
+        partCode: currentPartCode,
+        partName: document.getElementById('part-name').value,
+        scannedCode: cleanedCode,
+        scannerInfo: scannerInfo,
+        matchStatus: isMatch ? 'MATCHED' : 'NOT MATCHED'
+      };
+      scanLogs.unshift(logEntry); // Add to beginning of array
       
       // Update UI with scanned data
-      document.getElementById('part-code').value = scannedCode;
-      document.getElementById('scan-data-value').textContent = scannedCode;
+      document.getElementById('scan-data-value').textContent = cleanedCode;
       
-      if (partDetails) {
-        document.getElementById('part-name').value = partDetails.PartName || '';
-        document.getElementById('customer').value = partDetails.Customer || '';
+      if (isMatch) {
         document.getElementById('scan-status-value').textContent = 'OK';
         document.getElementById('scan-status-value').classList.add('ok');
         document.getElementById('part-code-status-value').textContent = 'DATA MATCHED';
         document.getElementById('part-code-status-value').classList.add('ok');
+        document.getElementById('pass-status').textContent = 'PASS';
+        document.getElementById('pass-status').classList.remove('failed');
+        document.getElementById('pass-status').classList.add('pass-box');
       } else {
-        document.getElementById('part-name').value = 'NOT FOUND';
-        document.getElementById('customer').value = 'UNKNOWN';
         document.getElementById('scan-status-value').textContent = 'NOT OK';
         document.getElementById('scan-status-value').classList.remove('ok');
         document.getElementById('part-code-status-value').textContent = 'NO MATCH';
         document.getElementById('part-code-status-value').classList.remove('ok');
+        document.getElementById('pass-status').textContent = 'FAILED';
+        document.getElementById('pass-status').classList.remove('pass-box');
+        document.getElementById('pass-status').classList.add('failed');
+        alert('Scan does not match the part code. Please retry scanning.');
+        return; // Don't increment scan count for failed scans
       }
 
       // Update scan quantity
@@ -324,44 +701,287 @@
       // Set new timeout
       scanTimeout = setTimeout(() => {
         if (scanBuffer.length > 0) {
-          handleScan(scanBuffer);
+          // Remove "Enter" from the end of the scanned code
+          const cleanedCode = scanBuffer.replace(/Enter$/, '');
+          handleScan(cleanedCode);
           scanBuffer = '';
         }
       }, 50); // 50ms delay to collect all scanner input
     });
 
+    // Handle logo image loading
+    function initializeLogo() {
+      const logoImg = document.getElementById('logo-img');
+      const logoText = document.getElementById('logo-text');
+
+      logoImg.addEventListener('load', function() {
+        // Show image and hide text when image loads successfully
+        logoImg.style.display = 'block';
+        logoText.style.display = 'none';
+      });
+
+      logoImg.addEventListener('error', function() {
+        // Hide image and show text if image fails to load
+        logoImg.style.display = 'none';
+        logoText.style.display = 'block';
+      });
+    }
+
+    // Update auto-save interval
+    function updateAutoSaveInterval(minutes) {
+      autoSaveInterval = minutes;
+      if (autoSaveTimer) {
+        clearInterval(autoSaveTimer);
+      }
+      startAutoSave();
+      localStorage.setItem('autoSaveInterval', minutes.toString());
+      console.log(`Auto-save interval updated to ${minutes} minutes`);
+    }
+
+    // Auto-save logs periodically
+    function startAutoSave() {
+      // Load saved interval from localStorage or use default
+      autoSaveInterval = parseInt(localStorage.getItem('autoSaveInterval')) || autoSaveInterval;
+      
+      // Convert minutes to milliseconds
+      const interval = autoSaveInterval * 60 * 1000;
+      
+      if (autoSaveTimer) {
+        clearInterval(autoSaveTimer);
+      }
+      
+      // Do an initial save if there are logs
+      if (scanLogs.length > 0) {
+        saveLogsToExcel();
+      }
+      
+      autoSaveTimer = setInterval(() => {
+        if (scanLogs.length > 0) {
+          console.log(`Auto-saving logs (every ${autoSaveInterval} minutes)...`);
+          saveLogsToExcel();
+        }
+      }, interval);
+    }
+
     // Initialize
     document.addEventListener('DOMContentLoaded', function() {
-      loadMasterData();
-      updateTimestamp();
+      // Initialize logo
+      initializeLogo();
       
-      // Handle manual scan button
-      document.getElementById('btn-scan-data').addEventListener('click', function() {
-        const manualCode = prompt('Enter part code:');
-        if (manualCode) {
-          handleScan(manualCode);
+      // Start auto-save
+      startAutoSave();
+
+      // Modal functionality
+      const modal = document.getElementById('parts-modal');
+      const closeBtn = modal.querySelector('.close-modal');
+      const searchBox = modal.querySelector('.search-box');
+      const partsList = modal.querySelector('.parts-list');
+
+      function showPartsModal() {
+        if (masterData.length === 0) {
+          alert('No master data available. Please check the master.xlsx file.');
+          return;
+        }
+        modal.style.display = 'block';
+        searchBox.focus();
+        renderPartsList(masterData);
+      }
+
+      function hidePartsModal() {
+        modal.style.display = 'none';
+        searchBox.value = '';
+      }
+
+      function renderPartsList(parts) {
+        if (parts.length === 0) {
+          partsList.innerHTML = '<div class="no-results">No matching parts found</div>';
+          return;
+        }
+
+        partsList.innerHTML = parts.map((item, index) => `
+          <li class="part-item" data-part-code="${item.PartCode}">
+            <div class="part-info">
+              <span class="part-code">${item.PartCode}</span>
+              <span class="part-name">${item.PartName || 'N/A'}</span>
+              ${item.Customer ? `<div class="part-customer">Customer: ${item.Customer}</div>` : ''}
+            </div>
+          </li>
+        `).join('');
+      }
+
+      function filterParts(searchTerm) {
+        const filtered = masterData.filter(item => {
+          const search = searchTerm.toLowerCase();
+          return item.PartCode.toLowerCase().includes(search) || 
+                 item.PartName.toLowerCase().includes(search) ||
+                 item.Customer.toLowerCase().includes(search);
+        });
+        renderPartsList(filtered);
+      }
+
+      // Event Listeners
+      closeBtn.addEventListener('click', hidePartsModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) hidePartsModal();
+      });
+
+      searchBox.addEventListener('input', (e) => {
+        filterParts(e.target.value);
+      });
+
+      partsList.addEventListener('click', (e) => {
+        const partItem = e.target.closest('.part-item');
+        if (partItem) {
+          const partCode = partItem.dataset.partCode;
+          const partDetails = findPartDetails(partCode);
+          
+          // Update only the reference part details
+          document.getElementById('part-code').value = partCode;
+          document.getElementById('part-name').value = partDetails.PartName || '';
+          document.getElementById('customer').value = partDetails.Customer || '';
+          
+          // Reset scan data display
+          document.getElementById('scan-data-value').textContent = '';
+          document.getElementById('scan-status-value').textContent = '';
+          document.getElementById('scan-status-value').classList.remove('ok');
+          document.getElementById('part-code-status-value').textContent = '';
+          document.getElementById('part-code-status-value').classList.remove('ok');
+          document.getElementById('pass-status').textContent = 'READY';
+          document.getElementById('pass-status').classList.remove('failed');
+          document.getElementById('pass-status').classList.remove('pass-box');
+          
+          hidePartsModal();
         }
       });
 
-      // Handle master button
-      document.getElementById('btn-master').addEventListener('click', async function() {
-        const list = masterData.map(item => 
-          `${item.PartCode}: ${item.PartName || 'N/A'}`
-        ).join('\\n');
-        alert('Master Parts List:\\n\\n' + list);
+      // Handle buttons
+      document.getElementById('btn-master').addEventListener('click', showPartsModal);
+      document.getElementById('btn-scan-data').addEventListener('click', function() {
+        const manualCode = prompt('Enter part code:');
+        if (manualCode) {
+          // Clean manual entry just in case
+          const cleanedCode = manualCode.replace(/Enter$/, '');
+          handleScan(cleanedCode);
+        }
+      });
+      document.getElementById('btn-history').addEventListener('click', function() {
+        // Add export button to history modal
+        const historyHtml = `
+          <div style="margin-bottom: 20px; padding: 15px; background-color: #1F4E79; border-radius: 5px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+              <div style="color: yellow; font-weight: bold;">Auto-Save Configuration</div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <input type="number" id="autosave-interval" value="${autoSaveInterval}" min="1" max="60" 
+                  style="width: 60px; padding: 5px; background-color: #003366; color: white; border: 1px solid #0070C0; border-radius: 3px;" />
+                <span style="color: white;">minutes</span>
+                <button id="update-interval" style="background-color: #3399ff; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                  Update Interval
+                </button>
+              </div>
+            </div>
+            <div style="color: #aaa; font-size: 0.9em;">
+              Current auto-save interval: ${autoSaveInterval} minutes. Set between 1-60 minutes.
+            </div>
+          </div>
+          <div style="text-align: right; margin-bottom: 10px;">
+            <button id="export-logs" style="background-color: #3399ff; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+              Export All Scan Logs to Excel
+            </button>
+          </div>
+          ${scanLogs.length === 0 ? '<div style="text-align: center; color: yellow; padding: 20px;">No scan history available</div>' : ''}
+          <div class="modal-header">
+            <h2 class="modal-title">Scan History</h2>
+            <button class="close-modal">&times;</button>
+          </div>
+          <div class="scan-logs">
+            <table class="logs-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Part Code</th>
+                  <th>Part Name</th>
+                  <th>Scanned Code</th>
+                  <th>Scanner</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${scanLogs.map(log => `
+                  <tr class="${log.matchStatus === 'MATCHED' ? 'match' : 'no-match'}">
+                    <td>${log.timestamp.toLocaleTimeString('en-GB')}</td>
+                    <td>${log.partCode}</td>
+                    <td>${log.partName}</td>
+                    <td>${log.scannedCode}</td>
+                    <td>${log.scannerInfo}</td>
+                    <td>${log.matchStatus}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+
+        const historyModal = document.createElement('div');
+        historyModal.className = 'modal';
+        historyModal.innerHTML = `
+          <div class="modal-content">
+            ${historyHtml}
+          </div>
+        `;
+
+        document.body.appendChild(historyModal);
+        historyModal.style.display = 'block';
+
+        // Handle close button and outside click
+        const closeBtn = historyModal.querySelector('.close-modal');
+        closeBtn.addEventListener('click', () => {
+          document.body.removeChild(historyModal);
+        });
+        historyModal.addEventListener('click', (e) => {
+          if (e.target === historyModal) {
+            document.body.removeChild(historyModal);
+          }
+        });
+
+        // Handle export button
+        const exportBtn = historyModal.querySelector('#export-logs');
+        if (exportBtn) {
+          exportBtn.addEventListener('click', () => {
+            saveLogsToExcel();
+          });
+        }
+
+        // Handle auto-save interval update
+        const updateIntervalBtn = historyModal.querySelector('#update-interval');
+        const intervalInput = historyModal.querySelector('#autosave-interval');
+        
+        if (updateIntervalBtn && intervalInput) {
+          updateIntervalBtn.addEventListener('click', () => {
+            const newInterval = parseInt(intervalInput.value);
+            if (newInterval >= 1 && newInterval <= 60) {
+              updateAutoSaveInterval(newInterval);
+              alert(`Auto-save interval updated to ${newInterval} minutes`);
+            } else {
+              alert('Please enter a value between 1 and 60 minutes');
+              intervalInput.value = autoSaveInterval;
+            }
+          });
+        }
       });
 
-      // Handle history button
-      document.getElementById('btn-history').addEventListener('click', function() {
-        alert('Scan History feature coming soon!');
-      });
+      // Initialize data and timestamp
+      loadMasterData();
+      updateTimestamp();
     });
   </script>
 </head>
 <body>
   <div id="app-container" class="container">
     <header id="main-header" class="header">
-      <div id="company-logo" class="logo">GAD</div>
+      <div id="company-logo" class="logo">
+        <img id="logo-img" src="https://gadglobal.co.in/wp-content/uploads/2020/10/1WhatsApp-Image-2020-10-09-at-12.38.18-PM-e1602228066541.jpeg" alt="GAD Logo">
+        <span id="logo-text" class="logo-text">GAD</span>
+      </div>
       <h1 id="page-title">QR-Scanning System</h1>
       <nav id="nav-buttons" class="buttons">
         <button id="btn-master">Master</button>
@@ -434,6 +1054,20 @@
         <div id="pass-status" class="pass-box">PASS</div>
       </aside>
     </main>
+  </div>
+
+  <!-- Parts List Modal -->
+  <div id="parts-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Master Parts List</h2>
+        <button class="close-modal">&times;</button>
+      </div>
+      <input type="text" class="search-box" placeholder="Search by Part Code or Name..." />
+      <ul class="parts-list">
+        <!-- Parts will be populated here -->
+      </ul>
+    </div>
   </div>
 </body>
 </html>
