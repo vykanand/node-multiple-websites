@@ -1,0 +1,133 @@
+<div class="container-fluid">
+ 
+	                <div class="row">
+	                    <div class="col-md-12">
+	                        <div class="card">
+	                            <div class="card-header" data-background-color="green">
+	                                <h4 class="title">Performance</h4>
+	                                <p class="category">Employee Performance Evaluation and Assesment</p>
+	                            </div>
+	  <div class="row" style="margin-left:15px;margin-top:10px">
+        <div class="col-md-2">PageSize:
+            <select ng-model="entryLimit" class="form-control">
+                <option>5</option>
+                <option>10</option>
+                <option>20</option>
+                <option>50</option>
+                <option>100</option>
+            </select>
+        </div>
+        <div class="col-md-3">Filter:
+            <input type="text" ng-model="search" ng-change="efilter()" placeholder="Search" class="form-control" />
+        </div>
+        <div class="col-md-4">
+            <h5>Filtered {{ efiltered.length }} of {{ etotalItems}} total entries</h5>
+        </div>
+    </div>
+
+	                            <div class="card-content table-responsive">
+	                                <table class="table">
+	                                    <thead class="text-primary">
+	                                    	<th>Firstname</th>
+	                                    	<th>Lastname</th>
+	                                    	<th>Username</th>
+											<th>Logged In</th>
+											<th>Day Leads</th>
+											<th>Month Leads</th>
+											<th>Generated on</th>
+	                                    </thead>
+	                                    <tbody>
+	                                        <tr ng-repeat="e in efiltered = (edata | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+	                                        	<td>{{e.firstname}}</td>
+	                                        	<td>{{e.lastname}}</td>
+	                                        	<td>{{e.username}}</td>
+	                                        	<td>{{e.loginstatus}}</td>
+												<td>{{e.dayleads}}</td>
+												<td>{{e.monthleads}}</td>
+												<td>{{e.created}}</td>
+	                                        </tr>
+	                                        
+	                                    </tbody>
+	                                </table>
+
+	                            </div>
+
+	                            <div class="col-md-12" ng-show="efilteredItems == 0">
+            <div class="col-md-12">
+                <h4>No Entries found</h4>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="efilteredItems > 0">    
+            <div id="pag" pagination="" page="currentPage" on-select-page="setPage(page)" boundary-links="true" total-items="efilteredItems" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;"></div>
+            
+            
+        </div>
+
+	                        </div>
+	                    </div>
+
+	                    <!-- <div class="col-md-12">
+	                        <div class="card card-plain">
+	                            <div class="card-header" data-background-color="purple">
+	                                <h4 class="title">Table on Plain Background</h4>
+	                                <p class="category">Here is a subtitle for this table</p>
+	                            </div>
+	                            <div class="card-content table-responsive">
+	                                <table class="table table-hover">
+	                                    <thead>
+	                                        <th>ID</th>
+	                                    	<th>Name</th>
+	                                    	<th>Salary</th>
+	                                    	<th>Country</th>
+	                                    	<th>City</th>
+	                                    </thead>
+	                                    <tbody>
+	                                        <tr>
+	                                        	<td>1</td>
+	                                        	<td>Dakota Rice</td>
+	                                        	<td>$36,738</td>
+	                                        	<td>Niger</td>
+	                                        	<td>Oud-Turnhout</td>
+	                                        </tr>
+	                                        <tr>
+	                                        	<td>2</td>
+	                                        	<td>Minerva Hooper</td>
+	                                        	<td>$23,789</td>
+	                                        	<td>Curaçao</td>
+	                                        	<td>Sinaai-Waas</td>
+	                                        </tr>
+	                                        <tr>
+	                                        	<td>3</td>
+	                                        	<td>Sage Rodriguez</td>
+	                                        	<td>$56,142</td>
+	                                        	<td>Netherlands</td>
+	                                        	<td>Baileux</td>
+	                                        </tr>
+	                                        <tr>
+	                                        	<td>4</td>
+	                                        	<td>Philip Chaney</td>
+	                                        	<td>$38,735</td>
+	                                        	<td>Korea, South</td>
+	                                        	<td>Overland Park</td>
+	                                        </tr>
+	                                        <tr>
+	                                        	<td>5</td>
+	                                        	<td>Doris Greene</td>
+	                                        	<td>$63,542</td>
+	                                        	<td>Malawi</td>
+	                                        	<td>Feldkirchen in Kärnten</td>
+	                                        </tr>
+	                                        <tr>
+	                                        	<td>6</td>
+	                                        	<td>Mason Porter</td>
+	                                        	<td>$78,615</td>
+	                                        	<td>Chile</td>
+	                                        	<td>Gloucester</td>
+	                                        </tr>
+	                                    </tbody>
+	                                </table>
+	                            </div>
+	                        </div>
+	                    </div> -->
+	                </div>
+	            </div>

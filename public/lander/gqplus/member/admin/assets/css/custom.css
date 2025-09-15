@@ -1,0 +1,9 @@
+/*.pagination>li>a,
+.pagination>li>span {
+  border: 1px solid purple;
+   color:#9C27B0 !important;    
+}*/
+.pagination>li.active>a {
+  background: #9C27B0;
+  color: #fff;
+}

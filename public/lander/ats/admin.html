@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+        <title>ATsuvidha Admin</title>
+        <meta charset="utf-8">
+        <meta content="ie=edge" http-equiv="x-ua-compatible">
+        <meta content="template language" name="keywords">
+        <meta content="Native Theme" name="author">
+        <meta content="Admin Template" name="description">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <link href="favicon.png" rel="shortcut icon">
+        <link href="apple-touch-icon.png" rel="apple-touch-icon">
+        <link rel="stylesheet" href="assets/plugins/bootstrap/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/plugins/select2/dist/css/select2.min.css">
+        <link rel="stylesheet" href="assets/plugins/pixeden-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css">
+        <link rel="stylesheet" href="assets/plugins/owl-carousel/dist/assets/owl.carousel.min.css">
+        <link rel="stylesheet" href="assets/plugins/owl-carousel/dist/assets/owl.theme.default.min.css">
+        <link rel="stylesheet" href="assets/css/main.css"/>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="top-nav">
+                <div class="top-nav-box">
+                    <div class="side-nav-mobile"> <i class="pe-7s-keypad"></i> </div>
+                    <div class="logo">
+                        <img alt="example image" src="assets/images/logo.png">
+                    </div>
+                    <div class="quick-link">
+                        <div class="icon"> <i class="pe-7s-keypad"></i> </div>
+                        <ul class="fadeInUp animated">
+                            <li>
+                                <a href="#"><i class="pe-7s-link"></i> Add New Product</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="pe-7s-keypad"></i> View Transaction Report</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="pe-7s-note"></i> Add New Category</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="pe-7s-browser"></i> View Visitor Statistic</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="pe-7s-graph1"></i> Add New User</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="search">
+                        <i class="pe-7s-search"></i> 
+                        <input type="text" placeholder="Type what you want to search for...">
+                    </div>
+                    <div class="messages">
+                        <div class="icon">
+                            <i class="pe-7s-chat"></i> 
+                            <div class="count">4</div>
+                        </div>
+                        <div class="messages-box">
+                            <div class="header">Your Latest Messages</div>
+                            <div class="content">
+                                <a href="#" class="message-list">
+                                    <div class="user-image">
+                                        <img alt="example image" src="assets/images/profile.jpg">
+                                    </div>
+                                    <div class="right-content">
+                                        <div class="name">System Message</div>
+                                        <div class="text">Please Contact us on http://appsthink.com.For more support.</div>
+                                    </div>
+                                </a>
+                                
+                            </div>
+                            <div class="footer"> <a href="#">No Messages</a> </div>
+                        </div>
+                    </div>
+                    <div class="notification">
+                        <div class="notification-box">
+                            <div class="icon"> <i class="pe-7s-news-paper"></i> </div>
+                            <div class="notification-content">
+                                <div class="header">
+                                    <div class="title">1 Notification</div>
+                                    <div class="action">Notification Settings</div>
+                                </div>
+                                <div class="content">
+                                    <a href="#" class="notification-list">
+                                        <div class="name">Admin Console Report</div>
+                                        <div class="text">System Check Completed.</div>
+                                        <div class="date">29 January 2018 15:24</div>
+                                    </a>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notification-box">
+                            <div class="icon">
+                                <i class="pe-7s-drawer"></i> 
+                                <div class="count">1</div>
+                            </div>
+                            <div class="notification-content">
+                                <div class="header">
+                                    <div class="title">1 Notification</div>
+                                    <div class="action">Notification Settings</div>
+                                </div>
+                                <div class="content">
+                                    <a href="#" class="notification-list">
+                                        <div class="name">Inbox Empty</div>
+                                        <div class="text">No New Messages.</div>
+                                        <div class="date" id="dte"></div>
+                                    </a>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notification-box">
+                            <div class="icon"> <i class="pe-7s-comment"></i> </div>
+                            <div class="notification-content">
+                                <div class="header">
+                                    <div class="title">0 Notification</div>
+                                    <!-- <div class="action">Notification Settings</div> -->
+                                </div>
+                              <!--   <div class="content">
+                                    <a href="#" class="notification-list">
+                                        <div class="name">Transactions Report</div>
+                                        <div class="text">This month transaction report has been generated</div>
+                                        <div class="date">29 January 2018 15:24</div>
+                                    </a>
+                                    <a href="#" class="notification-list">
+                                        <div class="name">Transactions Report</div>
+                                        <div class="text">This month transaction report has been generated</div>
+                                        <div class="date">29 January 2018 15:24</div>
+                                    </a>
+                                    <a href="#" class="notification-list">
+                                        <div class="name">Transactions Report</div>
+                                        <div class="text">This month transaction report has been generated</div>
+                                        <div class="date">29 January 2018 15:24</div>
+                                    </a>
+                                    <a href="#" class="notification-list">
+                                        <div class="name">Transactions Report</div>
+                                        <div class="text">This month transaction report has been generated</div>
+                                        <div class="date">29 January 2018 15:24</div>
+                                    </a>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-image">
+                            <div class="image">
+                                <img alt="example image" src="https://vignette.wikia.nocookie.net/fan-fiction-library/images/1/15/Admin.png/revision/latest?cb=20140917130743">
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <div class="info">
+                                <div class="user-name">ATsuvidha Admin Console</div>
+                                <div class="user-group">Administrator</div>
+                            </div>
+                            <div class="dropdown-list"> <a href="#">Settings</a> <a href="#">A/C typeNormal</a> <a href="#">Delete Account</a> </div>
+                            <div class="dropdown-list"> <a id="logt" href="#">Logout</a> </div>
+                        </div>
+                    </div>
+                    <div class="profile-nav-mobile"> <i class="pe-7s-config"></i> </div>
+                </div>
+            </div>
+            <div class="wrapper-box">
+                <div class="side-nav">
+                    <div class="side-nav-box">
+                        <div class="title">Menu</div>
+                        <div class="main-menu">
+                            <ul>
+                                <li class="active">
+                                    <a href="index-2.html"> <i class="pe-7s-keypad"></i> <span>Dashboard</span> </a>
+                                </li>
+                               <!--  <li>
+                                    <a href="#">
+                                        <i class="pe-7s-link"></i> <span>Menu Styles</span> 
+                                        <div class="count">2</div>
+                                    </a>
+                                    <ul>
+                                        <li><a href="fixed-nav.html">Fixed Menu</a></li>
+                                        <li><a href="compact-nav.html">Compact Menu</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="pe-7s-note"></i> <span>Forms</span> </a>
+                                    <ul>
+                                        <li><a href="form.html">Form Elements</a></li>
+                                        <li><a href="form-validation.html">Form Validation</a></li>
+                                        <li>
+                                            <a href="button.html">
+                                                Form Buttons 
+                                                <div class="count">New</div>
+                                            </a>
+                                        </li>
+                                        <li><a href="form-wizard.html">Form Wizard</a></li>
+                                        <li><a href="dropzone.html">File Upload</a></li>
+                                        <li><a href="ckeditor.html">Wysiwyg Editor</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="pe-7s-browser"></i> <span>Tables</span> </a>
+                                    <ul>
+                                        <li><a href="table.html">Basic Table</a></li>
+                                        <li><a href="datatable.html">Datatable</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="chart.html"> <i class="pe-7s-graph1"></i> <span>Charts</span> </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="title">Pages</div>
+                        <div class="main-menu">
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <i class="pe-7s-photo-gallery"></i> <span>Pages</span> 
+                                        <div class="count">13</div>
+                                    </a>
+                                    <ul>
+                                        <li><a href="invoice.html">Invoice</a></li>
+                                        <li><a href="login.html">Login</a></li>
+                                        <li><a href="register.html">Register</a></li>
+                                        <li><a href="lock-screen.html">Lock Screen</a></li>
+                                        <li><a href="media.html">Media</a></li>
+                                        <li>
+                                            <a href="chat.html">
+                                                Chat 
+                                                <div class="count">New</div>
+                                            </a>
+                                        </li>
+                                        <li><a href="404.html">Error 404</a></li>
+                                        <li><a href="500.html">Error 500</a></li>
+                                        <li><a href="blank.html">Blank Layout</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="calendar.html"> <i class="pe-7s-date"></i> <span>Calendar</span> </a>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="pe-7s-rocket"></i> <span>Icons</span> </a>
+                                    <ul>
+                                        <li><a href="fontawesome-icon.html">Font Awesome</a></li>
+                                        <li><a href="batch-icon.html">Batch</a></li>
+                                        <li><a href="dash-icon.html">Dashicon</a></li>
+                                        <li><a href="dripicon-icon.html">Dripicon</a></li>
+                                        <li><a href="eightyshades-icon.html">Eightyshades</a></li>
+                                        <li><a href="foundation-icon.html">Foundation</a></li>
+                                        <li><a href="metrize-icon.html">Metrize</a></li>
+                                        <li><a href="simple-line-icon.html">Simple Line</a></li>
+                                        <li><a href="themify-icon.html">Themify</a></li>
+                                        <li><a href="type-icon.html">Typeicon</a></li>
+                                        <li><a href="weather-icon.html">Weather Icon</a></li>
+                                    </ul>
+                                </li> -->
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="main">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="content-box">
+                                <div class="content-box-header">
+                                    <div class="box-title">ATSuvidha CRM Panel</div>
+                                    <div class="box-description">Please Enter Phone number and message with. <a href="#">Please Note# 10 Digit Valid phone number is mandatory.</a></div>
+                                </div>
+                                <form>
+                                    <div class="form-group">
+                                        <label for="">Customer Phone Number</label>
+                                        <input class="form-control" id="phn" placeholder="Enter Phone no." type="text">
+                                    </div>
+                                    <!-- <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for=""> Password</label>
+                                                <input class="form-control" placeholder="Password" type="password">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Confirm Password</label>
+                                                <input class="form-control" placeholder="Password" type="password">
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <!-- <div class="form-group">
+                                        <label for=""> Regular select</label>
+                                        <select class="form-control">
+                                            <option selected="true">Australia</option>
+                                            <option>Nigeria</option>
+                                            <option>United States</option>
+                                            <option>Japan</option>
+                                        </select>
+                                    </div> -->
+                                   <!--  <div class="form-group">
+                                        <label for=""> Multiselect</label>
+                                        <select class="form-control select2" multiple>
+                                            <option selected="true">Australia</option>
+                                            <option selected="true">Nigeria</option>
+                                            <option>United States</option>
+                                            <option>Japan</option>
+                                        </select>
+                                    </div> -->
+                                    <!-- <div class="form-section"> <span>Form Section</span> </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for=""> First Name</label>
+                                                <input class="form-control" placeholder="First Name" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Last Name</label>
+                                                <input class="form-control" placeholder="Last Name" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for=""> Date Picker</label>
+                                                <input class="single-daterange form-control" placeholder="Date of birth" type="text" value="04/12/1978">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Username</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">@</div>
+                                                    <input class="form-control" placeholder="Username" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for=""> Date Range Picker</label>
+                                        <input class="multi-daterange form-control" type="text" value="03/31/2017 - 04/06/2017">
+                                    </div>
+                                    <div class="form-group"> -->
+                                        <label>Write Message</label>
+                                        <textarea placeholder="Enter Your Message" class="form-control" id="msg" rows="3"></textarea>
+                                    </div>
+                                  <!--   <div class="form-group">
+                                        <label class="check-label">
+                                            <input type="checkbox">
+                                            I agree to terms and conditions
+                                        </label>
+                                    </div> -->
+                                </form>
+                                <div class="content-box-footer">
+                                    <button id="send" class="btn btn-primary">Send Message</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <div class="content-box">
+                                <div class="content-box-header">
+                                    <div class="box-title">Horizontal Form</div>
+                                    <div class="box-description">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. <a href="#">Anim pariatur cliche reprehenderit</a></div>
+                                </div>
+                                <form>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label" for="">Your Email</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" placeholder="Enter email" type="email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label" for="">Password</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" placeholder="Password" type="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label" for="">Password Again</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" placeholder="Password" type="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label" for="">Regular select</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control">
+                                                <option selected="true">Australia</option>
+                                                <option>Nigeria</option>
+                                                <option>United States</option>
+                                                <option>Japan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label" for="">Regular select</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control select2">
+                                                <option selected="true">Australia</option>
+                                                <option selected="true">Nigeria</option>
+                                                <option>United States</option>
+                                                <option>Japan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-section"> <span>Form Section</span> </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label" for="">First Name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" placeholder="First Name" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label" for="">Last Name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" placeholder="Last Name" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label" for="">Username</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">@</div>
+                                                <input class="form-control" placeholder="Username" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label" for="">Date Picker</label>
+                                        <div class="col-sm-8">
+                                            <input class="single-daterange form-control" placeholder="Date of birth" type="text" value="04/12/1978">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label">Date Range Picker</label>
+                                        <div class="col-sm-8">
+                                            <input class="multi-daterange form-control" type="text" value="03/31/2017 - 04/06/2017">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label">Example textarea</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 control-label">Radio Buttons</label>
+                                        <div class="col-sm-8">
+                                            <label class="check-label">
+                                                <input checked="" name="optionsRadios" type="radio" value="option1">
+                                                Option number one
+                                            </label>
+                                            <label class="check-label">
+                                                <input name="optionsRadios" type="radio" value="option2">
+                                                Option number two
+                                            </label>
+                                            <label class="check-label">
+                                                <input name="optionsRadios" type="radio" value="option3">
+                                                Option number three
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="content-box-footer">
+                                    <button class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div> -->
+                       <!--  <div class="col-md-12">
+                            <div class="content-box">
+                                <div class="content-box-header">
+                                    <div class="box-title">Inline Form</div>
+                                    <div class="box-description">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. <a href="#">Anim pariatur cliche reprehenderit</a></div>
+                                </div>
+                                <form class="form-inline">
+                                    <input class="form-control mr-2" placeholder="First Name" type="text">
+                                    <input class="form-control mr-2" placeholder="Last Name" type="text">
+                                    <div class="input-group mr-2">
+                                        <div class="input-group-addon">@</div>
+                                        <input class="form-control" placeholder="Username" type="text">
+                                    </div>
+                                    <button class="btn btn-primary" type="submit"> Submit</button>
+                                </form>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="assets/plugins/jquery/jquery-2.1.1.min.js"></script>
+        <script src="assets/plugins/moment/min/moment.min.js"></script>
+        <script src="assets/plugins/select2/dist/js/select2.full.min.js"></script>
+        <script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+        <script src="assets/plugins/owl-carousel/dist/owl.carousel.min.js"></script>
+        <script src="assets/plugins/tether/dist/js/tether.min.js"></script>
+        <script src="assets/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <script src="assets/plugins/chart.js/dist/Chart.min.js"></script>
+        <script src="assets/plugins/nanobar/nanobar.min.js"></script>
+        <script src="assets/js/app.js"></script>
+        <script type="text/javascript">
+         
+$(document).ready(function() {
+       var d = new Date();
+var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
+console.log(strDate);
+      $("#dte").val(strDate);
+      $("#logt").click(function() { 
+      alert("LOGOUT SUCCESSFUL!");
+        window.location.href = 'index.html';
+    });
+      $("#send").click(function() {
+        var p = document.getElementById("phn").value;
+        var m = document.getElementById("msg").value;
+        console.log(p,m);
+        if (p.length == 10) {
+
+             var url = 'http://nimbusit.co.in/api/swsendSingle.asp?username=t1vykanand&password=28256132&sender=APPTHK&sendto='+p+'&message='+m;
+        $.get(url, function(data, status){
+        
+    });
+alert("Message Sent Successfully!");
+        window.location.reload();
+        }else {
+            alert("Please fill 10 digit valid mobile number.")
+        }
+       
+
+      });
+});
+        </script>
+    </body>
+
+
+</html>

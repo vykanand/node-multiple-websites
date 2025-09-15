@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+Header add Access-Control-Allow-Origin "*"
+Header add Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"
+
+RewriteBase /
+
+RewriteCond %{REQUEST_URI} !^/main/
+
+# Rewrites all URLS [Replace "example" with the actual domain, without the TLD (.com, .net, .biz, etc)]
+RewriteCond %{HTTP_HOST} ^(www\.)?localhost\.
+
+# Rewrite all those to insert /folder
+RewriteRule ^(.*)$ /main/$1 [L]
+
+RewriteCond %{HTTP_HOST} !^www.example.com$ [NC]
+RewriteRule ^(.*)$ http://www.example.com/$1 [L,R=301]
+RewriteCond %{HTTP_HOST} ^www\.example\.com$
+RewriteRule ^/?$ "http\:\/\/example\.com\/" [R=301,L]
+</IfModule>

@@ -1,0 +1,1423 @@
+/*! CSS Used from: https://lscdn.azureedge.net/content/biz/paymentsummary.min.css?v=QstuRBUAozoy1 */
+
+.dropdown-menu,
+.profile .dropdown-menu {
+    min-width: 100%;
+    margin-top: 20px;
+    box-shadow: 0 0 5px 0 #bbb;
+    z-index: 10;
+}
+
+.profile-m {
+    display: none!important;
+}
+
+.profile {
+    float: right;
+    border-left: 1px solid #ddd;
+    padding: 0 25px 0 15px;
+    cursor: pointer;
+    position: relative;
+    line-height: 12px;
+    font-size: 13px;
+}
+
+.profile .prof {
+    max-width: 120px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    padding: 26px 0 5px;
+}
+
+.profile .prof:after {
+    background: url(https://lscdn.azureedge.net/content/images/business/sp-image.png) -273px -126px no-repeat;
+    position: absolute;
+    content: "";
+    width: 10px;
+    height: 5px;
+    right: 5px;
+    top: 30px;
+    transition: all .3s ease;
+}
+
+.profile .dropdown-menu {
+    width: 163px;
+    right: 0;
+    font-size: 13px;
+    position: absolute;
+    background-color: #fff;
+    border-radius: 3px;
+    display: none;
+    border: none;
+}
+
+.dropdown-menu:after,
+.dropdown-menu:before {
+    position: absolute;
+    width: 0;
+    height: 0;
+    content: '';
+}
+
+.notifi-head {
+    color: #beb4b4;
+    font-weight: 700;
+    border-bottom: 1px solid #d8c8b9;
+    line-height: 12px;
+    padding: 0;
+}
+
+.arrow {
+    display: none!important;
+}
+
+.profile .arrow {
+    left: 120px;
+}
+
+.profile li a {
+    padding: 10px;
+    display: block;
+    color: #1e1e1e;
+    line-height: 14px;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.profile li:hover a {
+    background-color: #f0f0f0;
+}
+
+.dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 3px;
+    display: none;
+    border: none;
+}
+
+.dropdown-menu:before {
+    top: -10px;
+    right: 30px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 10px solid #fff;
+    z-index: 4;
+}
+
+.dropdown-menu:after {
+    top: -13px;
+    right: 26px;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 13px solid #bbb;
+    opacity: .2;
+    z-index: 2;
+}
+
+.main-nave li a {
+    line-height: 12px;
+    padding: 24px 10px 0;
+    position: relative;
+    font-size: 13px;
+}
+
+.main-nave li .more:before,
+.main-nave li a:before,
+.profile .prof:before {
+    content: '';
+    display: inline-block;
+    background: url(//lscdn.azureedge.net/content/images/business/mycamp.png) no-repeat;
+    padding: 5px;
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    width: 40px;
+    height: 32px;
+    margin: 0 auto;
+}
+
+.main-nave li .leads:before {
+    background-position: -37px 2px;
+}
+
+.main-nave li .myprofile:before {
+    background-position: -110px 0;
+}
+
+.main-nave li .myservices:before {
+    background-position: -241px 2px;
+}
+
+.main-nave li .mypackages:before {
+    background-position: -309px 0;
+}
+
+.main-nave li:hover .faq:before {
+    background-position: 0 -30px;
+}
+
+.main-nave li:hover .leads:before {
+    background-position: -37px -30px;
+}
+
+.main-nave li:hover .myprofile:before {
+    background-position: -110px -32px;
+}
+
+.main-nave li:hover .myservices:before {
+    background-position: -240px -30px;
+}
+
+.main-nave li:hover .mypackages:before {
+    background-position: -310px -31px;
+}
+
+.main-nave li:hover {
+    background-color: transparent;
+    border-radius: 0;
+    color: #d50000;
+}
+
+.main-nave li:hover a {
+    color: #d50000;
+    font-weight: 400;
+}
+
+.profile .prof:before {
+    background-position: -148px 1px;
+}
+
+@media only screen and (-moz-min-device-pixel-ratio:1.5),
+only screen and (-o-min-device-pixel-ratio:3 / 2),
+only screen and (-webkit-min-device-pixel-ratio:1.5),
+only screen and (min--moz-device-pixel-ratio:1.5),
+only screen and (min-resolution:1.5dppx),
+only screen and (min-device-pixel-ratio:1.5) {
+    .main-nave li .more:before,
+    .main-nave li a:before,
+    .profile .prof:before {
+        background-image: url(//lscdn.azureedge.net/content/images/business/mycamp-2x.png);
+        background-size: 380px 72px;
+    }
+}
+
+@media (max-width:1023px) {
+    #limenuservices {
+        display: none!important;
+    }
+    .main-nave {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+        background-color: #f8f8f8;
+        border-top: 1px solid #efefef;
+        padding: 10px 5px;
+        display: table;
+        width: 100%;
+        top: auto;
+        z-index: 101;
+    }
+    .main-nave li {
+        display: table-cell!important;
+        text-align: center;
+        width: 20%;
+    }
+    .main-nave li a {
+        padding: 24px 0 0;
+        font-size: 12px;
+    }
+    .profile {
+        display: none;
+    }
+    .profile-m {
+        display: table-cell!important;
+        padding: 0;
+    }
+    .main-nave li .more:before {
+        background-position: -147px -39px;
+    }
+    .main-nave li.profile-m a:before {
+        background: 0 0;
+    }
+    .profile-m>div {
+        position: fixed;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        bottom: 0;
+        transition: all .1s linear;
+    }
+    .profile-m>span {
+        width: auto;
+        margin: 0;
+        padding: 0;
+        color: #1e1e1e;
+        font-size: 12px;
+        font-weight: 400;
+        position: relative;
+        overflow: visible;
+        cursor: pointer;
+    }
+    .main-nave li .more:before {
+        top: -22px;
+        height: 23px;
+        transform: rotate(90deg);
+        left: -5px;
+    }
+    .mob-menu {
+        display: none;
+    }
+    .sulekha-logo {
+        padding-left: 15px;
+        margin-left: 5px!important;
+    }
+    .profile-m .list a {
+        text-align: left;
+        padding: 10px;
+        display: block;
+        font-size: 13px;
+        margin-bottom: 5px;
+    }
+    .profile-m .list>.close a {
+        font-size: 25px;
+        padding: 6px;
+        margin-bottom: 0;
+        cursor: pointer;
+    }
+    .profile-m .list span {
+        background-color: #f3f3f3;
+        width: 100%;
+        padding: 10px 40px 10px 10px;
+        text-align: left;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    .profile-m .list .close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: auto;
+        padding: 5px;
+        cursor: pointer;
+        background-color: transparent;
+    }
+    .profile-m .list a:hover {
+        background-color: #f3f3f3;
+    }
+    .main-nave li.profile-m:hover {
+        background-color: transparent;
+        color: #1e1e1e;
+    }
+}
+
+@media (max-width:768px) {
+    .main-nave li.profile-m a {
+        padding: 10px;
+        color: #1e1e1e;
+    }
+}
+
+.main-nave li .myhome:before {
+    background-position: -343px 0;
+}
+
+.main-nave li:hover .myhome:before {
+    background-position: -343px -31px;
+}
+
+ul {
+    list-style: none;
+}
+
+*,
+:after,
+:before {
+    box-sizing: border-box;
+}
+
+.profile {
+    cursor: pointer;
+}
+
+.profile {
+    position: relative;
+    border-left: 1px solid #ddd;
+}
+
+header {
+    position: relative;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+}
+
+header .container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sulekha-logo {
+    float: left;
+    width: 202px;
+    height: 30px;
+    margin: 5px 0;
+    background: url(http://appsthink.com/assets/images/paylogo.png) no-repeat;
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+}
+
+.main-nave,
+.profile {
+    float: right;
+}
+
+.main-nave li a,
+.profile li a {
+    color: #1e1e1e;
+    text-decoration: none;
+}
+
+.main-nave li {
+    display: inline-block;
+    margin: 0 2px;
+}
+
+.main-nave li a {
+    display: block;
+}
+
+.profile .prof {
+    max-width: 120px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.profile-m {
+    display: none;
+}
+
+.profile .arrow {
+    left: 120px;
+}
+
+.profile li a {
+    padding: 10px;
+    display: block;
+    font-weight: 400;
+}
+
+.arrow,
+.dropdown-menu {
+    position: absolute;
+}
+
+.dropdown-menu {
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    border-radius: 0 0 6px 6px;
+    padding: 0;
+    margin: 6px 0 0;
+    background-color: #fff;
+    border: 1px solid #d8c8b9;
+    boder-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+}
+
+.dropdown-menu {
+    right: -20px;
+    top: 33px;
+    width: 340px;
+    display: none;
+}
+
+.arrow {
+    border-bottom: 11px solid #d8c8b9;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    left: 302px;
+    top: -11px;
+    z-index: 6;
+    display: none;
+}
+
+.notifi-head {
+    border-bottom: 1px solid #d8c8b9;
+}
+
+.notifi-head {
+    color: #beb4b4;
+    font-weight: 700;
+    padding: 10px;
+    line-height: 12px;
+}
+
+@media (max-width:1023px) {
+    .profile-m {
+        display: table;
+    }
+}
+
+@media (max-width:768px) {
+    .main-nave li.profile-m:hover {
+        background-color: transparent;
+        color: #1e1e1e;
+    }
+    .main-nave li.profile-m a {
+        padding: 10px;
+    }
+    .main-nave li.profile-m:hover a {
+        color: #1e1e1e;
+    }
+    .mob-menu {
+        background: url(https://lscdn.azureedge.net/content/biz/images/sp-image.png) -222px -31px no-repeat;
+        width: 28px;
+        height: 19px;
+        float: right;
+        margin: 15px 0;
+        cursor: pointer;
+        position: absolute;
+        left: 19px;
+    }
+    .profile {
+        display: none;
+    }
+}
+
+aside,
+footer,
+header,
+section {
+    display: block;
+}
+
+footer {
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    border-top: 1px solid #eae1d9;
+    background-color: #fbf9f8;
+}
+
+.container,
+button {
+    position: relative;
+}
+
+a,
+ul {
+    margin: 0;
+}
+
+a,
+ul {
+    padding: 0;
+}
+
+aside,
+body,
+caption,
+div,
+h3,
+h4,
+html,
+i,
+iframe,
+label,
+li,
+p,
+section,
+span,
+table,
+tbody,
+td,
+th,
+thead,
+tr,
+ul {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: 0 0;
+}
+
+a {
+    font-size: 100%;
+    vertical-align: baseline;
+    background: 0 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.hide {
+    display: none!important;
+}
+
+input {
+    vertical-align: middle;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+input::-webkit-input-placeholder {
+    color: #c8c8c8;
+}
+
+input:-moz-placeholder {
+    color: #c8c8c8;
+}
+
+input::-moz-placeholder {
+    color: #c8c8c8;
+}
+
+input:-ms-input-placeholder {
+    color: #c8c8c8;
+}
+
+.error-text {
+    color: #c80029;
+    display: none;
+    font-size: 11px;
+    line-height: 11px;
+    margin-bottom: -15px;
+    padding: 1px 0 3px;
+}
+
+.row {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+[class^=span] {
+    position: relative;
+    min-height: 1px;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.span9 {
+    width: 75%;
+}
+
+.span6 {
+    width: 50%;
+}
+
+.span3 {
+    width: 25%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: grey;
+    overflow-y: scroll;
+}
+
+body,
+html {
+    height: 100%;
+}
+
+.stick-footer {
+    min-height: 100%;
+    background: #f1f3f6;
+}
+
+.container {
+    max-width: 1340px;
+    min-width: 300px;
+    margin: 0 auto;
+    padding: 15px 20px;
+}
+
+.clearfix:after,
+.container:after,
+.row:after {
+    clear: both;
+    content: '';
+    display: table;
+}
+
+h3,
+h4 {
+    margin: 0 0 10px;
+    font-weight: 600;
+    line-height: 1em;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+h4 {
+    font-size: 16px;
+}
+
+p {
+    padding: 0 0 10px;
+}
+
+a {
+    color: #0078d6;
+    cursor: pointer;
+    text-decoration: none;
+    outline: 0;
+}
+
+a:focus,
+a:hover {
+    color: #00539f;
+    text-decoration: underline;
+    box-shadow: none;
+}
+
+@media (max-width:768px) {
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    [class*=span] {
+        width: 100%;
+        margin-bottom: 10px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    [class*=span]:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width:999px) {
+    .container {
+        max-width: 100%;
+        padding: 10px;
+        min-width: 280px;
+    }
+}
+
+button,
+input {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    outline: 0;
+    resize: none;
+    color: grey;
+}
+
+input[type=checkbox],
+input[type=radio] {
+    display: inline-block;
+    margin: -2px 5px 0 0;
+    vertical-align: middle;
+}
+
+[class*=btn-] {
+    display: inline-block;
+    font-size: 16px;
+    padding: 8px 15px;
+    margin-right: 10px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border-radius: 2px;
+    color: #525252;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all .2s ease;
+    outline: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+[class*=btn-]:last-child {
+    margin-right: 0;
+}
+
+button {
+    user-select: none;
+    overflow: hidden;
+    background-color: #666;
+}
+
+.btn-p {
+    background-color: #43B446;
+    color: #fff;
+}
+
+.btn-p:hover {
+    background-color: #43B446;
+}
+
+.checkbox label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    margin: 5px 0;
+    padding-left: 32px;
+}
+
+input[type=checkbox],
+input[type=radio] {
+    display: none;
+}
+
+.checkbox label:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    bottom: 1px;
+    background: url(https://lscdn.azureedge.net/content/biz/images/sprite-base.png) no-repeat;
+}
+
+.checkbox label:before {
+    background-position: -211px -51px;
+}
+
+input[type=checkbox]:checked+label:before {
+    background-position: -250px -51px;
+}
+
+.list {
+    border: 1px solid #d8c8b9;
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 0 3px 5px -1px #bbb;
+}
+
+@media (max-width:768px) {
+    h3 {
+        font-size: 14px;
+    }
+    [class*=btn-] {
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width:768px) {
+    header .container {
+        padding-left: 10px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+.package-sum {
+    border: 1px solid #d8c8b9;
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 0 3px 5px -1px #bbb;
+    margin-bottom: 20px;
+}
+
+.checkbox label {
+    width: 100%;
+}
+
+@media (max-width:768px) {
+    .package-sum {
+        margin: 10px 0 20px;
+    }
+}
+
+.btn-p:hover {
+    text-decoration: none;
+}
+
+@media (max-width:767px) {
+    .sulekha-logo {
+        background: url(http://appsthink.com/assets/images/paylogo.png) no-repeat;
+    }
+    .sulekha-logo {
+        margin: 15px 0 5px 45px;
+    }
+}
+
+table {
+    width: 100%;
+    margin: 15px 0;
+}
+
+table tr td,
+table tr th {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+table tr th {
+    color: #575757;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.ratecard {
+    color: #4d4d4d;
+}
+
+.ratecard-right button:disabled {
+    opacity: .2;
+    cursor: not-allowed;
+}
+
+@media (max-width:991px) {
+    .ratecard .container>.row>.span3,
+    .ratecard .container>.row>.span9 {
+        width: 100%;
+    }
+    .ratecard-right button {
+        width: auto;
+        float: left;
+    }
+    .ratecard .container>.row>.span3 .ratecard-right {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: 0 0 5px #777;
+        top: auto;
+    }
+    .ratecard-right .checkbox {
+        text-align: right;
+        float: right;
+    }
+    .ratecard-right .checkbox label {
+        padding-left: 22px;
+    }
+    .ratecard-right .checkbox a {
+        padding-left: 0;
+    }
+    .ratecard .container>.row>.span9 {
+        padding: 10px;
+        font-size: 13px;
+    }
+    .package-detail {
+        margin: 0;
+        border: 0;
+    }
+}
+
+@media (max-width:767px) {
+    .package-detail,
+    .package-sum,
+    .package-summary {
+        padding: 10px 0;
+    }
+}
+
+::-moz-placeholder {
+    color: #c8c8c8;
+    font-weight: 400;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #c8c8c8;
+    font-weight: 400;
+    opacity: 1;
+}
+
+#ppchngpwd {
+    background-color: transparent!important;
+    padding: 0!important;
+}
+
+.icon-rupee {
+    content: '';
+    background: url(https://lscdn.azureedge.net/content/biz/images/new-package-sprite.png) -210px -36px no-repeat;
+    width: 10px;
+    height: 20px;
+    display: inline-block;
+}
+
+@media (max-width:768px) {
+    .visible-xs {
+        display: block!important;
+    }
+}
+
+.package-detail,
+.ratecard .package-sum {
+    border-bottom: 1px solid #d8c8b9;
+    margin-bottom: 20px;
+}
+
+.ratecard {
+    padding: 20px 0;
+}
+
+.ratecard .container {
+    margin: auto;
+}
+
+.ratecard .container>.row>.span3 .ratecard-right,
+.ratecard .container>.row>.span9 {
+    border: 1px solid #d8c8b9;
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 0 3px 5px -1px #bbb;
+    margin-bottom: 20px;
+}
+
+.ratecard .package-sum {
+    padding: 10px;
+}
+
+.ratecard .package-sum .span6 {
+    display: table;
+}
+
+.ratecard .package-sum .span6 span {
+    padding-bottom: 5px;
+}
+
+.ratecard .package-sum .span6 span:first-child {
+    font-weight: 600;
+    display: table-cell;
+    width: 130px;
+}
+
+.ratecard .package-sum .span6 span:last-child {
+    display: table-cell;
+}
+
+.package-detail {
+    padding: 10px;
+}
+
+.ratecard table {
+    text-align: left;
+}
+
+.ratecard table tr th {
+    font-weight: 600;
+    font-size: 14px;
+    background: #efefef;
+}
+
+.ratecard table tr td {
+    font-size: 14px;
+}
+
+.package-summary {
+    padding: 10px;
+}
+
+.package-summary caption {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.ratecard-right {
+    padding: 10px;
+    position: static;
+    width: 330px;
+    top: 20px;
+    transition: all .5s ease;
+}
+
+.ratecard-right .icon-rupee {
+    background: url(https://lscdn.azureedge.net/content/biz/images/new-package-sprite.png) -232px -44px no-repeat;
+    content: "";
+    display: inline-block;
+    height: 11px;
+    width: 10px;
+}
+
+.ratecard-right button {
+    font-size: 14px;
+    padding: 6px 15px;
+    width: 100%;
+}
+
+.ratecard-right label {
+    font-size: 12px;
+    color: #1d1d1d;
+    width: auto;
+    padding-left: 20px;
+}
+
+.ratecard-right a {
+    font-size: 12px;
+    color: #1d1d1d;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.ratecard-right .checkbox label:before {
+    top: -8px;
+}
+
+.ratecard-new {
+    background: #f1f3f6;
+}
+
+.ratecard-new .container>.row>.span9 {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 0;
+}
+
+.ratecard.ratecard-new .container>.row>.span3 .ratecard-right {
+    border: none;
+    margin-top: 52px;
+}
+
+.ratecard-new .span9>div,
+.ratecard.ratecard-new .span3 .ratecard-right {
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .2);
+    margin-bottom: 10px;
+    border: none;
+}
+
+.ratecard-new .container .span9>h3 {
+    margin: 0;
+    font-size: 22px;
+    text-align: center;
+}
+
+.ratecard-new .container .span9>p {
+    font-size: 12px;
+    color: #757575;
+    text-align: center;
+}
+
+.ratecard.ratecard-new .package-sum .span6 span:last-child {
+    font-weight: 600;
+    font-size: 14px;
+    word-break: break-all;
+}
+
+.ratecard.ratecard-new .package-sum .span6 span:first-child {
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.ratecard.ratecard-new .package-sum .span6 .clearfix {
+    padding-bottom: 10px;
+}
+
+.ratecard.ratecard-new .package-sum h4 {
+    margin-bottom: 15px;
+}
+
+.ratecard.ratecard-new .ratecard-right h4 {
+    margin: -10px -10px 0;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.ratecard.ratecard-new .ratecard-right .edit {
+    color: #0078d6;
+    font-size: 12px;
+    font-weight: 700;
+    position: absolute;
+    right: 10px;
+    text-decoration: underline;
+    text-transform: none;
+    top: 0;
+}
+
+.ratecard.ratecard-new .row>.span3 {
+    padding: 0;
+}
+
+.ratecard.ratecard-new .ratecard-right .clearfix {
+    margin: 10px 0;
+}
+
+.ratecard.ratecard-new .ratecard-right .clearfix span:first-child {
+    width: 150px;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.ratecard.ratecard-new .ratecard-right .clearfix span:last-child {
+    font-weight: 600;
+    font-size: 14px;
+    float: right;
+}
+
+.ratecard.ratecard-new .package-summary>p {
+    color: #757575;
+    font-size: 10px;
+    text-align: right;
+    padding: 0;
+}
+
+.ratecard.ratecard-new .ratecard-right .total-amount {
+    border-top: 1px dashed #ddd;
+    padding-top: 10px;
+    margin-bottom: 30px;
+}
+
+.ratecard-new .span9>div h4 {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.visible-xs {
+    display: none!important;
+}
+
+@media (max-width:991px) {
+    .ratecard-new .container>.row>.span9 {
+        margin-bottom: 100px;
+    }
+    .ratecard.ratecard-new .package-detail,
+    .ratecard.ratecard-new .package-summary {
+        padding: 10px;
+    }
+    .ratecard.ratecard-new .container>.row>.span3 .ratecard-right {
+        position: static;
+        margin: 0;
+        width: 100%;
+    }
+    .sulekha-logo {
+        background: url(http://appsthink.com/assets/images/paylogo.png) no-repeat;
+        margin: 10px 0 10px 40px;
+        height: 22px;
+    }
+    .ratecard .container>.row>.span3 {
+        padding: 0 10px;
+    }
+    .ratecard.ratecard-new .container>.row>.span9 {
+        margin-bottom: 0;
+    }
+    .ratecard .container>.row>.span3,
+    .ratecard .container>.row>.span9 {
+        width: 100%;
+    }
+    .ratecard-right button {
+        width: auto;
+        float: left;
+    }
+    .ratecard .container>.row>.span3 .ratecard-right .pos-fixed {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: 0 0 5px #777;
+        top: auto;
+        background: #fff;
+        padding: 10px;
+    }
+    .ratecard-right .checkbox {
+        text-align: right;
+    }
+}
+
+@media (max-width:767px) {
+    table {
+        width: 100%;
+        max-width: 100%;
+    }
+    .ratecard.ratecard-new .container>.row>.span9 {
+        padding: 0;
+    }
+    .ratecard.ratecard-new .package-summary>p {
+        text-align: center;
+    }
+    .ratecard .container {
+        padding: 0 10px;
+    }
+    .package-detail,
+    .package-sum,
+    .package-summary {
+        padding: 10px 0;
+    }
+    .hidden-xs {
+        display: none!important;
+    }
+    .visible-xs {
+        display: block!important;
+    }
+    .ratecard .package-detail {
+        padding: 10px;
+        border-bottom: 1px solid #d8c8b9;
+        margin-bottom: 20px;
+    }
+    .ratecard .package-detail .clearfix {
+        display: table;
+        width: 100%;
+    }
+    .ratecard .package-detail .clearfix span {
+        padding-bottom: 5px;
+    }
+    .ratecard .package-detail .clearfix>span:first-child {
+        display: table-cell;
+        width: 130px;
+    }
+    .ratecard .package-detail .clearfix>span:last-child {
+        display: table-cell;
+        font-weight: 600;
+    }
+    .ratecard .package-detail.visible-xs {
+        border: none;
+        margin-bottom: 0;
+        padding: 0;
+    }
+    .ratecard .container>.row>.span3 {
+        padding: 0;
+    }
+}
+
+@media (max-width:499px) {
+    .ratecard .package-sum .span6 {
+        width: 100%;
+    }
+    .ratecard .package-sum .span6 span:first-child {
+        display: table-cell;
+    }
+}
+
+body {
+    overflow-x: hidden;
+}
+
+@media (max-width:767px) {
+    [class^=span] {
+        width: 100%;
+    }
+    iframe {
+        width: 100%!important;
+    }
+    .visible-xs {
+        display: block;
+    }
+    .container {
+        padding: 10px 0;
+    }
+}
+
+.paymentwrap>span {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.paymentwrap .valuegroup {
+    padding: 0;
+    display: block;
+}
+
+.paymentwrap .valuegroup span {
+    position: relative;
+    padding-left: 35px;
+    display: block;
+    line-height: 16px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.paymentwrap .valuegroup span:before {
+    width: 25px;
+    height: 25px;
+    content: '';
+    background: url(https://lscdn.azureedge.net/content/images/business/paymethod.png) -102px -7px no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 20px;
+    bottom: 0;
+    margin: auto;
+    cursor: pointer;
+}
+
+.paymentwrap .valuegroup input[type=radio]:checked+span:before {
+    background-position: -102px -44px;
+}
+
+.paymentwrap .card {
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    background: url(https://lscdn.azureedge.net/content/images/business/paymethod.png) -1px -5px no-repeat;
+    margin-left: 35px;
+}
+
+.ratecard-right .checkbox {
+    margin-bottom: 15px;
+}
+
+@media (max-width:767px) {
+    .ratecard-right .checkbox {
+        margin-bottom: 0;
+        float: left;
+    }
+    .ratecard-right button {
+        float: right;
+    }
+}
+
+
+/*! CSS Used from: Embedded */
+
+@media (max-width:1023px) {
+    header.s2-header {
+        display: none!important;
+    }
+}

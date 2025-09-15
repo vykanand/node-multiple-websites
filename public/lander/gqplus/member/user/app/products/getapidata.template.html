@@ -1,0 +1,66 @@
+<div layout="row" ng-controller="gqctrl" ng-cloak>
+    <div flex="5"></div>
+ 
+    <div flex="95" class='m-20px-0'>
+ 
+        <!-- page title & 'create product' button -->
+        <md-toolbar class="md-hue-2">
+            <div class="md-toolbar-tools">
+                <!-- page title -->
+                <div flex md-truncate>
+                <img src="../icon.png" style="float:left;width:35px;height:35px;" alt="logo" />
+                    <h3 class="md-headline" href="#">&nbsp;GQ+</h3>
+                </div>
+ <h3 href="#">Logged in as : {{usr}}</h3>
+                <!-- button for creating product -->
+<md-button class="md-raised" ng-click="logout(apke)">Logout</md-button>
+
+            </div>
+        </md-toolbar>
+ 
+        <!-- 'search' bar will be here -->
+        <!-- used for searching products in api -->
+<md-input-container class="md-block m-b-0px">
+    <form ng-submit="searchProducts()">
+        <label>Search Companies...</label>
+        <input ng-model="product_search_keywords">
+    </form>
+</md-input-container>
+
+        <md-content flex>
+         <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{responsedata.length}}" md-page-select="options.pageSelector" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+         <md-button class="md-raised" ng-click="showCreateProductForm()">Add Company</md-button>
+            <!-- show product record list -->
+            <md-list ng-init="readProducts(apke)" ng-model="selected" >
+                <md-list-item class="md-3-line" ng-repeat="rs in responsedata | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit" >
+ 
+                    <!-- product information -->
+                    <div class="md-list-item-text">
+                        <h2 ng-click="viewdata(rs.id)">{{rs.company}}</h2>
+                        <h4>Contact - {{rs.contact}}</h4>
+                        <h4>Director name - {{rs.directorname}}</h4>
+                        <h4>Director Linkedin - {{rs.directorlinkedin}}</h4>
+                        <h4>Address - {{rs.address}}</h4><br>
+                        <p>Description - {{rs.description}}</p>
+                    </div>
+ 
+                    <!-- 'read one', 'edit' and 'delete' buttons -->
+                    <div class="md-secondary-container">
+<md-button class="md-raised md-info" ng-click="viewdata(rs.id)">View</md-button>
+<md-button style="background-color: #13C042;" class="md-raised md-primary" ng-click="showUpdateForm(rs.id)">Edit</md-button>
+<md-button class="md-raised md-danger" ng-click="confirmDelete(rs.id)">Delete</md-button>
+                    </div>
+                    
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-list-item>
+            </md-list>
+
+<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{responsedata.length}}" md-page-select="options.pageSelector" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+
+        </md-content>
+    </div>
+ 
+    <div flex="5"></div>
+</div> <!-- end row -->
+
+

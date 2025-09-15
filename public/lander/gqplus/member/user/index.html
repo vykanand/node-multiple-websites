@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="apple-touch-icon" sizes="76x76" href="../icon.png" />
+	<link rel="icon" type="image/png" href="../icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+    <title>GQ+ </title>
+    <!-- css -->
+ <!-- angular material style sheet -->
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+ 
+<!-- roboto font -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+ 
+<!-- include custom CSS -->
+<link rel="stylesheet" href="css/style.css" />
+
+<!-- js -->
+<!-- include angular js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+ 
+<!-- needed for angular material -->
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+ 
+<!-- angular material Library -->
+<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+<!-- scripts -->
+<script src="https://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.js"></script>
+ <link rel="stylesheet" href="https://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.css">
+<!-- app -->
+<script type="text/javascript" src="app/app.js"></script>
+<!-- products controller -->
+<script type="text/javascript" src="app/products/products.controller.js"></script>
+<!-- products factory -->
+<script type="text/javascript" src="app/products/products.factory.js"></script>
+</head>
+<body>
+ 
+<!-- app container will be here -->
+<!-- container of our app -->
+<div class="container" ng-app="myApp">
+ 
+    <!-- read products template -->
+    <ng-include src="'./app/products/getapidata.template.html'"></ng-include>
+ 
+</div> <!-- end container --> 
+</body>
+</html>

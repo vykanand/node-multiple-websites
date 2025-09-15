@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#" ng-app="mybusinessservice">
+
+<head>
+    <title>Appsthink Pay</title>
+    <meta name="description" content="Register, update your business on Sulekha for FREE and get responses, user ratings, reviews and Sulekha Score. Download Sulekha Business app on Android or iOS." />
+    <meta name="keywords" content="local business owners, register new business, update your business, business registration, business login, business signin, business signup, sulekha business app, download business app" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="shortcut icon" href="pinkifavicon.ico" />
+    <link href="pinkicreation.css" rel="stylesheet" type="text/css"> </head>
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+
+<body class="clsbizcommonhome sbhome step-panel">
+    <div class="page-wrap onboarding" id="divrenderpart">
+        <input type="hidden" id="hdnglobalvariable" value="//sulekhasp.azurewebsites.net" />
+        <input type="hidden" id="hdnBusinessPath" value="/local-services/business-owners/" />
+        <input type="hidden" value="" id="hdnsrc" />
+    
+        <header class="s2-header">
+            <div class="container"><a class="navbar-icon" tabindex="0"></a><a href="/local-services/business-owners/" rev="HED|LOGO" title="Appsthink" class="sulekha-logo bus-logo">Appsthink</a>
+              
+              
+        </header>
+        <div class="signin-popup hide small iframe">
+            <iframe width="100%" height="650px" frameborder="0" allowtransparency="true" id="frMyAccount" scrolling="no" src="about:blank"></iframe>
+        </div>
+        <div id="ppchngpwd" class="small hide">
+            <iframe src="about: blank" width="100%" height="390px" id="framchngpwd" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+        </div>
+        <div class="container white-bg  ">
+            <div class="biz-steps">
+                <h3>Pay Pinki Creations</h3>
+                <p>Create Payment Challan</p>
+               
+            </div>
+            <section class="steps step-one step-three step-1 active ng-cloak">
+                <div class="searchwrap">
+                    <h3 >Enter Customer Details</h3>
+                    <p>Note: Please Note order number after successful Payment</p>
+                    
+                    <form class="clearfix">
+                        <sub>Full Business/Customer Name</sub>
+                            <input type="text" placeholder="Enter Business/Customer Name" id="txtsubcat2" class="form-control txtsubcat">
+                            <sub>Business/Customer Phone Number</sub>
+                            <input type="text" placeholder="Phone Number" id="txtsubcat5" class="form-control txtsubcat">
+                               <sub>Enter Billing Amount</sub>
+                             <input type="text" placeholder="Billing Amount" id="txtsubcat3" class="form-control txtsubcat">
+                            <sub>Enter Billing Address</sub>
+                              <input type="text" placeholder="Enter Billing Address" id="txtsubcat4" class="form-control txtsubcat">
+                              <sub>Enter Major City</sub>
+                               <input type="text" placeholder="Enter Nearest City" id="txtsubcat7" class="form-control txtsubcat">
+                               <!-- <sub>Enter Major City</sub> -->
+                               <sub>Enter State/UT</sub>
+                               <input type="text" placeholder="Enter Billing State" id="txtsubcat8" class="form-control txtsubcat">
+                               <!-- <sub>Enter State</sub> -->
+                               <sub>Enter Email id</sub>
+                                <input type="text" placeholder="Enter Email Id" id="txtsubcat6" class="form-control txtsubcat">
+                                <!-- <sub>Full Email Id if any.</sub> -->
+                       
+                        <br>
+                        <br>
+                        <button class="btn xs" type="button" id="send" ng-click="Search_click('scat')">Create Challan</button>
+                    </form>
+                   
+                </div>
+            </section>
+            <section class="steps step-two step-2 ng-cloak">
+                <div class="searchwrap">
+                    <h5>Select the needs you serve under</h5>
+                    <p><span>{{data.selectedsubcat.subcat}}</span><a href="javascript:void(0)" ng-click="subcat_change()">(Change)</a></p>
+                    <ul class="checkbox check-box clearfix">
+                        <li ng-repeat="obj in dsNeeds">
+                            <input type="checkbox" id="cbx_needs_{{$index}}" name="report" value="{{obj.NeedDefinitionId}}" ng-click="typecbx_click(obj.NeedDefinitionName)">
+                            <label for="cbx_needs_{{$index}}">{{obj.NeedDefinitionName}}</label>
+                        </li>
+                    </ul><span class="t-alert hide" id="spnadd_neederror">Please choose service type</span>
+                    <ul class="clearfix links">
+                        <li class="pull-left"><a href="javascript:void(0)" ng-click="back_click('2')">Back</a></li>
+                        <li class="pull-right"><a href="javascript:void(0)" ng-click="neednext_click()">Next</a></li>
+                    </ul>
+                </div>
+            </section>
+            <section class="steps step-two step-3 ng-cloak">
+                <div class="searchwrap">
+                    <h3>Provide more details to help customers choose you</h3><span class="skip mand" id="spnidskipmand">All questions are mandatory.</span>
+                    <ul class="service-details clearfix">
+                        <li class="open clearfix" ng-repeat="obj in dsQans.Attributes" id="liqalert_{{obj.AttributeId}}"><span>{{obj.AttributeLabelProvider}} </span><span class="t-alert hide" id="spnqalert_{{obj.AttributeId}}"></span>
+                            <ul class="checkbox check-box">
+                                <li ng-repeat="objans in obj.AttributeValues">
+                                    <input type="checkbox" id="cbx_attr{{objans.AttributeValueId}}" name="report" value="{{objans.AttributeValueId}}">
+                                    <label for="cbx_attr{{objans.AttributeValueId}}">{{objans.AttributeValue}} </label>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="clearfix links">
+                        <li class="pull-left"><a href="javascript:void(0)" ng-click="back_click('3')">Back</a></li>
+                        <li class="pull-right"><a href="javascript:void(0)" ng-click="AttributeNext_click()">Next</a></li>
+                    </ul>
+                </div>
+            </section>
+            <section class="steps step-six step-4 ng-cloak ">
+                <div class="searchwrap">
+                    <h5>Contact Information</h5>
+                    <p>Share your business and contact details so that customers can contact you</p>
+                    <div class="row dropdown">
+                        <div class="span12 form-group">
+                            <label>Business Name</label>
+                            <input type="text" placeholder="Full Business Name" class="form-control" id="txtbusinessname" tabindex="300"><span class="error-text"></span></div>
+                        <div class="span12 form-group">
+                            <label>Complete Business Address</label>
+                            <input type="text" placeholder="Building name/No/Street name etc" class="form-control" id="txtaddress" tabindex="301"><span class="error-text"></span></div>
+                        <div class="span6">
+                            <label>City</label>
+                            <div class="form-group">
+                                <input type="hidden" id="hdnbusCity" />
+                                <input type="hidden" id="hdnbusCityId" />
+                                <div data-sdropdown="true" class="sdropdown sdropdowncity sbcity dropvalue "><a class="input sd-link" tabindex="302"><span class="placeholder">Enter City</span></a>
+                                    <div class="sd-menu">
+                                        <div class="search-wrap">
+                                            <input class="sinput" />
+                                        </div>
+                                        <div class="results-wrap"></div>
+                                    </div>
+                                </div><span class="error-text">Select city</span></div>
+                        </div>
+                        <div class="span6">
+                            <label>Locality</label>
+                            <div class="form-group">
+                                <input type="hidden" id="hdnbuslocality" />
+                                <input type="hidden" id="hdnbuslocalityId" />
+                                <div data-sdropdown="true" class="sdropdown drpbuslocality  sbcity dropvalue  disabled "><a class="input sd-link" tabindex="303"><span class="placeholder">Enter Locality</span></a>
+                                    <div class="sd-menu">
+                                        <div class="search-wrap">
+                                            <input class="sinput" />
+                                        </div>
+                                        <div class="results-wrap"></div>
+                                    </div>
+                                </div><span class="error-text">Select Locality</span></div>
+                        </div>
+                        <div class="span4 form-group">
+                            <label>Pincode</label>
+                            <input type="tel" value="" placeholder="Pincode" class="form-control" id="txtpincode" tabindex="304"><span class="error-text"></span></div>
+                        <div class="span8 form-group">
+                            <label>Landmark</label>
+                            <input type="text" placeholder="Landmark if any (optional)" class="form-control" id="txtlandmark" tabindex="305"><span class="error-text"></span></div>
+                        <div class="span4 form-group">
+                            <label>Name</label>
+                            <input type="text" placeholder="Contact Person’s Name" class="form-control" id="txtFname" tabindex="306"><span class="error-text"></span></div>
+                        <div class="span4 form-group">
+                            <label>Mobile Number</label>
+                            <input type="tel" placeholder="Mobile Number" class="form-control" id="txtmobileno" tabindex="307"><span class="error-text"></span></div>
+                        <div class="span4  form-group">
+                            <label>Email ID</label>
+                            <input type="text" placeholder="Contact email ID" class="form-control" id="txtemailid" tabindex="308"><span class="error-text"></span></div>
+                        <div class="span6  form-group">
+                            <label>GST Number</label>
+                            <input type="text" placeholder="Enter GST number (optional)" class="form-control" id="txtGST" tabindex="309"><span class="error-text"></span></div>
+                        <div class="span6  form-group">
+                            <label>Aadhar ID</label>
+                            <input type="text" placeholder="Enter Aadhar ID number (optional)" class="form-control" id="txtaadhar" tabindex="310"><span class="error-text"></span></div>
+                    </div>
+                    <ul class="clearfix links">
+                        <li class="pull-left"><a href="javascript:void(0)" ng-click="back_click('4')">Back</a></li>
+                        <li class="pull-right"><a href="javascript:void(0)" ng-click="mobileVerification_click()" tabindex="311">Next</a></li>
+                    </ul>
+                </div>
+            </section>
+            <div class="divBenefitsofPartnering packwrap">
+                <div class="row">
+                    <div class="span1 m-hide"></div>
+                    <div class="span12">
+                        <div class="package-block white t-left">
+                            <h2>Benefits of Partnering with Pinki Creation</h2>
+                            <div class="row">
+                                <div class="span4">
+                                    <div class="trust-brand"><strong>Trusted Brand</strong>
+                                        <p>38 lakh users are looking for services on Pinki Creation every month and 90k partners are growing their business with Pinki Creation.</p>
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <div class="toppage-dis"><strong>Prioritized Listing</strong>
+                                        <p>Paid partners are listed higher than free businesses in our listing pages.</p>
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <div class="pri-lead"><strong>Prioritized Lead Delivery</strong>
+                                        <p>User service requests on Pinki Creation website are sent via SMS / email / app notifications with complete details of services requested and cost of leads.</p>
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <div class="email-repo"><strong>Pinki Creation Score</strong>
+                                        <p>Paid partners get a score based on their profile completeness, responsiveness to customers, and verified KYC documents.</p>
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <div class="prem-badg"><strong>Detailed Reports</strong>
+                                        <p>Detailed lead information and reports on leads delivered are available via emails, business app, and web dashboard.</p>
+                                    </div>
+                                </div>
+                                <div class="span4">
+                                    <div class="sulscore"><strong>Pinki Creation Support</strong>
+                                        <p>Email / phone / chat support from Pinki Creation in case you run into any problems.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="divverifysms" class="mob-verify hide large sdialog-block sdialog-show">
+                <div class="step-two">
+                    <div class="sdialog-title">
+                        <h4>Verify your mobile number</h4></div>
+                    <div class="sdialog-body">
+                        <div class="row verification">
+                            <div class="span7 verify-left"><strong>Verification code has been sent to</strong>
+                                <div class="verified-number">+91 <span class="clsmobno">{{DispMobno(mobileno)}}</span><a id="angchngmobno" ng-click="ChangeMobno_click();" href="javascript:void(0)">(Change number)</a></div>
+                                <div class="form-group">
+                                    <label>Enter 6-digit verification code sent to your mobile</label>
+                                    <input type="tel" id="txtotp" maxlength="6" /><span class="error-text">Enter OTP</span></div>
+                                <div>
+                                    <button ng-click="VerifyOTP();" class="btn-p btn-large" type="button">Verify</button>
+                                </div>
+                            </div>
+                            <div class="span5 verify-right"><strong>Didn't get verification code SMS?</strong>
+                                <p>Give us a missed call from
+                                    <br />+91 <span class="clsmobno">{{DispMobno(mobileno)}}</span> and get your number verified</p><span class="toll-call m-hide">Call 1800-3002-3291</span>
+                                <p class="m-hide">Click below after a missed call</p>
+                                <div>
+                                    <button ng-click="MissedCall_click();" class="btn-s btn-large btnMcall" type="button">Click here</button>
+                                </div><a ng-click="initialMissedcall_Click();" href="tel:180030023291" class="btn-s btn-large hide btnMcallresp" data-rel="external" id="btnmissedcall">Call 1800-3002-3291</a>
+                                <div id="divmcall-error" class="label danger  misCalMsg hide"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div><a class="sdialog-x">x</a></div>
+          
+            <div class="yes small hide" id="ppsb_delconf">
+                <div class="maindia">
+                    <div class="sdia-tit">Delete?</div>
+                    <div class="sdia-body">
+                        <p>Are you sure you want to delete this service?</p>
+                        <div class="add-note-foot form-group">
+                            <button ng-click="Confirm_ServiceDelete()" class="btn-p" type="button">Delete</button>
+                            <button class="btn-l" type="button" onclick="$('#ppsb_delconf').sDialog('close')">Cancel</button>
+                        </div>
+                    </div>
+                </div><a class="sdialog-x">✕</a></div>
+        </div>
+        <footer>
+            <div class="container">
+                <div class="footer-main">
+                   
+                </div>
+                <div class="footer-bottom"><span>&copy; 2018 Copyright pinkicreation.com.A Subsidiary of Appsthink Solutions All Rights Reserved.</span>
+                    <div class="social-icons"><a target="_blank" rev="FTB|SOC|TWT" href="http://twitter.com/sulekhadotcom" title="Follow us on Twitter" class="ftr-ic-twitter" tabindex="0"></a><a a="" <="" target="_blank" rev="FTB|SOC|FB" href="http://www.facebook.com/Sulekhadotcom" title="Be a fan on Facebook" class="ftr-ic-facebook" tabindex="0"></a><a target="_blank" rev="FTB|SOC|PIN" href="http://www.pinterest.com/sulekhadotcom/" title="Pinterest" class="ftr-ic-pinterest" tabindex="0"></a><a target="_blank" rev="FTB|SOC|GP" href="https://plus.google.com/+sulekha" title="Google Plus" class="ftr-ic-google-plus" tabindex="0"></a></div>
+                </div>
+            </div>
+        </footer>
+        <script type="text/javascript">
+         
+$(document).ready(function() {
+  
+      $("#send").click(function() {
+      	console.log('ok');
+        var phone = document.getElementById("txtsubcat5").value;
+        var name = document.getElementById("txtsubcat2").value;
+        var address = document.getElementById("txtsubcat4").value;
+        var amount = document.getElementById("txtsubcat3").value;
+        var email = document.getElementById("txtsubcat6").value;
+        var city = document.getElementById("txtsubcat7").value;
+        var state = document.getElementById("txtsubcat8").value;
+        if (phone.length == 10) {
+
+             var url = 'http://appsthink.com/payments/?pay='+amount+'&pr=Pinkicreation%20Payment&ct='+city+'&addr='+address+'&st='+state+'&cname=vyk&cphone='+phone+'&cemail='+email+'&cat=Apparels&subcat=Clothing&minicat=Payment';
+    //     $.get(url, function(data, status){
+        
+    // });
+        window.location.replace(url);
+
+        }else {
+            alert("Please fill 10 digit valid mobile number.")
+        }
+       
+
+      });
+});
+        </script>
+        <script src="pinkicreation.js"></script>
+    </div>
+</body>
+
+</html>

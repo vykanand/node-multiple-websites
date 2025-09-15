@@ -1,0 +1,5 @@
+levenshtein() - Calculate Levenshtein distance between two strings
+soundex() - Calculate the soundex key of a string
+metaphone() 
+
+better precision without the recursion. Imagine two different (or same) length ribbons with letters on each. You simply shifting one ribbon to left till it matches the letter the first.

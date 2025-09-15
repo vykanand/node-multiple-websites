@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>ATSuvidha Login Page</title>
+   <link rel="stylesheet" type="text/css" href="style.css">
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+   <script type="text/javascript">
+    $( document ).ready(function() {
+          $("#btnSubmit").click(function() { 
+     var u =  document.getElementById("txtUserName").value;
+     var p = document.getElementById("txtPassword").value;
+     console.log(u,p);
+     if (u=='vsoftech' && p=='shopadmin32') {
+        alert("LOGIN SUCCESSFUL!");
+        window.location.href = 'admin.html';
+     }else {
+         alert("Wrong username or password.");
+         window.location.reload();
+     }
+ });
+ });
+   </script>
+</head>
+<body>
+    <div class="logincontent">
+        <div class="loginheading">
+            ATSuvidha CRM Login
+        </div>
+        <label for="txtUserName">
+            Username:</label>
+        <input type="text" id="txtUserName" name="txtUserName" />
+        <label for="txtPassword">
+            Password:</label>
+        <input type="password" id="txtPassword" name="txtPassword" />
+        <div class="loginremember">
+            <input type="checkbox" id="chbRemember" name="chbRemember" /><label class="check"
+                for="chbRemember">Remember me next time</label>
+            <input type="submit" class="loginbtn" value="Login" id="btnSubmit" />
+            <!-- <input type="submit" class="loginbtn" value="Register" id="regSubmit" /> -->
+        </div>
+    </div>
+</body>
+</html>

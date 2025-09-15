@@ -1,0 +1,276 @@
+<!-- http://localhost/Elvento/pay/payment.html?pay=495&pr=Saral%20Ecommerce&ct=noida&addr=D41%20Niari&st=UP&cname=vyk&cphone=2939494955&cemail=kker&cat=webdev&subcat=minidev&minicat=mimin -->
+<html prefix="og: http://ogp.me/ns#" ng-app="ATpay">
+
+<head>
+    <style type="text/css">
+    @chaRs et "UTF-8";
+    [ng\:cloak],
+    [ng-cloak],
+    [data-ng-cloak],
+    [x-ng-cloak],
+    .ng-cloak,
+    .x-ng-cloak,
+    .ng-hide:not(.ng-hide-animate) {
+        display: none !important;
+    }
+
+    ng\:form {
+        display: block;
+    }
+
+    .ng-animate-shim {
+        visibility: hidden;
+    }
+
+    .ng-anchor {
+        position: absolute;
+    }
+    </style>
+    <title>Appsthink Payment Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <link rel="dns-prefetch" href="http://appsthink.com/">
+    <link rel="shortcut icon" href="http://appsthink.com/favicon.ico">
+    <!-- <link rel="stylesheet" type="text/css" href="ex.css"> -->
+    <style>
+    @media(max-width:1023px) {
+        header.s2-header {
+            display: none !important;
+        }
+    }
+    </style>
+    <link rel="stylesheet" type="text/css" href="payment.css">
+    <script src="app/angular1.6.6.js"></script>
+    <script src="app/jquery3.3.1.js"></script>
+    <script src="app/app.js"></script>
+
+</head>
+
+<body ng-controller="mtctrl" ng-init="spn()">
+    <div class="stick-footer">
+        <header class="s2-header">
+            <div class="container"><a href="" rev="HED|LOGO" title="Sulekha" class="sulekha-logo" tabindex="0">Appsthink Payment</a>
+                <!-- <div class="mob-menu" onclick="SulCommon.CallMainHeader()"></div> -->
+                <!-- <div class="profile " id="sulbname-profile"> -->
+                    <!-- <span class="prof" onclick="SulCommon.Bname_click()">Appsthink Solutions</span> -->
+                    <!-- <div class="dropdown-menu">
+                        <div class="notifi-head"><span class="arrow"></span>
+                            <ul>
+                                <li><a href="//www.sulekha.com/b/10299326" target="_blank" tabindex="0" onclick="SUL_GAPAnalysis.Common_Event('Header - Public profile', 'click', 'Public Profile', 'header_publicprofile_4');">Public profile</a></li>
+                                <li><a href="javascript:void(0)" onclick="SulCommon.Chngpwd()" tabindex="0">Change Password</a></li>
+                                <li><a href="//www.sulekha.com/local-services/business-owneRs /section/app" onclick="SUL_GAPAnalysis.Common_Event('Header - Download App', 'click', 'Download App', 'download_app_header_1');">Download App</a></li>
+                                <li><a href="//myaccount.sulekha.com/network/signout.aspx" tabindex="0" onclick="SUL_GAPAnalysis.Common_Event('Header - Logout', 'click', 'business logout', 'header_logout_5'); ">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div> -->
+                <!-- </div> -->
+                <!-- <ul class="main-nave">
+                    <li id="limenuhome"><a class="myhome" href="/local-services/business-owneRs /business" tabindex="0" onclick="SUL_GAPAnalysis.Common_Event('Header - home', 'click', '-', 'Header_home_1');">Home</a></li>
+                    <li id="limenudboard"><a class="leads" href="/local-services/business-owneRs /dashboard" tabindex="0" onclick="SUL_GAPAnalysis.Common_Event('Header - Leads', 'click', '-', 'Header_leads_1');">Leads</a></li>
+                    <li id="limenupackages"><a class="mypackages" href="/local-services/business-owneRs /package" tabindex="0" onclick="SUL_GAPAnalysis.Common_Event('Header - My Package', 'click', '-', 'Header_mypackage_3');">Campaign</a></li>
+                    <li id="limenuservices"><a class="myservices" href="/local-services/business-owneRs /services" tabindex="0" onclick="SUL_GAPAnalysis.Common_Event('Header - My Services', 'click', '-', 'Header_myservices_2');">Services</a></li>
+                    <li id="limenuprofile"><a class="myprofile" href="/local-services/business-owneRs /profile" tabindex="0" onclick="SUL_GAPAnalysis.Common_Event('Header - My Profiles', 'click', '-', 'Header_myprofile_4');">Profile</a></li>
+                    <li id="limenufaq"><a class="faq" href="/local-services/business-owneRs /faq" tabindex="0">FAQ</a></li>
+                    <li class="profile-m"><span class="more">More</span>
+                        <div class="list"><span class="close"><a tabindex="0">×</a></span><span>Appsthink Solutions</span><a class="campaign" href="/local-services/business-owneRs /services" tabindex="0" onclick="SUL_GAPAnalysis.Common_Event('Header - My Services', 'click', '-', 'Header_myservices_2');">Services</a><a href="//www.sulekha.com/b/10299326" target="_blank" tabindex="0" onclick="SUL_GAPAnalysis.Common_Event('Header - Public profile', 'click', 'Public Profile', 'header_publicprofile_4');">Public Profile</a><a href="javascript:void(0)" onclick="SulCommon.Chngpwd()" tabindex="0">Change Password</a><a href="//www.sulekha.com/local-services/business-owneRs /section/app" onclick="SUL_GAPAnalysis.Common_Event('Header - Download App', 'click', 'Download App', 'download_app_header_1');">Download App</a><a href="//myaccount.sulekha.com/network/signout.aspx" tabindex="0" onclick="SUL_GAPAnalysis.Common_Event('Header - Logout', 'click', 'business logout', 'header_logout_5'); ">Logout</a></div>
+                    </li>
+                </ul> -->
+            </div>
+        </header>
+       <!--  <input type="hidden" id="hdnu_name" value="Vikas">
+        <input type="hidden" id="hdnu_mobile" value="8959285336">
+        <input type="hidden" id="hdnu_email" value="">
+        <input type="hidden" id="hdnu_cust" value="0">
+        <input type="hidden" id="hdnu_bname" value="Appsthink Solutions">
+        <input type="hidden" id="hdnu_bid" value="10299326">
+        <div id="ppchngpwd" class="small  hide">
+            <iframe src="about: blank" width="100%" height="390px" id="framchngpwd" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+        </div> -->
+        <section class="ratecard ratecard-new">
+            <div class="container ng-scope">
+                <div class="row" id="divpaymentsummary">
+                    <section class="span9">
+                        <h3>Appsthink Order Summary</h3>
+                        <p>Review your order summary before proceeding to payment</p>
+                        <div class="package-summary">
+                            <h4>Package Summary:</h4>
+                            <table class="hidden-xs">
+                                <caption class="ng-binding">Proposed Package: Prime</caption>
+                                <thead>
+                                    <tr>
+                                        <!-- ngIf: PackageSummary.DisplayDuration -->
+                                        <!-- ngIf: PackageSummary.DisplayLeads -->
+                                        <th class="ng-scope">Product</th>
+                                        <!-- end ngIf: PackageSummary.DisplayLeads -->
+                                        <th>Net Amount</th>
+                                        <th>Total Amount (Including G.S.T)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <!-- ngIf: PackageSummary.DisplayDuration -->
+                                        <!-- ngIf: PackageSummary.DisplayLeads -->
+                                        <td class="ng-binding ng-scope">{{product}}</td>
+                                        <!-- end ngIf: PackageSummary.DisplayLeads -->
+                                        <!-- ngIf: PackageSummary.CampaignType=='1' -->
+                                        <!-- ngIf: PackageSummary.CampaignType=='2' -->
+                                        <!-- ngIf: PackageSummary.CampaignType=='3' -->
+                                        <td class="ng-binding ng-scope">Rs {{paym}}</td>
+                                        <!-- end ngIf: PackageSummary.CampaignType=='3' -->
+                                        <td class="ng-binding">Rs {{taxm}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="visible-xs package-detail">
+                                <!-- <div class="clearfix"><span>Duration*:</span> -->
+                                    <!-- ngIf: PackageSummary.CampaignType=='1' -->
+                                    <!-- ngIf: PackageSummary.CampaignType=='2' -->
+                                <!-- </div> -->
+                                <!-- ngIf: Leads != '0' -->
+                                <div class="clearfix ng-scope">
+                                    <!-- ngIf: PackageSummary.CampaignType=='1' && PackageSummary.AssumedLeadFlowPerMonth -->
+                                    <!-- ngIf: PackageSummary.CampaignType=='2' && PackageSummary.Leads -->
+                                    <!-- ngIf: PackageSummary.CampaignType=='1' && PackageSummary.AssumedLeadFlowPerMonth -->
+                                    <!-- ngIf: PackageSummary.CampaignType=='2' && PackageSummary.Leads -->
+                                </div>
+                                <!-- end ngIf: Leads != '0' -->
+                                <div class="clearfix"><span>Net Amount:</span><span class="ng-binding">Rs {{paym}}</span></div>
+                                <div class="clearfix"><span>Total Amount:</span><span class="ng-binding">Rs {{taxm}}</span></div>
+                            </div>
+                            <!-- ngIf: PackageSummary.PlatformFee!='0' -->
+                            <p class="ng-binding ng-scope">**This is one time Payment.Terms and Conditions Apply.</p>
+                            <!-- end ngIf: PackageSummary.PlatformFee!='0' -->
+                        </div>
+                        <div class="package-sum">
+                            <h4>Client Information:</h4>
+                            <div class="row">
+                                <div class="span6">
+                                    <div class="clearfix"><span>Pay to:</span><span class="ng-binding">Appsthink Solutions</span></div>
+                                    <div class="clearfix"><span>Address:</span><span class="ng-binding">{{addr}}<br>{{ct}},<br>{{state}}</span></div>
+                                </div>
+                                <div class="span6">
+                                    <div class="clearfix"><span>Contact Person:</span><span class="ng-binding">{{cname}}</span></div>
+                                    <!-- ngIf: PackageSummary.MobileNo -->
+                                    <div class="clearfix ng-scope" ><span>Mobile number:</span><span class="ng-binding">{{cphone}}</span></div>
+                                    <!-- end ngIf: PackageSummary.MobileNo -->
+                                    <!-- ngIf: Splitemail(PackageSummary.Email,0) != '' -->
+                                    <div class="clearfix ng-scope"><span>Email ID:</span><span class="ng-binding">{{cemail}}</span></div>
+                                    <!-- end ngIf: Splitemail(PackageSummary.Email,0) != '' -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="package-detail">
+                            <h4>Service Details:</h4>
+                            <table class="hidden-xs">
+                                <thead>
+                                    <tr>
+                                        <th>City</th>
+                                        <th>Category</th>
+                                        <!-- ngIf: PackageSummary.SubCategory -->
+                                        <th class="ng-scope">Subcategory</th>
+                                        <!-- end ngIf: PackageSummary.SubCategory -->
+                                        <!-- ngIf: PackageSummary.NeedItemList -->
+                                        <th class="ng-scope">Subtype</th>
+                                        <!-- end ngIf: PackageSummary.NeedItemList -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="ng-binding">{{ct}}</td>
+                                        <td>
+                                            <!-- ngRepeat: obj in PackageSummary.CategoryList --><span class="ng-binding ng-scope">{{cat}}</span>
+                                            <!-- end ngRepeat: obj in PackageSummary.CategoryList -->
+                                        </td>
+                                        <!-- ngIf: PackageSummary.SubCategoryList -->
+                                        <td class="ng-scope">
+                                            <!-- ngRepeat: obj in PackageSummary.SubCategoryList --><span class="ng-binding ng-scope">{{subcat}}</span>
+                                            <!-- end ngRepeat: obj in PackageSummary.SubCategoryList -->
+                                        </td>
+                                        <!-- end ngIf: PackageSummary.SubCategoryList -->
+                                        <!-- ngIf: PackageSummary.NeedItemList -->
+                                        <td class="ng-scope">
+                                            <!-- ngRepeat: obj in PackageSummary.NeedItemList -->
+                                            <!-- <span class="ng-binding ng-scope">Web design &amp; development,&nbsp;</span> -->
+                                            <!-- end ngRepeat: obj in PackageSummary.NeedItemList -->
+                                            <!-- <span class="ng-binding ng-scope">Payment gateway services,&nbsp;</span> -->
+                                            <!-- end ngRepeat: obj in PackageSummary.NeedItemList -->
+                                            <!-- <span class="ng-binding ng-scope">Digital marketing services,&nbsp;</span> -->
+                                            <!-- end ngRepeat: obj in PackageSummary.NeedItemList -->
+                                            {{minicat}}
+                                        </td>
+                                        <!-- end ngIf: PackageSummary.NeedItemList -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </section>
+                    <aside class="span3">
+                        <div class="ratecard-right">
+                            <h4>Price Details
+<!-- <a class="edit" tabindex="0" ng-href="https://www.sulekha.com/local-services/business-owneRs /pitch/ppapremium" href="https://www.sulekha.com/local-services/business-owneRs /pitch/ppapremium">Edit</a> -->
+</h4>
+                            <div class="clearfix"><span>Package Price</span><span class="ng-binding">Rs {{paym}}</span></div>
+                            <!-- ngIf: PackageSummary.CampaignType=='2' && PackageSummary.DiscountAmount!='0' -->
+                            <div class="clearfix"><span>Tax Amount</span><span class="ng-binding">Rs {{taxd}}</span></div>
+                            <div class="clearfix total-amount"><span>Total Amount</span><span class="ng-binding">Rs {{taxm}}</span></div>
+                            <div class="paymentwrap"><span>Choose a payment Method</span>
+                                <!-- ngRepeat: obj in PackageSummary.PaymentGatewayList -->
+                                <div >
+                                    <label class="valuegroup">
+                                        <input type="radio" ng-checked="true" value="online" name="paytype" ng-model="mde">
+                                        <span class="ng-binding">
+                                        Credit/Debit cards/Internet Banking
+                                        </span>
+                                    </label>
+                                   
+                                    <!-- ngIf: obj.Id==1 -->
+                                    <span class="card ng-scope"></span>
+                                    <!-- end ngIf: obj.Id==1 -->
+                                    <!-- ngIf: obj.Id==2 -->
+                                     <label class="valuegroup">
+                                        <input type="radio" value="cash" name="paytype" ng-model="mde">
+                                        <span class="ng-binding">
+                                        Cash/ Cheque / DD
+                                        </span>
+                                    </label>
+                                </div>
+                                <!-- end ngRepeat: obj in PackageSummary.PaymentGatewayList --><span class="hide error-text" id="spnpymnterror">Select any payment Method</span></div>
+                            <div class="pos-fixed">
+                                <div class="checkbox">
+                                <input id="terms" type="checkbox" ng-model="chck" ng-true-value="1" ng-false-value="0" ng-checked="chck == 1">
+                                    <label for="terms"></label><a href="http://www.appsthink.com/terms.html" target="_blank">Terms &amp; Conditions</a></div>
+                                <button class="btn-p ng-binding" ng-click="paysummary()">Pay <i class="icon-rupee"></i>{{taxm}}</button>
+                                <input  ng-model="moxbx" style="margin-top:5%;font-size: 14px;padding: 6px 15px;width: 100%;" type="text" placeholder="Enter Phone No. To Send Link">
+                                <button style="margin-top:5%;" class="btn-p ng-binding" ng-click="sendpaylink()">SMS Payment Link</button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- <script src="//lscdn.azureedge.net/content/biz/paymentsummary.min.js?v=QstuRBUAozoy1"></script> -->
+   <!--  <script>
+    $(document).ready(function() {
+        $('.ratecard-right input:checkbox').change(function() {
+            if ($(this).is(":checked")) {
+                $('.ratecard-right button').removeClass("disabled");
+            } else {
+                $('.ratecard-right button').addClass("disabled");
+            }
+        });
+    });
+    </script> -->
+<!--     <script type="text/javascript">
+    SUL_GAPAnalysis.Params._dlsulekhauserid = "{60A2122C-E61B-4285-99D7-E8D8B9C0BFBC}";
+    SUL_GAPAnalysis.Params._dlsulekhavisitorid = "472e71f0-6838-4979-b9e4-d8dc799f04a7";
+    SUL_GAPAnalysis.Params._dlypcid = "10299326";
+    SUL_GAPAnalysis.Params._dlpagetype = "order-summary-ppd";
+    </script> -->
+    <footer>&copy;2018 Copyright Appsthink.com. All Rights Reserved.</footer>
+    
+  
+  
+</body>
+
+</html>
